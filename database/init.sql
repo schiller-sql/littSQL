@@ -45,7 +45,7 @@ CREATE TABLE projects
     name        VARCHAR NOT NULL
 );
 
--- TODO: subtask removen, task kann beliebig kinder haben (task von task)
+-- TODO: question removen, task kann beliebig kinder haben (task von task)
 CREATE TABLE task
 (
     project_id   INTEGER NOT NULL REFERENCES projects ON DELETE CASCADE,
@@ -55,16 +55,22 @@ CREATE TABLE task
     PRIMARY KEY (project_id, number)
 );
 
-CREATE TABLE subtask
+CREATE TYPE question_type AS ENUM (
+    --    'multiple_choice',
+--    'true/false',
+    'sql',
+    'text'
+    );
+
+CREATE TABLE question
 (
-    project_id  INTEGER NOT NULL REFERENCES projects ON DELETE CASCADE,
+    project_id  INTEGER       NOT NULL REFERENCES projects ON DELETE CASCADE,
     task_number INTEGER REFERENCES task,
     number      SMALLINT CHECK ( number > 0 ),
-    is_sql      BOOLEAN NOT NULL,
+    type        question_type NOT NULL,
     PRIMARY KEY (project_id, number),
     FOREIGN KEY (project_id, task_number) REFERENCES task (project_id, number) ON DELETE CASCADE
 );
-
 
 -- STUDENT SIDE --
 -- TODO: mehrere Lehrer für einen Kurs (vlt)
@@ -76,7 +82,7 @@ CREATE TABLE courses
 );
 
 -- TODO: ein schüler mehrere Kurse (vlt)
--- TODO: Link/QR-Code zum Beitritt
+-- TODO: Link/QR-Code zum Beitrittund
 CREATE TABLE participants
 (
     id          INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -102,12 +108,15 @@ CREATE TABLE assignments
 
 CREATE TABLE answers
 (
-    id             INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    course_id      INTEGER   NOT NULL REFERENCES courses ON DELETE CASCADE,
-    participant_id INTEGER   NOT NULL REFERENCES participants ON DELETE CASCADE, -- TODO: Ohne constraints?
-    project_id     INTEGER   NOT NULL REFERENCES projects ON DELETE CASCADE,
-    task_number    SMALLINT  NOT NULL,
-    subtask_number SMALLINT  NOT NULL,
-    created_at     TIMESTAMP NOT NULL DEFAULT NOW(),
-    FOREIGN KEY (project_id, task_number, subtask_number) REFERENCES subtask (project_id, task_number, number)
+    id                         INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    course_id                  INTEGER   NOT NULL REFERENCES courses ON DELETE CASCADE,
+    participant_id             INTEGER   NOT NULL REFERENCES participants ON DELETE CASCADE, -- TODO: Ohne constraints?
+    project_id                 INTEGER   NOT NULL REFERENCES projects ON DELETE CASCADE,
+    task_number                SMALLINT  NOT NULL,
+    question_number            SMALLINT  NOT NULL,
+    created_at                 TIMESTAMP NOT NULL DEFAULT NOW(),
+    answer                     VARCHAR   NOT NULL,
+    is_correct_automatic       bool      NOT NULL DEFAULT FALSE,
+    is_correct_manual_approval bool      NOT NULL DEFAULT FALSE,
+    FOREIGN KEY (project_id, task_number, question_number) REFERENCES question (project_id, task_number, number)
 );
