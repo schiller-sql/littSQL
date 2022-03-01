@@ -20,19 +20,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- UTILS --
 
--- courses --
-CREATE TABLE courses
-(
-    id         INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    teacher_id INTEGER NOT NULL REFERENCES teacher ON DELETE CASCADE,
-    name       VARCHAR NOT NULL CHECK ( LENGTH(name) > 2 )
-);
-
--- TODO: mehrere Lehrer für einen Kurs
--- teacher inheriten students und werden gemeinsam im participants-table gespeichert (https://www.postgresql.org/docs/9.1/ddl-inherit.html)
-
+-- TEACHER SIDE --
 CREATE TABLE teacher
 (
     id         INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -42,19 +31,6 @@ CREATE TABLE teacher
     password   VARCHAR CHECK (LENGTH(password) > 6)
 );
 
--- TODO: ein schüler mehrere Kurse
--- TODO: Link/QR-Code zum Beitritt
-
-CREATE TABLE participants
-(
-    id          INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    course_id   INTEGER        NOT NULL REFERENCES courses ON DELETE CASCADE,
-    name        VARCHAR,
-    access_code CHAR(6) UNIQUE NOT NULL GENERATED ALWAYS AS ( utils.random_string(6) ) STORED
-);
-
-
--- projects --
 CREATE TABLE databases
 (
     id   INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -89,7 +65,26 @@ CREATE TABLE subtask
     FOREIGN KEY (project_id, task_number) REFERENCES task (project_id, number) ON DELETE CASCADE
 );
 
--- assignments
+
+-- STUDENT SIDE --
+-- TODO: mehrere Lehrer für einen Kurs (vlt)
+CREATE TABLE courses
+(
+    id         INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    teacher_id INTEGER NOT NULL REFERENCES teacher ON DELETE CASCADE,
+    name       VARCHAR NOT NULL CHECK ( LENGTH(name) > 2 )
+);
+
+-- TODO: ein schüler mehrere Kurse (vlt)
+-- TODO: Link/QR-Code zum Beitritt
+CREATE TABLE participants
+(
+    id          INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    course_id   INTEGER        NOT NULL REFERENCES courses ON DELETE CASCADE,
+    name        VARCHAR,
+    access_code CHAR(6) UNIQUE NOT NULL GENERATED ALWAYS AS ( utils.random_string(6) ) STORED
+);
+
 CREATE TYPE assignment_status AS ENUM (
     'finished',
     'open',
