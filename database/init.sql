@@ -57,7 +57,8 @@ CREATE TABLE task
 
 CREATE TYPE question_type AS ENUM (
     --    'multiple_choice',
---    'true/false',
+    --    'true/false',
+    --    'sql-without-question', -- a sql question but as a question you get a query output that you have to come to
     'sql',
     'text'
     );
@@ -68,6 +69,7 @@ CREATE TABLE question
     task_number INTEGER REFERENCES task,
     number      SMALLINT CHECK ( number > 0 ),
     type        question_type NOT NULL,
+    solution    VARCHAR       NOT NULL,
     PRIMARY KEY (project_id, number),
     FOREIGN KEY (project_id, task_number) REFERENCES task (project_id, number) ON DELETE CASCADE
 );
@@ -97,14 +99,30 @@ CREATE TYPE assignment_status AS ENUM (
     'locked'
     );
 
+CREATE TYPE assignment_solution_mode AS ENUM (
+    'exam', -- no solutions, no query output, no submitting
+    'tryout', -- on sql questions can see if the query wrong/the supposed query output is shown,
+    -- after submitting, the solutions are shown, however the query can't be resubmitted
+    'no-solutions-tryout', -- same as tryout, but after submitting the solutions are still not shown
+    'voluntary' -- can always see if requested, no submitting
+    );
+
+-- TODO: TIMER FOR ASSIGNMENT
 CREATE TABLE assignments
 (
-    project_id INTEGER           NOT NULL REFERENCES projects ON DELETE CASCADE,
-    course_id  INTEGER           NOT NULL REFERENCES courses ON DELETE CASCADE,
-    status     assignment_status NOT NULL,
-    sequence   SMALLINT          NOT NULL CHECK ( sequence > 0),
+    project_id    INTEGER                  NOT NULL REFERENCES projects ON DELETE CASCADE,
+    course_id     INTEGER                  NOT NULL REFERENCES courses ON DELETE CASCADE,
+    status        assignment_status        NOT NULL,
+    solution_mode assignment_solution_mode NOT NULL,
+    sequence      SMALLINT                 NOT NULL CHECK ( sequence > 0),
     PRIMARY KEY (project_id, course_id)
 );
+
+CREATE TYPE correct AS ENUM (
+    'unknown',
+    'correct',
+    'false'
+    );
 
 CREATE TABLE answers
 (
@@ -116,7 +134,7 @@ CREATE TABLE answers
     question_number            SMALLINT  NOT NULL,
     created_at                 TIMESTAMP NOT NULL DEFAULT NOW(),
     answer                     VARCHAR   NOT NULL,
-    is_correct_automatic       bool      NOT NULL DEFAULT FALSE,
-    is_correct_manual_approval bool      NOT NULL DEFAULT FALSE,
+    is_correct_automatic       correct   NOT NULL DEFAULT 'unknown',
+    is_correct_manual_approval correct   NOT NULL DEFAULT 'unknown',
     FOREIGN KEY (project_id, task_number, question_number) REFERENCES question (project_id, task_number, number)
 );
