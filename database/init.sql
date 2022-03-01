@@ -22,7 +22,7 @@ $$ LANGUAGE plpgsql;
 
 
 -- TEACHER SIDE --
-CREATE TABLE teacher
+CREATE TABLE teacher -- represents a teacher
 (
     id         INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     first_name VARCHAR NOT NULL,
@@ -31,14 +31,15 @@ CREATE TABLE teacher
     password   VARCHAR CHECK (LENGTH(password) > 6)
 );
 
-CREATE TABLE databases
+CREATE TABLE databases -- represents a sample database that can be used in a project
 (
     id   INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     name VARCHAR NOT NULL,
     data bytea   NOT NULL
 );
 
-CREATE TABLE projects
+-- TODO: Project groups
+CREATE TABLE projects -- represents a template for a project a teacher can use as a assignment
 (
     id          INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     database_id INTEGER REFERENCES databases,
@@ -46,24 +47,25 @@ CREATE TABLE projects
 );
 
 -- TODO: question removen, task kann beliebig kinder haben (task von task)
-CREATE TABLE task
+-- TOOD: Trees?
+CREATE TABLE task -- a group of questions, can be voluntary or not
 (
     project_id   INTEGER NOT NULL REFERENCES projects ON DELETE CASCADE,
-    number       SMALLINT CHECK ( number > 0 ),
-    name         VARCHAR NOT NULL,
+    number       SMALLINT CHECK ( number > 0 ), -- position of the task (nr. 1, nr. 2, etc.)
+    description  VARCHAR NOT NULL,
     is_voluntary bool    NOT NULL DEFAULT FALSE,
     PRIMARY KEY (project_id, number)
 );
 
-CREATE TYPE question_type AS ENUM (
-    --    'multiple_choice',
-    --    'true/false',
-    --    'sql-without-question', -- a sql question but as a question you get a query output that you have to come to
+CREATE TYPE question_type AS ENUM ( -- which type of question a question is
+--    'multiple_choice',
+--    'true/false',
+--    'sql-without-question', -- a sql question but as a question you get a query output that you have to come to
     'sql',
     'text'
     );
 
-CREATE TABLE question
+CREATE TABLE question -- a question asked to the participant, is part of a task and contains the solution
 (
     project_id  INTEGER       NOT NULL REFERENCES projects ON DELETE CASCADE,
     task_number INTEGER REFERENCES task,
@@ -76,7 +78,7 @@ CREATE TABLE question
 
 -- STUDENT SIDE --
 -- TODO: mehrere Lehrer für einen Kurs (vlt)
-CREATE TABLE courses
+CREATE TABLE courses -- a course with participants, belongs to a teacher
 (
     id         INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     teacher_id INTEGER NOT NULL REFERENCES teacher ON DELETE CASCADE,
@@ -85,7 +87,7 @@ CREATE TABLE courses
 
 -- TODO: ein schüler mehrere Kurse (vlt)
 -- TODO: Link/QR-Code zum Beitrittund
-CREATE TABLE participants
+CREATE TABLE participants -- a participant of a course, a participant can't be in multiple courses
 (
     id          INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     course_id   INTEGER        NOT NULL REFERENCES courses ON DELETE CASCADE,
@@ -93,13 +95,13 @@ CREATE TABLE participants
     access_code CHAR(6) UNIQUE NOT NULL GENERATED ALWAYS AS ( utils.random_string(6) ) STORED
 );
 
-CREATE TYPE assignment_status AS ENUM (
+CREATE TYPE assignment_status AS ENUM ( -- the status of one assignment of a course
     'finished',
     'open',
     'locked'
     );
 
-CREATE TYPE assignment_solution_mode AS ENUM (
+CREATE TYPE assignment_solution_mode AS ENUM ( -- how the solutions should be shown to the participant
     'exam', -- no solutions, no query output, no submitting
     'tryout', -- on sql questions can see if the query wrong/the supposed query output is shown,
     -- after submitting, the solutions are shown, however the query can't be resubmitted
@@ -108,7 +110,7 @@ CREATE TYPE assignment_solution_mode AS ENUM (
     );
 
 -- TODO: TIMER FOR ASSIGNMENT
-CREATE TABLE assignments
+CREATE TABLE assignments -- a assignment given to the participant of a course, contains a project
 (
     project_id    INTEGER                  NOT NULL REFERENCES projects ON DELETE CASCADE,
     course_id     INTEGER                  NOT NULL REFERENCES courses ON DELETE CASCADE,
@@ -118,13 +120,13 @@ CREATE TABLE assignments
     PRIMARY KEY (project_id, course_id)
 );
 
-CREATE TYPE correct AS ENUM (
+CREATE TYPE correct AS ENUM ( -- if a question has been answered correctly
     'unknown',
     'correct',
     'false'
     );
 
-CREATE TABLE answers
+CREATE TABLE answers -- when and what a participant has answered to a question, including corrects
 (
     id                         INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     course_id                  INTEGER   NOT NULL REFERENCES courses ON DELETE CASCADE,
