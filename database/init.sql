@@ -45,7 +45,8 @@ CREATE TABLE projects -- represents a template for a project a teacher can use a
     id               INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     database_id      INTEGER REFERENCES databases,
     name             VARCHAR NOT NULL,
-    documentation_md TEXT
+    documentation_md TEXT,
+    owner    INTEGER REFERENCES teacher
 );
 
 -- TODO: question removen, task kann beliebig kinder haben (task von task)
