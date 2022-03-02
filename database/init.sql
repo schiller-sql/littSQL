@@ -1,4 +1,5 @@
 -- UTILS --
+DROP SCHEMA IF EXISTS utils CASCADE;
 CREATE SCHEMA utils;
 
 -- TODO: Better method for random strings
@@ -21,13 +22,15 @@ END;
 $$ LANGUAGE plpgsql;
 
 
+DROP SCHEMA IF EXISTS public CASCADE;
+CREATE SCHEMA public;
 -- TEACHER SIDE --
-CREATE TABLE teacher -- represents a teacher
+CREATE TABLE teachers -- represents a teacher
 (
     id         INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     first_name VARCHAR NOT NULL,
     last_name  VARCHAR NOT NULL,
-    username   VARCHAR GENERATED ALWAYS AS ( CONCAT(first_name, '.', last_name) ) STORED,
+    username   VARCHAR GENERATED ALWAYS AS ( first_name || '.'::VARCHAR || last_name ) STORED,
     password   VARCHAR CHECK (LENGTH(password) > 6)
 );
 
@@ -46,17 +49,17 @@ CREATE TABLE projects -- represents a template for a project a teacher can use a
     database_id      INTEGER REFERENCES databases,
     name             VARCHAR NOT NULL,
     documentation_md TEXT,
-    owner    INTEGER REFERENCES teacher
+    owner            INTEGER REFERENCES teachers
 );
 
 -- TODO: question removen, task kann beliebig kinder haben (task von task)
 -- TOOD: Trees?
 CREATE TABLE task -- a group of questions, can be voluntary or not
 (
-    project_id   INTEGER NOT NULL REFERENCES projects ON DELETE CASCADE,
-    number       SMALLINT CHECK ( number > 0 ), -- position of the task (nr. 1, nr. 2, etc.)
-    description  VARCHAR NOT NULL,
-    is_voluntary bool    NOT NULL DEFAULT FALSE,
+    project_id   INTEGER  NOT NULL REFERENCES projects ON DELETE CASCADE,
+    number       SMALLINT NOT NULL CHECK ( number > 0 ), -- position of the task (nr. 1, nr. 2, etc.)
+    description  VARCHAR  NOT NULL,
+    is_voluntary bool     NOT NULL DEFAULT FALSE,
     PRIMARY KEY (project_id, number)
 );
 
@@ -68,14 +71,14 @@ CREATE TYPE question_type AS ENUM ( -- which type of question a question is
     'text'
     );
 
-CREATE TABLE question -- a question asked to the participant, is part of a task and contains the solution
+CREATE TABLE questions -- a question asked to the participant, is part of a task and contains the solution
 (
     project_id  INTEGER       NOT NULL REFERENCES projects ON DELETE CASCADE,
-    task_number INTEGER REFERENCES task,
-    number      SMALLINT CHECK ( number > 0 ),
+    task_number INTEGER       NOT NULL,
+    number      SMALLINT      NOT NULL CHECK ( number > 0 ),
     type        question_type NOT NULL,
     solution    VARCHAR       NOT NULL,
-    PRIMARY KEY (project_id, number),
+    PRIMARY KEY (project_id, task_number, number),
     FOREIGN KEY (project_id, task_number) REFERENCES task (project_id, number) ON DELETE CASCADE
 );
 
@@ -84,7 +87,7 @@ CREATE TABLE question -- a question asked to the participant, is part of a task 
 CREATE TABLE courses -- a course with participants, belongs to a teacher
 (
     id         INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    teacher_id INTEGER NOT NULL REFERENCES teacher ON DELETE CASCADE,
+    teacher_id INTEGER NOT NULL REFERENCES teachers ON DELETE CASCADE,
     name       VARCHAR NOT NULL CHECK ( LENGTH(name) > 2 )
 );
 
@@ -95,7 +98,7 @@ CREATE TABLE participants -- a participant of a course, a participant can't be i
     id          INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     course_id   INTEGER        NOT NULL REFERENCES courses ON DELETE CASCADE,
     name        VARCHAR,
-    access_code CHAR(6) UNIQUE NOT NULL GENERATED ALWAYS AS ( utils.random_string(6) ) STORED
+    access_code CHAR(6) UNIQUE NOT NULL DEFAULT (utils.random_string(6))
 );
 
 CREATE TYPE assignment_status AS ENUM ( -- the status of one assignment of a course
@@ -141,5 +144,5 @@ CREATE TABLE answers -- when and what a participant has answered to a question, 
     answer                     VARCHAR   NOT NULL,
     is_correct_automatic       correct   NOT NULL DEFAULT 'unknown',
     is_correct_manual_approval correct   NOT NULL DEFAULT 'unknown',
-    FOREIGN KEY (project_id, task_number, question_number) REFERENCES question (project_id, task_number, number)
+    FOREIGN KEY (project_id, task_number, question_number) REFERENCES questions (project_id, task_number, number)
 );
