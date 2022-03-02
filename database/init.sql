@@ -33,17 +33,19 @@ CREATE TABLE teacher -- represents a teacher
 
 CREATE TABLE databases -- represents a sample database that can be used in a project
 (
-    id   INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    name VARCHAR NOT NULL,
-    data bytea   NOT NULL
+    id           INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    name         VARCHAR NOT NULL,
+    data         bytea   NOT NULL,
+    picture_path VARCHAR NOT NULL
 );
 
 -- TODO: Project groups
 CREATE TABLE projects -- represents a template for a project a teacher can use as a assignment
 (
-    id          INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    database_id INTEGER REFERENCES databases,
-    name        VARCHAR NOT NULL
+    id               INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    database_id      INTEGER REFERENCES databases,
+    name             VARCHAR NOT NULL,
+    documentation_md TEXT
 );
 
 -- TODO: question removen, task kann beliebig kinder haben (task von task)
