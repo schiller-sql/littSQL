@@ -2,7 +2,7 @@
 DROP SCHEMA IF EXISTS utils CASCADE;
 CREATE SCHEMA utils;
 
--- TODO: Better method for random strings
+-- TODO: better method for random strings
 CREATE OR REPLACE FUNCTION utils.random_string(length INTEGER) RETURNS CHAR AS
 $$
 DECLARE
@@ -42,8 +42,8 @@ CREATE TABLE databases -- represents a sample database that can be used in a pro
     picture_path VARCHAR NOT NULL
 );
 
--- TODO: Project groups
-CREATE TABLE projects -- represents a template for a project a teacher can use as a assignment
+-- TODO: project groups
+CREATE TABLE projects -- represents a template for a project a teacher can use as an assignment
 (
     id               INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     database_id      INTEGER REFERENCES databases,
@@ -52,18 +52,18 @@ CREATE TABLE projects -- represents a template for a project a teacher can use a
     owner            INTEGER REFERENCES teachers
 );
 
--- TODO: question removen, task kann beliebig kinder haben (task von task)
--- TOOD: Trees?
+-- TODO: remove question, allow task to have any number of "child-tasks" (task of task)
+-- TOOD: trees?
 CREATE TABLE task -- a group of questions, can be voluntary or not
 (
     project_id   INTEGER  NOT NULL REFERENCES projects ON DELETE CASCADE,
-    number       SMALLINT NOT NULL CHECK ( number > 0 ), -- position of the task (nr. 1, nr. 2, etc.)
+    number       SMALLINT NOT NULL CHECK ( number > 0 ), -- position of the task (#1, #2, etc.)
     description  VARCHAR  NOT NULL,
     is_voluntary bool     NOT NULL DEFAULT FALSE,
     PRIMARY KEY (project_id, number)
 );
 
-CREATE TYPE question_type AS ENUM ( -- which type of question a question is
+CREATE TYPE question_type AS ENUM ( -- type of question
 --    'multiple_choice',
 --    'true/false',
 --    'sql-without-question', -- a sql question but as a question you get a query output that you have to come to
@@ -83,7 +83,7 @@ CREATE TABLE questions -- a question asked to the participant, is part of a task
 );
 
 -- STUDENT SIDE --
--- TODO: mehrere Lehrer für einen Kurs (vlt)
+-- TODO: more than one teacher for one and the same course
 CREATE TABLE courses -- a course with participants, belongs to a teacher
 (
     id         INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -91,9 +91,9 @@ CREATE TABLE courses -- a course with participants, belongs to a teacher
     name       VARCHAR NOT NULL CHECK ( LENGTH(name) > 2 )
 );
 
--- TODO: ein schüler mehrere Kurse (vlt)
--- TODO: Link/QR-Code zum Beitrittund
-CREATE TABLE participants -- a participant of a course, a participant can't be in multiple courses
+-- TODO: allow participants to join multiple courses
+-- TODO: link/QR-code for joinig
+CREATE TABLE participants -- a participant of a course, a participant can't be in multiple courses (by now)
 (
     id          INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     course_id   INTEGER        NOT NULL REFERENCES courses ON DELETE CASCADE,
@@ -115,8 +115,8 @@ CREATE TYPE assignment_solution_mode AS ENUM ( -- how the solutions should be sh
     'voluntary' -- can always see if requested, no submitting
     );
 
--- TODO: TIMER FOR ASSIGNMENT
-CREATE TABLE assignments -- a assignment given to the participant of a course, contains a project
+-- TODO: timer for assignment
+CREATE TABLE assignments -- an assignment given to the participant of a course, contains a project
 (
     project_id    INTEGER                  NOT NULL REFERENCES projects ON DELETE CASCADE,
     course_id     INTEGER                  NOT NULL REFERENCES courses ON DELETE CASCADE,
@@ -132,11 +132,11 @@ CREATE TYPE correct AS ENUM ( -- if a question has been answered correctly
     'false'
     );
 
-CREATE TABLE answers -- when and what a participant has answered to a question, including corrects
+CREATE TABLE answers -- time and content the participant has answered to a question, including corrects
 (
     id                         INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     course_id                  INTEGER   NOT NULL REFERENCES courses ON DELETE CASCADE,
-    participant_id             INTEGER   NOT NULL REFERENCES participants ON DELETE CASCADE, -- TODO: Ohne constraints?
+    participant_id             INTEGER   NOT NULL REFERENCES participants ON DELETE CASCADE, -- TODO: without constraints?
     project_id                 INTEGER   NOT NULL REFERENCES projects ON DELETE CASCADE,
     task_number                SMALLINT  NOT NULL,
     question_number            SMALLINT  NOT NULL,
