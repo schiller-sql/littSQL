@@ -3,6 +3,7 @@ package middleware
 import (
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 	"github.com/schiller-sql/littSQL/model"
 	"github.com/schiller-sql/littSQL/users"
 	"github.com/spf13/viper"
@@ -28,10 +29,10 @@ func NewUsersMiddleware(authusecase users.Usecase) *jwt.GinJWTMiddleware {
 		MaxRefresh:       time.Hour * 24 * 7,
 		Authenticator: func(c *gin.Context) (interface{}, error) {
 			var req teacherLogin
-			err := c.ShouldBindJSON(&req)
+			err := c.ShouldBindBodyWith(&req, binding.JSON)
 			if err != nil {
 				var req participantLogin
-				err := c.ShouldBindJSON(&req)
+				err := c.ShouldBindBodyWith(&req, binding.JSON)
 				if err != nil {
 					return nil, err
 				}
@@ -50,12 +51,16 @@ func NewUsersMiddleware(authusecase users.Usecase) *jwt.GinJWTMiddleware {
 		PayloadFunc: func(user interface{}) jwt.MapClaims {
 			switch user.(type) {
 			case *model.Participant:
-				return jwt.MapClaims{"is_teacher": false, "id": user.(*model.Participant).ID}
+				return jwt.MapClaims{"is_teacher": false, "id": int(user.(*model.Participant).ID)}
 			case *model.Teacher:
-				return jwt.MapClaims{"is_teacher": true, "id": user.(*model.Teacher).ID}
+				return jwt.MapClaims{"is_teacher": true, "id": int(user.(*model.Teacher).ID)}
 			default:
 				panic("Authenticator should not give through a non Teacher and Participant")
 			}
+		},
+		IdentityHandler: func(c *gin.Context) interface{} {
+			claims := jwt.ExtractClaims(c)
+			return int32(claims["id"].(float64))
 		},
 	})
 	if err != nil {

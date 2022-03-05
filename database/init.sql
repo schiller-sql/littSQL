@@ -113,7 +113,7 @@ CREATE TYPE assignment_solution_mode AS ENUM ( -- how the solutions should be sh
     'voluntary' -- can always see if requested, no submitting
     );
 
--- TODO: timer for assignment
+-- TODO: timer for assignment (submission date)
 CREATE TABLE assignments -- an assignment given to the participant of a course, contains a project
 (
     project_id    INTEGER                  NOT NULL REFERENCES projects ON DELETE CASCADE,

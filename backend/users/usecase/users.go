@@ -21,7 +21,7 @@ func (u usecase) SignUpTeacher(email, password string) error {
 		return err
 	}
 	if teacher != nil {
-		return fmt.Errorf("TEACHER WITH EMAIL \"%v\" already exists", email)
+		return fmt.Errorf("TEACHER WITH EMAIL \"%v\" ALREADY EXISTS", email)
 	}
 	hashedPwd := u.repo.HashString(password)
 	return u.repo.CreateTeacher(email, hashedPwd)
@@ -57,5 +57,34 @@ func (u usecase) DeleteTeacher(requestID int32) error {
 }
 
 func (u usecase) LogInParticipant(accessCode string) (*model.Participant, error) {
-	panic("Not implemented")
+	participant, err := u.repo.GetParticipantByAccessCode(accessCode)
+	if err != nil {
+		return nil, err
+	}
+	if participant == nil {
+		return nil, errors.New("ACCESS CODE DOES NOT EXIST")
+	}
+	return participant, nil
+}
+
+func (u usecase) GetTeacherAccountDetails(teacherID int32) (*model.Teacher, error) {
+	teacher, err := u.repo.GetTeacherByID(teacherID)
+	if err != nil {
+		return nil, err
+	}
+	if teacher == nil {
+		return nil, errors.New("ACCOUNT NOT FOUND")
+	}
+	return teacher, nil
+}
+
+func (u usecase) GetParticipantAccountDetails(participantID int32) (*model.Participant, error) {
+	participant, err := u.repo.GetParticipantByID(participantID)
+	if err != nil {
+		return nil, err
+	}
+	if participant == nil {
+		return nil, errors.New("ACCOUNT NOT FOUND")
+	}
+	return participant, nil
 }

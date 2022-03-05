@@ -7,4 +7,6 @@ type Usecase interface {
 	LogInTeacher(email, password string) (*model.Teacher, error)
 	DeleteTeacher(teacherID int32) error
 	LogInParticipant(accessCode string) (*model.Participant, error)
+	GetTeacherAccountDetails(teacherID int32) (*model.Teacher, error)
+	GetParticipantAccountDetails(participantID int32) (*model.Participant, error)
 }

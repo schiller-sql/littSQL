@@ -8,6 +8,7 @@ type Repository interface {
 	GetTeacherByEmail(email string) (*model.Teacher, error)
 	GetTeacherByID(teacherID int32) (*model.Teacher, error)
 	GetParticipantByAccessCode(accessCode string) (*model.Participant, error)
+	GetParticipantByID(participantID int32) (*model.Participant, error)
 	HashString(s string) string
 	HashedStringEquals(s, hashedS string) bool
 }

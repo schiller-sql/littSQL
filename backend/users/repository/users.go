@@ -40,7 +40,16 @@ func (e eRepository) GetTeacherByEmail(email string) (*model.Teacher, error) {
 
 func (e eRepository) GetTeacherByID(teacherID int32) (*model.Teacher, error) {
 	var teacher model.Teacher
-	result := e.DB.Find(&teacher, teacherID)
+	err := e.DB.Find(&teacher, teacherID).Error
+	if teacher.Email == "" {
+		return nil, nil
+	}
+	return &teacher, err
+}
+
+func (e eRepository) GetParticipantByAccessCode(accessCode string) (*model.Participant, error) {
+	var participant model.Participant
+	result := e.DB.Find(&participant, &model.Participant{AccessCode: accessCode})
 	err := result.Error
 	if err != nil {
 		return nil, err
@@ -48,13 +57,16 @@ func (e eRepository) GetTeacherByID(teacherID int32) (*model.Teacher, error) {
 	if result.RowsAffected == 0 {
 		return nil, nil
 	}
-	return &teacher, nil
+	return &participant, nil
 }
 
-func (e eRepository) GetParticipantByAccessCode(accessCode string) (*model.Participant, error) {
-	var participant *model.Participant
-	err := e.DB.First(&participant, &model.Participant{AccessCode: accessCode}).Error
-	return participant, err
+func (e eRepository) GetParticipantByID(participantID int32) (*model.Participant, error) {
+	var participant model.Participant
+	err := e.DB.Find(&participant, participantID).Error
+	if participant.AccessCode == "" {
+		return nil, nil
+	}
+	return &participant, err
 }
 
 func (e eRepository) HashString(s string) string {
