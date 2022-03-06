@@ -14,7 +14,7 @@ type authHandler struct {
 func ConfigureHandler(r *gin.Engine, jwtMiddleware *jwt.GinJWTMiddleware, usecase auth.Usecase) {
 	handler := authHandler{usecase}
 
-	group := r.Group("/group")
+	group := r.Group("/auth")
 
 	group.POST("/signup", handler.signup)
 	group.POST("/login", jwtMiddleware.LoginHandler)
