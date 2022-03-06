@@ -27,11 +27,9 @@ CREATE SCHEMA public;
 -- TEACHER SIDE --
 CREATE TABLE teachers -- represents a teacher
 (
-    id         INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    first_name VARCHAR NOT NULL,
-    last_name  VARCHAR NOT NULL,
-    username   VARCHAR GENERATED ALWAYS AS ( first_name || '.'::VARCHAR || last_name ) STORED,
-    password   VARCHAR CHECK (LENGTH(password) > 6)
+    id       INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    email    VARCHAR UNIQUE NOT NULL,
+    password VARCHAR NOT NULL CHECK (LENGTH(password) > 6)
 );
 
 CREATE TABLE databases -- represents a sample database that can be used in a project
@@ -115,7 +113,7 @@ CREATE TYPE assignment_solution_mode AS ENUM ( -- how the solutions should be sh
     'voluntary' -- can always see if requested, no submitting
     );
 
--- TODO: timer for assignment
+-- TODO: timer for assignment (submission date)
 CREATE TABLE assignments -- an assignment given to the participant of a course, contains a project
 (
     project_id    INTEGER                  NOT NULL REFERENCES projects ON DELETE CASCADE,
