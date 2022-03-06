@@ -3,26 +3,26 @@ package routing
 import (
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
-	"github.com/schiller-sql/littSQL/users"
+	"github.com/schiller-sql/littSQL/auth"
 	"net/http"
 )
 
 type authHandler struct {
-	usecase users.Usecase
+	usecase auth.Usecase
 }
 
-func ConfigureHandler(r *gin.Engine, jwtMiddleware *jwt.GinJWTMiddleware, usecase users.Usecase) {
+func ConfigureHandler(r *gin.Engine, jwtMiddleware *jwt.GinJWTMiddleware, usecase auth.Usecase) {
 	handler := authHandler{usecase}
 
-	auth := r.Group("/auth")
+	group := r.Group("/group")
 
-	auth.POST("/signup", handler.signup)
-	auth.POST("/login", jwtMiddleware.LoginHandler)
-	auth.POST("/logout", jwtMiddleware.LogoutHandler)
-	auth.GET("/refresh_token", jwtMiddleware.RefreshHandler)
+	group.POST("/signup", handler.signup)
+	group.POST("/login", jwtMiddleware.LoginHandler)
+	group.POST("/logout", jwtMiddleware.LogoutHandler)
+	group.GET("/refresh_token", jwtMiddleware.RefreshHandler)
 
-	auth.GET("/account", jwtMiddleware.MiddlewareFunc(), handler.getAccountDetails)
-	auth.DELETE("/account", jwtMiddleware.MiddlewareFunc(), handler.deleteAccount)
+	group.GET("/account", jwtMiddleware.MiddlewareFunc(), handler.getAccountDetails)
+	group.DELETE("/account", jwtMiddleware.MiddlewareFunc(), handler.deleteAccount)
 
 }
 

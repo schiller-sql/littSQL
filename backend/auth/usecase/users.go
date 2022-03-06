@@ -3,16 +3,16 @@ package usecase
 import (
 	"errors"
 	"fmt"
+	"github.com/schiller-sql/littSQL/auth"
 	"github.com/schiller-sql/littSQL/model"
-	"github.com/schiller-sql/littSQL/users"
 )
 
 type usecase struct {
-	repo users.Repository
+	repo auth.Repository
 }
 
-func NewUsecase(repository users.Repository) users.Usecase {
-	return &usecase{repository}
+func NewUsecase(repo auth.Repository) auth.Usecase {
+	return &usecase{repo}
 }
 
 func (u usecase) SignUpTeacher(email, password string) error {

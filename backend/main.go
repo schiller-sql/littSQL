@@ -2,33 +2,32 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	authM "github.com/schiller-sql/littSQL/auth/delivery/middleware"
+	authRouter "github.com/schiller-sql/littSQL/auth/delivery/routing"
+	authR "github.com/schiller-sql/littSQL/auth/repository"
+	authU "github.com/schiller-sql/littSQL/auth/usecase"
 	"github.com/schiller-sql/littSQL/config"
-	uMiddle "github.com/schiller-sql/littSQL/users/delivery/middleware"
-	uRout "github.com/schiller-sql/littSQL/users/delivery/routing"
-	uRepos "github.com/schiller-sql/littSQL/users/repository"
-	uUsec "github.com/schiller-sql/littSQL/users/usecase"
 	"github.com/spf13/viper"
 )
 
 func main() {
-
-	router := gin.Default()
-	err := router.SetTrustedProxies(nil)
+	r := gin.Default()
+	err := r.SetTrustedProxies(nil)
 	if err != nil {
 		panic(err)
 	}
 
 	config.InitConfigFile()
-	router.Use(config.InitCORSMiddleware())
+	r.Use(config.InitCORSMiddleware())
 
 	db := config.InitPostgresDB()
 
-	usersRepository := uRepos.NewRepository(db, viper.Get("BCRYPT_COST").(int))
-	usersUsecase := uUsec.NewUsecase(usersRepository)
-	usersMiddleware := uMiddle.NewUsersMiddleware(usersUsecase)
-	uRout.ConfigureHandler(router, usersMiddleware, usersUsecase)
+	authRepo := authR.NewRepository(db, viper.Get("BCRYPT_COST").(int))
+	authUsecase := authU.NewUsecase(authRepo)
+	authMiddleware := authM.NewAuthMiddleware(authUsecase)
+	authRouter.ConfigureHandler(r, authMiddleware, authUsecase)
 
-	err = router.Run(":8080")
+	err = r.Run(":8080")
 	if err != nil {
 		panic(err)
 	}

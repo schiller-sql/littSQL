@@ -1,8 +1,8 @@
 package repository
 
 import (
+	"github.com/schiller-sql/littSQL/auth"
 	"github.com/schiller-sql/littSQL/model"
-	"github.com/schiller-sql/littSQL/users"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
@@ -12,7 +12,7 @@ type eRepository struct {
 	DB   *gorm.DB
 }
 
-func NewRepository(db *gorm.DB, cost int) users.Repository {
+func NewRepository(db *gorm.DB, cost int) auth.Repository {
 	return &eRepository{Cost: cost, DB: db}
 }
 

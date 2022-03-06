@@ -4,8 +4,8 @@ import (
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
+	"github.com/schiller-sql/littSQL/auth"
 	"github.com/schiller-sql/littSQL/model"
-	"github.com/schiller-sql/littSQL/users"
 	"github.com/spf13/viper"
 	"time"
 )
@@ -19,7 +19,7 @@ type participantLogin struct {
 	AccessCode string `json:"access_code" binding:"required"`
 }
 
-func NewUsersMiddleware(authusecase users.Usecase) *jwt.GinJWTMiddleware {
+func NewAuthMiddleware(authusecase auth.Usecase) *jwt.GinJWTMiddleware {
 	jwtMiddleware, err := jwt.New(&jwt.GinJWTMiddleware{
 		Realm:            "littSQL",
 		SigningAlgorithm: viper.Get("JWT_SIGN_ALG").(string),
