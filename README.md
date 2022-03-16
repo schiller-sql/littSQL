@@ -25,7 +25,7 @@ PGPASSWORD="postgres"
 
 To use the default of a key, you can omit that key-value pair. If PostgreSQL has been installed without much configuration, you probably only need to configure the `PGUSER` key with your home directory name.
 
-Now in the [backend](./backend/) directory run `go run test_db.go` and watch the console for errors if postgres has not been configured correctly, to adjust configurations and rerun until it works.
+Now in the [backend](./backend/) directory run `go run test_db/test_db.go` and watch the console for errors if postgres has not been configured correctly, to adjust configurations and rerun until it works.
 
 #### 3. Setup frontend
 
