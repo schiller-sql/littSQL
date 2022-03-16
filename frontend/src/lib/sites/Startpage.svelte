@@ -14,12 +14,7 @@
     </header>
     <main>
         <button></button>
-        <form action="">
-            <button></button>
-            <input type="text">
-            <input type="text">
-            <button type="submit"></button>
-        </form>
+        <button></button>
     </main>
     <footer>
 
