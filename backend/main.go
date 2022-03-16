@@ -27,7 +27,7 @@ func main() {
 	authMiddleware := authM.NewAuthMiddleware(authUsecase)
 	authRouter.ConfigureHandler(r, authMiddleware, authUsecase)
 
-	err = r.Run(":8080")
+	err = r.Run(":" + (viper.Get("PORT").(string)))
 	if err != nil {
 		panic(err)
 	}
