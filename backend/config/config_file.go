@@ -6,6 +6,8 @@ import (
 )
 
 func InitConfigFile() {
+	viper.SetDefault("PORT", "8080")
+
 	viper.SetDefault("PGHOST", "127.0.0.1")
 	viper.SetDefault("PGNAME", "postgres")
 	viper.SetDefault("PGUSER", "")
@@ -21,6 +23,6 @@ func InitConfigFile() {
 	viper.SetConfigFile(".env")
 	err := viper.ReadInConfig()
 	if err != nil {
-		panic(fmt.Errorf("Fatal error config file: %w \n", err))
+		fmt.Println(".env file not found, using defaults...")
 	}
 }
