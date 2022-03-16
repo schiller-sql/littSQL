@@ -39,10 +39,12 @@ export default {
     name: "app",
     file: "public/build/bundle.js",
   },
-  inlineDynamicImports: true,
   plugins: [
     svelte({
-      preprocess: [optimizeImports(), sveltePreprocess()],
+      preprocess: [
+        sveltePreprocess({ sourceMap: !production }),
+        optimizeImports(),
+      ],
       compilerOptions: {
         // enable run-time checks when not in production
         dev: !production,
