@@ -1,2 +1,2 @@
 # littSQL
- LittSQL, learn sql and try it out at the same time
+LittSQL, learn sql and try it out at the same time
