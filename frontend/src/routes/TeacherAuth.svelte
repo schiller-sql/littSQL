@@ -33,6 +33,8 @@
         confirmedPasswordInvalid = true;
         return;
       }
+    } else {
+
     }
     const url = `http://localhost:8080/auth/${isLogin ? "login" : "signup"}`;
     const data = { email, password };
@@ -70,7 +72,7 @@
       {#if isLogin} Login {:else} Sign up {/if}
     </Button>
     <Button kind="secondary" on:click={changePath}>
-      {#if !isLogin} Go to login {:else} Sign up {/if}
+      {#if !isLogin} Go to login {:else} Go to sign up {/if}
     </Button>
   </ButtonSet>
 </Form>
@@ -80,6 +82,8 @@
     lowContrast
     kind="error"
     title="Error:"
-    subtitle={requestError.length == 0 ? "lamo" : requestError}
+    subtitle={requestError}
   />
 {/if}
+
+<Button kind="tertiary" href="#/student-login">Login as teacher?</Button>
