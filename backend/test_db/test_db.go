@@ -1,8 +1,9 @@
 package test_db
 
 import (
-	"github.com/schiller-sql/littSQL/config"
 	"fmt"
+
+	"github.com/schiller-sql/littSQL/config"
 )
 
 func main() {

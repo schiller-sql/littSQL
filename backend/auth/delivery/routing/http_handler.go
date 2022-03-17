@@ -1,11 +1,12 @@
 package routing
 
 import (
+	"net/http"
+
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/schiller-sql/littSQL/auth"
-	"net/http"
 )
 
 type authHandler struct {

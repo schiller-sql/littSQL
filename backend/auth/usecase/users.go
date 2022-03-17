@@ -3,6 +3,7 @@ package usecase
 import (
 	"errors"
 	"fmt"
+
 	"github.com/schiller-sql/littSQL/auth"
 	"github.com/schiller-sql/littSQL/model"
 )

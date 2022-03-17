@@ -1,5 +1,6 @@
 <script lang="ts">
   import {
+    ImageLoader,
     Form,
     TextInput,
     PasswordInput,
@@ -51,6 +52,7 @@
   }
 </script>
 
+<ImageLoader src=""></ImageLoader>
 <Form on:submit={submit}>
   <TextInput bind:value={email} placeholder="Enter email address..." required />
   <PasswordInput

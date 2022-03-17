@@ -22,7 +22,7 @@ npx degit italypaleale/svelte-spa-router-template svelte-app
 cd svelte-app
 ```
 
-*Note that you will need to have [Node.js](https://nodejs.org) installed.*
+_Note that you will need to have [Node.js](https://nodejs.org) installed._
 
 ## About svelte-spa-router
 
