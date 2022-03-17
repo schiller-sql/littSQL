@@ -47,7 +47,7 @@ npm run dev
 
 Navigate to [localhost:5000](http://localhost:5000). You should see your app running. Edit a component file in `src`, save it, and reload the page to see your changes.
 
-You can add more routes by defining them in the `src/routes.js` file. More information can be found on the [documentation for svelte-spa-router](https://github.com/ItalyPaleAle/svelte-spa-router/blob/master/README.md).
+You can add more routes by defining them in the `src/routes.ts` file. More information can be found on the [documentation for svelte-spa-router](https://github.com/ItalyPaleAle/svelte-spa-router/blob/master/README.md).
 
 By default, the server will only respond to requests from localhost. To allow connections from other computers, edit the `sirv` commands in package.json to include the option `--host 0.0.0.0`.
 
