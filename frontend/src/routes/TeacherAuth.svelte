@@ -8,10 +8,10 @@
   } from "carbon-components-svelte";
   import { replace } from "svelte-spa-router";
   export let isLogin;
-  let email:string = "";
-  let password:string = "";
-  let confirmPassword:string = "";
-  let passwordFail:boolean = false;
+  let email = "";
+  let password = "";
+  let confirmPassword = "";
+  let passwordFail = false;
 
   $: disabled =
     email.length == 0 ||
@@ -22,14 +22,14 @@
     replace(isLogin ? "/teacher-signup" : "/teacher-login");
   }
   function submit() {
-      if(!isLogin) {
-        if(password===confirmPassword) {
-            passwordFail = true;
-            return;
-        } else {
-            passwordFail = false;
-        }
+    if (!isLogin) {
+      if (password !== confirmPassword) {
+        passwordFail = true;
+        return;
+      } else {
+        passwordFail = false;
       }
+    }
   }
 </script>
 
@@ -44,17 +44,17 @@
     <PasswordInput
       bind:value={confirmPassword}
       invalid={passwordFail}
-      invalidText="Repeat password again!"
-      placeholder="Repeat password..."
+      invalidText="Please repeat your password correctly"
+      placeholder="Confirm password..."
       required
     />
   {/if}
   <ButtonSet>
     <Button type="submit" {disabled}>
-        {#if isLogin} Login {:else} Sign up {/if}
+      {#if isLogin} Login {:else} Sign up {/if}
     </Button>
     <Button kind="secondary" on:click={changePath}>
-        {#if !isLogin} Go to login {:else} Sign up {/if}
+      {#if !isLogin} Go to login {:else} Sign up {/if}
     </Button>
   </ButtonSet>
 </Form>
