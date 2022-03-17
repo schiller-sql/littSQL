@@ -5,13 +5,16 @@
     PasswordInput,
     Button,
     ButtonSet,
+    InlineNotification,
   } from "carbon-components-svelte";
   import { replace } from "svelte-spa-router";
   export let isLogin;
   let email = "";
   let password = "";
   let confirmPassword = "";
-  let passwordFail = false;
+
+  let confirmedPasswordInvalid = false;
+  let requestError: string | undefined;
 
   $: disabled =
     email.length == 0 ||
@@ -21,14 +24,27 @@
   function changePath() {
     replace(isLogin ? "/teacher-signup" : "/teacher-login");
   }
-  function submit() {
+  async function submit() {
+    requestError = undefined;
+    confirmedPasswordInvalid = false;
+
     if (!isLogin) {
       if (password !== confirmPassword) {
-        passwordFail = true;
+        confirmedPasswordInvalid = true;
         return;
-      } else {
-        passwordFail = false;
       }
+    }
+    const url = `http://localhost:8080/auth/${isLogin ? "login" : "signup"}`;
+    const data = { email, password };
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    console.log(res);
+    if (!res.ok) {
+      const json = await res.json();
+      requestError = json.error.toLowerCase();
     }
   }
 </script>
@@ -43,7 +59,7 @@
   {#if !isLogin}
     <PasswordInput
       bind:value={confirmPassword}
-      invalid={passwordFail}
+      invalid={confirmedPasswordInvalid}
       invalidText="Please repeat your password correctly"
       placeholder="Confirm password..."
       required
@@ -58,3 +74,12 @@
     </Button>
   </ButtonSet>
 </Form>
+
+{#if requestError !== undefined}
+  <InlineNotification
+    lowContrast
+    kind="error"
+    title="Error:"
+    subtitle={requestError.length == 0 ? "lamo" : requestError}
+  />
+{/if}

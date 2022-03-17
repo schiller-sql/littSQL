@@ -1,13 +1,14 @@
 package middleware
 
 import (
+	"time"
+
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/schiller-sql/littSQL/auth"
 	"github.com/schiller-sql/littSQL/model"
 	"github.com/spf13/viper"
-	"time"
 )
 
 type teacherLogin struct {

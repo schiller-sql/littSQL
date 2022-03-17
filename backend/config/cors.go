@@ -8,7 +8,7 @@ import (
 
 func InitCORSMiddleware() gin.HandlerFunc {
 	config := cors.DefaultConfig()
-	config.AllowHeaders = []string{"Authorization"}
+	config.AllowHeaders = []string{"Authorization", "Content-Type"}
 	config.AllowOrigins = []string{viper.Get("CORS_ORIGIN").(string)}
 	return cors.New(config)
 }
