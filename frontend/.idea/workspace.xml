@@ -4,7 +4,7 @@
     <list default="true" id="37474918-9b81-4f75-a54d-8d021fa48a85" name="Changes" comment="TeacherAuth.svelte">
       <change beforePath="$PROJECT_DIR$/../database/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../database/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/TeacherAuth.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/TeacherAuth.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,6 +68,7 @@
       <workItem from="1646857782008" duration="96000" />
       <workItem from="1647432161292" duration="1083000" />
       <workItem from="1647461680505" duration="6943000" />
+      <workItem from="1647525936799" duration="934000" />
     </task>
     <task id="LOCAL-00001" summary="TeacherAuth.svelte">
       <created>1647468238836</created>
