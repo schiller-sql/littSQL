@@ -8,7 +8,7 @@
     ButtonSet,
     InlineNotification,
   } from "carbon-components-svelte";
-  import { replace } from "svelte-spa-router";
+  import { push, replace } from "svelte-spa-router";
   export let isLogin;
   let email = "";
   let password = "";
@@ -35,7 +35,6 @@
         return;
       }
     } else {
-
     }
     const url = `http://localhost:8080/auth/${isLogin ? "login" : "signup"}`;
     const data = { email, password };
@@ -48,11 +47,17 @@
     if (!res.ok) {
       const json = await res.json();
       requestError = json.error.toLowerCase();
+    } else {
+      if (isLogin) {
+        push("/logged-in");
+      } else {
+        replace("/teacher-login");
+      }
     }
   }
 </script>
 
-<ImageLoader src=""></ImageLoader>
+<ImageLoader src="" />
 <Form on:submit={submit}>
   <TextInput bind:value={email} placeholder="Enter email address..." required />
   <PasswordInput
@@ -88,4 +93,4 @@
   />
 {/if}
 
-<Button kind="tertiary" href="#/student-login">Login as teacher?</Button>
+<Button kind="tertiary" href="#/student-login">Login as student?</Button>
