@@ -29,7 +29,7 @@ CREATE TABLE teachers -- represents a teacher
 (
     id       INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     email    VARCHAR UNIQUE NOT NULL,
-    password VARCHAR NOT NULL CHECK (LENGTH(password) > 6)
+    password VARCHAR        NOT NULL CHECK (LENGTH(password) > 6)
 );
 
 CREATE TABLE databases -- represents a sample database that can be used in a project
@@ -46,7 +46,7 @@ CREATE TABLE projects -- represents a template for a project a teacher can use a
     id               INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     database_id      INTEGER REFERENCES databases,
     name             VARCHAR NOT NULL,
-    documentation_md TEXT,
+    documentation_md TEXT    NOT NULL,
     owner            INTEGER REFERENCES teachers
 );
 
@@ -55,7 +55,7 @@ CREATE TABLE projects -- represents a template for a project a teacher can use a
 CREATE TABLE task -- a group of questions, can be voluntary or not
 (
     project_id   INTEGER  NOT NULL REFERENCES projects ON DELETE CASCADE,
-    number       SMALLINT NOT NULL CHECK ( number > 0 ), -- position of the task (#1, #2, etc.)
+    number       SMALLINT NOT NULL CHECK ( number >= 0 ), -- position of the task (#1, #2, etc.)
     description  VARCHAR  NOT NULL,
     is_voluntary bool     NOT NULL DEFAULT FALSE,
     PRIMARY KEY (project_id, number)
@@ -73,7 +73,8 @@ CREATE TABLE questions -- a question asked to the participant, is part of a task
 (
     project_id  INTEGER       NOT NULL REFERENCES projects ON DELETE CASCADE,
     task_number INTEGER       NOT NULL,
-    number      SMALLINT      NOT NULL CHECK ( number > 0 ),
+    question    VARCHAR       NOT NULL,
+    number      SMALLINT      NOT NULL CHECK ( number >= 0 ),
     type        question_type NOT NULL,
     solution    VARCHAR       NOT NULL,
     PRIMARY KEY (project_id, task_number, number),
@@ -120,7 +121,7 @@ CREATE TABLE assignments -- an assignment given to the participant of a course, 
     course_id     INTEGER                  NOT NULL REFERENCES courses ON DELETE CASCADE,
     status        assignment_status        NOT NULL,
     solution_mode assignment_solution_mode NOT NULL,
-    sequence      SMALLINT                 NOT NULL CHECK ( sequence > 0),
+    number        SMALLINT                 NOT NULL CHECK ( number >= 0),
     PRIMARY KEY (project_id, course_id)
 );
 
