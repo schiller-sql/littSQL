@@ -46,13 +46,13 @@ CREATE TABLE projects -- represents a template for a project a teacher can use a
     id               INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     database_id      INTEGER REFERENCES databases,
     name             VARCHAR NOT NULL,
-    documentation_md TEXT    NOT NULL,
-    owner            INTEGER REFERENCES teachers
+    documentation_md TEXT    NOT NULL DEFAULT '',
+    owner_id            INTEGER REFERENCES teachers
 );
 
 -- TODO: remove question, allow task to have any number of "child-tasks" (task of task)
 -- TOOD: trees?
-CREATE TABLE task -- a group of questions, can be voluntary or not
+CREATE TABLE tasks -- a group of questions, can be voluntary or not
 (
     project_id   INTEGER  NOT NULL REFERENCES projects ON DELETE CASCADE,
     number       SMALLINT NOT NULL CHECK ( number >= 0 ), -- position of the task (#1, #2, etc.)
@@ -78,7 +78,7 @@ CREATE TABLE questions -- a question asked to the participant, is part of a task
     type        question_type NOT NULL,
     solution    VARCHAR       NOT NULL,
     PRIMARY KEY (project_id, task_number, number),
-    FOREIGN KEY (project_id, task_number) REFERENCES task (project_id, number) ON DELETE CASCADE
+    FOREIGN KEY (project_id, task_number) REFERENCES tasks (project_id, number) ON DELETE CASCADE
 );
 
 -- STUDENT SIDE --

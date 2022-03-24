@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="089611f4-7127-4a72-84e3-6fb460cffe21" name="Changes" comment="DataGrip">
+    <list default="true" id="0708636f-0b09-4e83-9229-83609ce2ddb5" name="Changes" comment="Add owner to projects (nullable)">
+      <change beforePath="$PROJECT_DIR$/../backend/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/model/project.go" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/model/project.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/model/question.go" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/model/question.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/model/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/model/task.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/init.sql" beforeDir="false" afterPath="$PROJECT_DIR$/init.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
