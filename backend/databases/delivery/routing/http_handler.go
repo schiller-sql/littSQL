@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/schiller-sql/littSQL/databases"
 	"net/http"
+	"strconv"
 )
 
 type databasesHandler struct {
@@ -26,12 +27,44 @@ func ConfigureHandler(r *gin.Engine, jwtMiddleware *jwt.GinJWTMiddleware, usecas
 	group.GET("/", jwtMiddleware.MiddlewareFunc(), teacherMiddleware, handler.getDatabasesOfTeacher)
 	group.POST("/", jwtMiddleware.MiddlewareFunc(), teacherMiddleware, handler.newDatabase)
 	group.GET("/:id", jwtMiddleware.MiddlewareFunc(), handler.getDatabase)
-	group.POST("/:id", jwtMiddleware.MiddlewareFunc(), teacherMiddleware, handler.editDatabase)
+	group.PUT("/:id", jwtMiddleware.MiddlewareFunc(), teacherMiddleware, handler.editDatabase)
 	group.DELETE("/:id", jwtMiddleware.MiddlewareFunc(), teacherMiddleware, handler.deleteDatabase)
 }
 
-func (h *databasesHandler) getDatabasesOfTeacher(c *gin.Context) {}
-func (h *databasesHandler) newDatabase(c *gin.Context)           {}
-func (h *databasesHandler) getDatabase(c *gin.Context)           {}
-func (h *databasesHandler) editDatabase(c *gin.Context)          {}
-func (h *databasesHandler) deleteDatabase(c *gin.Context)        {}
+func getDatabaseIDHelper(c *gin.Context) (int32, error) {
+	projectID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return 0, err
+	}
+	return int32(projectID), nil
+}
+
+func (h *databasesHandler) getDatabasesOfTeacher(c *gin.Context) {
+	panic("implement me")
+}
+
+func (h *databasesHandler) newDatabase(c *gin.Context) {
+	panic("implement me")
+}
+
+func (h *databasesHandler) getDatabase(c *gin.Context) {
+	id, err := getDatabaseIDHelper(c)
+	if err != nil {
+		return
+	}
+	database, err := h.usecase.GetDatabaseDetails(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, database)
+}
+
+func (h *databasesHandler) editDatabase(c *gin.Context) {
+	panic("implement me")
+}
+
+func (h *databasesHandler) deleteDatabase(c *gin.Context) {
+	panic("implement me")
+}

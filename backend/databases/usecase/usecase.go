@@ -13,22 +13,22 @@ func NewUsecase(repo databases.Repository) databases.Usecase {
 	return &eUsecase{repo}
 }
 
-func (e eUsecase) GetDatabasesOfTeacher(teacherID string) []*model.DatabaseListing {
+func (e eUsecase) GetDatabasesOfTeacher(teacherID int32) []*model.DatabaseListing {
 	panic("implement me")
 }
 
-func (e eUsecase) GetDatabaseDetails(id string) *model.Database {
+func (e eUsecase) NewDatabase(teacherID int32, name string) *model.Database {
 	panic("implement me")
 }
 
-func (e eUsecase) NewDatabase(teacherID string, name string) *model.Database {
+func (e eUsecase) GetDatabaseDetails(id int32) (*model.Database, error) {
+	return e.repo.GetDatabase(id, true)
+}
+
+func (e eUsecase) EditDatabase(teacherId int32, id int32, sql string, imageData []byte) (*model.Database, error) {
 	panic("implement me")
 }
 
-func (e eUsecase) EditDatabase(teacherId string, id string, sql string, imageData []byte) (*model.Database, error) {
-	panic("implement me")
-}
-
-func (e eUsecase) DeleteDatabase(teacherId string, id string) error {
+func (e eUsecase) DeleteDatabase(teacherId int32, id int32) error {
 	panic("implement me")
 }

@@ -2,10 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0708636f-0b09-4e83-9229-83609ce2ddb5" name="Changes" comment="Add owner to projects (nullable)">
-      <change beforePath="$PROJECT_DIR$/../backend/databases/delivery/repository.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/projects/delivery/routing/http_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/projects/delivery/routing/http_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/databases/delivery/routing/http_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/databases/delivery/routing/http_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/databases/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/databases/repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/databases/repository/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/databases/repository/repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/databases/usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/databases/usecase.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/databases/usecase/usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/databases/usecase/usecase.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/init.sql" beforeDir="false" afterPath="$PROJECT_DIR$/init.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -5,9 +5,9 @@ import (
 )
 
 type Usecase interface {
-	GetDatabasesOfTeacher(teacherID string) []*model.DatabaseListing
-	GetDatabaseDetails(id string) *model.Database
-	NewDatabase(teacherID string, name string) *model.Database
-	EditDatabase(teacherId string, id string, sql string, imageData []byte) (*model.Database, error)
-	DeleteDatabase(teacherId string, id string) error
+	GetDatabasesOfTeacher(teacherID int32) []*model.DatabaseListing
+	GetDatabaseDetails(id int32) (*model.Database, error)
+	NewDatabase(teacherID int32, name string) *model.Database
+	EditDatabase(teacherId int32, id int32, sql string, imageData []byte) (*model.Database, error)
+	DeleteDatabase(teacherId int32, id int32) error
 }

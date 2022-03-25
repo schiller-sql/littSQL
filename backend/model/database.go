@@ -1,7 +1,5 @@
 package model
 
-import "database/sql"
-
 type Database struct {
 	//[ 0] id                                             INT4                 null: false  primary: true   isArray: false  auto: true   col: INT4            len: -1      default: []
 	ID int32 `gorm:"primary_key;AUTO_INCREMENT;column:id;type:INT4;" json:"id"`
@@ -10,9 +8,9 @@ type Database struct {
 	//[ 2] data                                           BYTEA                null: false  primary: false  isArray: false  auto: false  col: BYTEA           len: -1      default: []
 	Data string `gorm:"column:data;type:BYTEA;" json:"data"`
 	//[ 3] schema_svg_path                                VARCHAR              null: false  primary: false  isArray: false  auto: false  col: VARCHAR         len: -1      default: []
-	SchemaSVGPath sql.NullString `gorm:"column:schema_svg_path;type:VARCHAR;" json:"schema_svg_path"`
+	SchemaSVGPath *string `gorm:"column:schema_svg_path;type:VARCHAR;" json:"schema_svg_path"`
 	//[ 4] owner_id                                        INT4                 null: true   primary: false  isArray: false  auto: false  col: INT4            len: -1      default: []
-	OwnerID sql.NullInt64 `gorm:"column:owner_id;type:INT4;" json:"owner_id"`
+	OwnerID *int32 `gorm:"column:owner_id;type:INT4;" json:"owner_id"`
 }
 
 type DatabaseListing struct {
