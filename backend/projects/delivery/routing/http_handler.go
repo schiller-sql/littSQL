@@ -24,7 +24,7 @@ func ConfigureHandler(r *gin.Engine, jwtMiddleware *jwt.GinJWTMiddleware, usecas
 		}
 	})
 
-	group.GET("/", handler.getAllProjects)
+	group.GET("/", handler.getProjectsOfTeacher)
 	group.POST("/", handler.newProject)
 	group.GET("/:id", handler.getProject)
 	group.PUT("/:id", handler.editProject)
@@ -45,7 +45,7 @@ func getProjectIDHelper(c *gin.Context) (int32, error) {
 	return int32(projectID), nil
 }
 
-func (h *projectsHandler) getAllProjects(c *gin.Context) {
+func (h *projectsHandler) getProjectsOfTeacher(c *gin.Context) {
 	teacherID := getTeacherIDHelper(c)
 	projectsOfTeacher, err := h.usecase.GetProjectsOfTeacher(teacherID)
 	if err != nil {
