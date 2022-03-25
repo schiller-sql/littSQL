@@ -14,8 +14,13 @@ func NewRepository(db *gorm.DB) databases.Repository {
 	return &eRepository{DB: db}
 }
 
-func (e eRepository) GetDatabasesOfTeacher(teacherId int32) (*[]model.DatabaseListing, error) {
-	panic("implement me")
+func (e eRepository) GetDatabasesOfTeacher(teacherID int32) (*[]model.DatabaseListing, error) {
+	var databasesOfTeacher []model.DatabaseListing
+	result := e.DB.Raw(
+		"select id, name, owner_id is null as is_public from databases where owner_id is null or owner_id = ?",
+		teacherID,
+	).Find(&databasesOfTeacher)
+	return &databasesOfTeacher, result.Error
 }
 
 func (e eRepository) NewDatabase(teacherID int32, name string) (*model.Database, error) {

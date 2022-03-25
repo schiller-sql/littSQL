@@ -31,17 +31,28 @@ func ConfigureHandler(r *gin.Engine, jwtMiddleware *jwt.GinJWTMiddleware, usecas
 	group.DELETE("/:id", jwtMiddleware.MiddlewareFunc(), teacherMiddleware, handler.deleteDatabase)
 }
 
+func getTeacherIDHelper(c *gin.Context) int32 {
+	id, _ := c.Get("id")
+	return id.(int32)
+}
+
 func getDatabaseIDHelper(c *gin.Context) (int32, error) {
-	projectID, err := strconv.Atoi(c.Param("id"))
+	databaseID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return 0, err
 	}
-	return int32(projectID), nil
+	return int32(databaseID), nil
 }
 
 func (h *databasesHandler) getDatabasesOfTeacher(c *gin.Context) {
-	panic("implement me")
+	teacherID := getTeacherIDHelper(c)
+	databasesOfTeacher, err := h.usecase.GetDatabasesOfTeacher(teacherID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, databasesOfTeacher)
 }
 
 func (h *databasesHandler) newDatabase(c *gin.Context) {
@@ -49,11 +60,11 @@ func (h *databasesHandler) newDatabase(c *gin.Context) {
 }
 
 func (h *databasesHandler) getDatabase(c *gin.Context) {
-	id, err := getDatabaseIDHelper(c)
+	databaseID, err := getDatabaseIDHelper(c)
 	if err != nil {
 		return
 	}
-	database, err := h.usecase.GetDatabaseDetails(id)
+	database, err := h.usecase.GetDatabaseDetails(databaseID)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
