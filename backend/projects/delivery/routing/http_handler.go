@@ -56,7 +56,6 @@ func (h *projectsHandler) getProjectsOfTeacher(c *gin.Context) {
 }
 
 func (h *projectsHandler) editProject(c *gin.Context) {
-	// TODO: check that database_id exists
 	teacherID := getTeacherIDHelper(c)
 	projectID, err := getProjectIDHelper(c)
 	if err != nil {

@@ -2,6 +2,7 @@ package model
 
 import "database/sql"
 
+// TODO: Use *int32 instead of sql.NullInt64
 type Project struct {
 	//[ 0] id                                             INT4                 null: false  primary: true   isArray: false  auto: true   col: INT4            len: -1      default: []
 	ID int32 `gorm:"primary_key;AUTO_INCREMENT;column:id;type:INT4;" json:"id"`

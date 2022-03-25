@@ -57,6 +57,19 @@ func (u eUsecase) EditProject(
 	if int32(project.OwnerID.Int64) != teacherID {
 		return fmt.Errorf("Not authorized to delete this project")
 	}
+	if databaseID.Valid {
+		databaseID := int32(databaseID.Int64)
+		database, err := u.databasesRepo.GetDatabase(databaseID, false)
+		if err != nil {
+			return err
+		}
+		if database == nil {
+			return fmt.Errorf("The database with the id '%d' does not exist", databaseID)
+		}
+		if database.OwnerID != nil && *database.OwnerID != teacherID {
+			return fmt.Errorf("The database with the id '%d' is not public", databaseID)
+		}
+	}
 	return u.projectsRepo.SaveEditedProject(
 		&model.Project{
 			ID:              projectID,
