@@ -20,7 +20,7 @@ func ConfigureHandler(r *gin.Engine, jwtMiddleware *jwt.GinJWTMiddleware, usecas
 	group := r.Group("/projects", jwtMiddleware.MiddlewareFunc(), func(c *gin.Context) {
 		claims := jwt.ExtractClaims(c)
 		if !claims["is_teacher"].(bool) {
-			c.JSON(http.StatusForbidden, gin.H{"error": "You have to be a teacher to access this recourse"})
+			c.JSON(http.StatusForbidden, gin.H{"error": "You have to be a teacher to access this resource"})
 		}
 	})
 
