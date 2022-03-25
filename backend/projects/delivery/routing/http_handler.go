@@ -175,7 +175,7 @@ func projectToProjectReturnForm(project model.Project) ProjectReturnForm {
 	}
 }
 
-func taskFormsToTasks(projectId int32, taskForms []TaskForm) []model.Task {
+func taskFormsToTasks(projectID int32, taskForms []TaskForm) []model.Task {
 	tasks := make([]model.Task, len(taskForms))
 	for i := 0; i < len(taskForms); i++ {
 		taskNumber := int32(i)
@@ -184,7 +184,7 @@ func taskFormsToTasks(projectId int32, taskForms []TaskForm) []model.Task {
 		for j := 0; j < len(questions); j++ {
 			questionNumber := int32(j)
 			questions[j] = model.Question{
-				ProjectID:  projectId,
+				ProjectID:  projectID,
 				TaskNumber: taskNumber,
 				Number:     questionNumber,
 				Question:   questionForms[j].Question,
@@ -193,7 +193,7 @@ func taskFormsToTasks(projectId int32, taskForms []TaskForm) []model.Task {
 			}
 		}
 		tasks[i] = model.Task{
-			ProjectID:   projectId,
+			ProjectID:   projectID,
 			Number:      taskNumber,
 			Description: taskForms[i].Description,
 			IsVoluntary: taskForms[i].IsVoluntary,
