@@ -29,7 +29,7 @@ CREATE TABLE teachers -- represents a teacher
 (
     id       INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     email    VARCHAR UNIQUE NOT NULL,
-    password VARCHAR        NOT NULL CHECK (LENGTH(password) > 6)
+    password VARCHAR        NOT NULL
 );
 
 CREATE TABLE databases -- represents a sample database that can be used in a project
