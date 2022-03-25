@@ -7,6 +7,9 @@ import (
 	authR "github.com/schiller-sql/littSQL/auth/repository"
 	authU "github.com/schiller-sql/littSQL/auth/usecase"
 	"github.com/schiller-sql/littSQL/config"
+	databasesRouting "github.com/schiller-sql/littSQL/databases/delivery/routing"
+	databasesR "github.com/schiller-sql/littSQL/databases/repository"
+	databasesU "github.com/schiller-sql/littSQL/databases/usecase"
 	projectsRouting "github.com/schiller-sql/littSQL/projects/delivery/routing"
 	projectsR "github.com/schiller-sql/littSQL/projects/repository"
 	projectsU "github.com/schiller-sql/littSQL/projects/usecase"
@@ -29,6 +32,10 @@ func main() {
 	authUsecase := authU.NewUsecase(authRepo)
 	authMiddleware := authM.NewAuthMiddleware(authUsecase)
 	authRouting.ConfigureHandler(r, authMiddleware, authUsecase)
+
+	databasesRepo := databasesR.NewRepository(db)
+	databaseUsecase := databasesU.NewUsecase(databasesRepo)
+	databasesRouting.ConfigureHandler(r, authMiddleware, databaseUsecase)
 
 	projectsRepo := projectsR.NewRepository(db)
 	projectsUsecase := projectsU.NewUsecase(projectsRepo)

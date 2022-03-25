@@ -34,10 +34,11 @@ CREATE TABLE teachers -- represents a teacher
 
 CREATE TABLE databases -- represents a sample database that can be used in a project
 (
-    id           INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    name         VARCHAR NOT NULL,
-    data         bytea   NOT NULL,
-    picture_path VARCHAR NOT NULL
+    id              INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    name            VARCHAR NOT NULL,
+    data            bytea   NOT NULL,
+    schema_svg_path VARCHAR,
+    owner_id        INTEGER REFERENCES teachers
 );
 
 -- TODO: project groups
@@ -47,7 +48,7 @@ CREATE TABLE projects -- represents a template for a project a teacher can use a
     database_id      INTEGER REFERENCES databases,
     name             VARCHAR NOT NULL,
     documentation_md TEXT    NOT NULL DEFAULT '',
-    owner_id            INTEGER REFERENCES teachers
+    owner_id         INTEGER REFERENCES teachers
 );
 
 -- TODO: remove question, allow task to have any number of "child-tasks" (task of task)
