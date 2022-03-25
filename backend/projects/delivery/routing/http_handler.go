@@ -71,6 +71,7 @@ func (h *projectsHandler) getProject(c *gin.Context) {
 }
 
 func (h *projectsHandler) editProject(c *gin.Context) {
+	// TODO: check that database_id exists
 	teacherID := getTeacherIDHelper(c)
 	projectID, err := getProjectIDHelper(c)
 	if err != nil {
@@ -81,19 +82,20 @@ func (h *projectsHandler) editProject(c *gin.Context) {
 	if err != nil {
 		return
 	}
-	var databaseID sql.NullInt64
+	databaseID := sql.NullInt64{Valid: true}
 	if projectEditForm.DatabaseID != nil {
 		databaseID.Int64 = int64(*projectEditForm.DatabaseID)
 	} else {
 		databaseID.Valid = false
 	}
+	tasks := taskFormsToTasks(projectID, projectEditForm.Tasks)
 	err = h.usecase.EditProject(
 		projectID,
 		teacherID,
 		databaseID,
 		projectEditForm.Name,
 		projectEditForm.DocumentationMd,
-		taskFormsToTasks(projectID, projectEditForm.Tasks),
+		tasks,
 	)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -178,15 +180,16 @@ func taskFormsToTasks(projectId int32, taskForms []TaskForm) []model.Task {
 	for i := 0; i < len(taskForms); i++ {
 		taskNumber := int32(i)
 		questionForms := taskForms[i].Questions
-		questions := make([]model.Question, len(taskForms))
-		for j := 0; j < len(questionForms); j++ {
+		questions := make([]model.Question, len(questionForms))
+		for j := 0; j < len(questions); j++ {
 			questionNumber := int32(j)
-			questions[i] = model.Question{
+			questions[j] = model.Question{
 				ProjectID:  projectId,
 				TaskNumber: taskNumber,
 				Number:     questionNumber,
-				Type:       questionForms[i].Type,
-				Solution:   questionForms[i].Solution,
+				Question:   questionForms[j].Question,
+				Type:       questionForms[j].Type,
+				Solution:   questionForms[j].Solution,
 			}
 		}
 		tasks[i] = model.Task{

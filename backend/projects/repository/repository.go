@@ -49,7 +49,20 @@ func (e eRepository) NewProject(teacherID int32, name string) (*model.Project, e
 }
 
 func (e eRepository) SaveEditedProject(editedProject *model.Project) error {
-	return e.DB.Select("*").Omit("id", "owner_id").Save(&editedProject).Error
+	err := e.DB.Transaction(func(tx *gorm.DB) error {
+		if err := e.DB.Where("project_id = ?", editedProject.ID).Delete(&model.Task{}).Error; err != nil {
+			return err
+		}
+		if err := e.DB.Create(editedProject.Tasks).Error; err != nil {
+			return err
+		}
+		if err := e.DB.Select("*").Omit("id", "owner_id").Save(&editedProject).Error; err != nil {
+			return err
+		}
+		return nil
+	})
+	return err
+
 }
 
 func (e eRepository) DeleteProject(projectID int32) error {

@@ -45,7 +45,6 @@ func (u usecase) EditProject(
 	documentationMd string,
 	tasks []model.Task,
 ) error {
-	// TODO: First delete everything then insert (can nested structs be inserted?)
 	project, err := u.repo.GetProject(projectID, false)
 	if project == nil {
 		return fmt.Errorf("Project with the id '%d' could not be found", projectID)
