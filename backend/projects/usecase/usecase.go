@@ -15,6 +15,14 @@ func NewUsecase(repo projects.Repository) projects.Usecase {
 	return &eUsecase{repo}
 }
 
+func (u eUsecase) GetProjectsOfTeacher(teacherID int32) (*[]model.ProjectListing, error) {
+	return u.repo.GetProjectsOfTeacher(teacherID)
+}
+
+func (u eUsecase) NewProject(teacherID int32, name string) (*model.Project, error) {
+	return u.repo.NewProject(teacherID, name)
+}
+
 func (u eUsecase) GetProjectDetails(teacherID int32, projectID int32) (*model.Project, error) {
 	project, err := u.repo.GetProject(projectID, true)
 	if err != nil {
@@ -27,14 +35,6 @@ func (u eUsecase) GetProjectDetails(teacherID int32, projectID int32) (*model.Pr
 		return nil, fmt.Errorf("Not authorized to view the details of this project")
 	}
 	return project, err
-}
-
-func (u eUsecase) GetProjectsOfTeacher(teacherID int32) (*[]model.ProjectListing, error) {
-	return u.repo.GetProjectsOfTeacher(teacherID)
-}
-
-func (u eUsecase) NewProject(teacherID int32, name string) (*model.Project, error) {
-	return u.repo.NewProject(teacherID, name)
 }
 
 func (u eUsecase) EditProject(

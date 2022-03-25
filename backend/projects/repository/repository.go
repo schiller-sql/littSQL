@@ -16,6 +16,21 @@ func NewRepository(db *gorm.DB) projects.Repository {
 	return &eRepository{DB: db}
 }
 
+func (e eRepository) GetProjectsOfTeacher(teacherID int32) (*[]model.ProjectListing, error) {
+	var projectsOfTeacher []model.ProjectListing
+	result := e.DB.Raw(
+		"select id, name, owner_id is null as is_public from projects where owner_id is null or owner_id = ?",
+		teacherID,
+	).Find(&projectsOfTeacher)
+	return &projectsOfTeacher, result.Error
+}
+
+func (e eRepository) NewProject(teacherID int32, name string) (*model.Project, error) {
+	project := model.Project{OwnerID: sql.NullInt64{Int64: int64(teacherID), Valid: true}, Name: name}
+	result := e.DB.Create(&project)
+	return &project, result.Error
+}
+
 func (e eRepository) GetProject(projectID int32, tasks bool) (*model.Project, error) {
 	query := e.DB
 	if tasks {
@@ -31,21 +46,6 @@ func (e eRepository) GetProject(projectID int32, tasks bool) (*model.Project, er
 		return nil, nil
 	}
 	return &project, nil
-}
-
-func (e eRepository) GetProjectsOfTeacher(teacherID int32) (*[]model.ProjectListing, error) {
-	var projectsOfTeacher []model.ProjectListing
-	result := e.DB.Raw(
-		"select id, name, owner_id is null as is_public from projects where owner_id is null or owner_id = ?",
-		teacherID,
-	).Find(&projectsOfTeacher)
-	return &projectsOfTeacher, result.Error
-}
-
-func (e eRepository) NewProject(teacherID int32, name string) (*model.Project, error) {
-	project := model.Project{OwnerID: sql.NullInt64{Int64: int64(teacherID), Valid: true}, Name: name}
-	result := e.DB.Create(&project)
-	return &project, result.Error
 }
 
 func (e eRepository) SaveEditedProject(editedProject *model.Project) error {

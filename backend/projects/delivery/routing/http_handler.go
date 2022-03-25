@@ -55,21 +55,6 @@ func (h *projectsHandler) getProjectsOfTeacher(c *gin.Context) {
 	c.JSON(http.StatusOK, projectsOfTeacher)
 }
 
-func (h *projectsHandler) getProject(c *gin.Context) {
-	teacherID := getTeacherIDHelper(c)
-	projectID, err := getProjectIDHelper(c)
-	if err != nil {
-		return
-	}
-	project, err := h.usecase.GetProjectDetails(teacherID, projectID)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	projectForm := projectToProjectReturnForm(*project)
-	c.JSON(http.StatusOK, projectForm)
-}
-
 func (h *projectsHandler) editProject(c *gin.Context) {
 	// TODO: check that database_id exists
 	teacherID := getTeacherIDHelper(c)
@@ -100,6 +85,21 @@ func (h *projectsHandler) editProject(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	}
+}
+
+func (h *projectsHandler) getProject(c *gin.Context) {
+	teacherID := getTeacherIDHelper(c)
+	projectID, err := getProjectIDHelper(c)
+	if err != nil {
+		return
+	}
+	project, err := h.usecase.GetProjectDetails(teacherID, projectID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	projectForm := projectToProjectReturnForm(*project)
+	c.JSON(http.StatusOK, projectForm)
 }
 
 func (h *projectsHandler) deleteProject(c *gin.Context) {
