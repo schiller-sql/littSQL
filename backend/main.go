@@ -34,11 +34,11 @@ func main() {
 	authRouting.ConfigureHandler(r, authMiddleware, authUsecase)
 
 	databasesRepo := databasesR.NewRepository(db)
-	databaseUsecase := databasesU.NewUsecase(databasesRepo)
-	databasesRouting.ConfigureHandler(r, authMiddleware, databaseUsecase)
+	databasesUsecase := databasesU.NewUsecase(databasesRepo)
+	databasesRouting.ConfigureHandler(r, authMiddleware, databasesUsecase)
 
 	projectsRepo := projectsR.NewRepository(db)
-	projectsUsecase := projectsU.NewUsecase(projectsRepo)
+	projectsUsecase := projectsU.NewUsecase(projectsRepo, databasesRepo)
 	projectsRouting.ConfigureHandler(r, authMiddleware, projectsUsecase)
 
 	err = r.Run(":8080")

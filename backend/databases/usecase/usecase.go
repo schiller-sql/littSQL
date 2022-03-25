@@ -6,15 +6,15 @@ import (
 )
 
 type eUsecase struct {
-	repo databases.Repository
+	databasesRepo databases.Repository
 }
 
-func NewUsecase(repo databases.Repository) databases.Usecase {
-	return &eUsecase{repo}
+func NewUsecase(databasesRepo databases.Repository) databases.Usecase {
+	return &eUsecase{databasesRepo}
 }
 
 func (e eUsecase) GetDatabasesOfTeacher(teacherID int32) (*[]model.DatabaseListing, error) {
-	return e.repo.GetDatabasesOfTeacher(teacherID)
+	return e.databasesRepo.GetDatabasesOfTeacher(teacherID)
 }
 
 func (e eUsecase) NewDatabase(teacherID int32, name string) *model.Database {
@@ -22,7 +22,7 @@ func (e eUsecase) NewDatabase(teacherID int32, name string) *model.Database {
 }
 
 func (e eUsecase) GetDatabaseDetails(id int32) (*model.Database, error) {
-	return e.repo.GetDatabase(id, true)
+	return e.databasesRepo.GetDatabase(id, true)
 }
 
 func (e eUsecase) EditDatabase(teacherID int32, id int32, sql string, imageData []byte) (*model.Database, error) {

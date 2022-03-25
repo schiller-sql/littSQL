@@ -3,28 +3,30 @@ package usecase
 import (
 	"database/sql"
 	"fmt"
+	"github.com/schiller-sql/littSQL/databases"
 	"github.com/schiller-sql/littSQL/model"
 	"github.com/schiller-sql/littSQL/projects"
 )
 
 type eUsecase struct {
-	repo projects.Repository
+	projectsRepo  projects.Repository
+	databasesRepo databases.Repository
 }
 
-func NewUsecase(repo projects.Repository) projects.Usecase {
-	return &eUsecase{repo}
+func NewUsecase(projectsRepo projects.Repository, databasesRepo databases.Repository) projects.Usecase {
+	return &eUsecase{projectsRepo, databasesRepo}
 }
 
 func (u eUsecase) GetProjectsOfTeacher(teacherID int32) (*[]model.ProjectListing, error) {
-	return u.repo.GetProjectsOfTeacher(teacherID)
+	return u.projectsRepo.GetProjectsOfTeacher(teacherID)
 }
 
 func (u eUsecase) NewProject(teacherID int32, name string) (*model.Project, error) {
-	return u.repo.NewProject(teacherID, name)
+	return u.projectsRepo.NewProject(teacherID, name)
 }
 
 func (u eUsecase) GetProjectDetails(teacherID int32, projectID int32) (*model.Project, error) {
-	project, err := u.repo.GetProject(projectID, true)
+	project, err := u.projectsRepo.GetProject(projectID, true)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +47,7 @@ func (u eUsecase) EditProject(
 	documentationMd string,
 	tasks []model.Task,
 ) error {
-	project, err := u.repo.GetProject(projectID, false)
+	project, err := u.projectsRepo.GetProject(projectID, false)
 	if project == nil {
 		return fmt.Errorf("Project with the id '%d' could not be found", projectID)
 	}
@@ -55,7 +57,7 @@ func (u eUsecase) EditProject(
 	if int32(project.OwnerID.Int64) != teacherID {
 		return fmt.Errorf("Not authorized to delete this project")
 	}
-	return u.repo.SaveEditedProject(
+	return u.projectsRepo.SaveEditedProject(
 		&model.Project{
 			ID:              projectID,
 			OwnerID:         sql.NullInt64{Int64: int64(teacherID), Valid: true},
@@ -68,7 +70,7 @@ func (u eUsecase) EditProject(
 }
 
 func (u eUsecase) DeleteProject(teacherID int32, projectID int32) error {
-	project, err := u.repo.GetProject(projectID, false)
+	project, err := u.projectsRepo.GetProject(projectID, false)
 	if project == nil {
 		return fmt.Errorf("Project with the id '%d' could not be found", projectID)
 	}
@@ -78,5 +80,5 @@ func (u eUsecase) DeleteProject(teacherID int32, projectID int32) error {
 	if int32(project.OwnerID.Int64) != teacherID {
 		return fmt.Errorf("Not authorized to delete this project")
 	}
-	return u.repo.DeleteProject(projectID)
+	return u.projectsRepo.DeleteProject(projectID)
 }
