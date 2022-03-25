@@ -7,15 +7,15 @@ import (
 	"github.com/schiller-sql/littSQL/projects"
 )
 
-type usecase struct {
+type eUsecase struct {
 	repo projects.Repository
 }
 
 func NewUsecase(repo projects.Repository) projects.Usecase {
-	return &usecase{repo}
+	return &eUsecase{repo}
 }
 
-func (u usecase) GetProjectDetails(teacherID int32, projectID int32) (*model.Project, error) {
+func (u eUsecase) GetProjectDetails(teacherID int32, projectID int32) (*model.Project, error) {
 	project, err := u.repo.GetProject(projectID, true)
 	if err != nil {
 		return nil, err
@@ -29,15 +29,15 @@ func (u usecase) GetProjectDetails(teacherID int32, projectID int32) (*model.Pro
 	return project, err
 }
 
-func (u usecase) GetProjectsOfTeacher(teacherID int32) (*[]model.ProjectListing, error) {
+func (u eUsecase) GetProjectsOfTeacher(teacherID int32) (*[]model.ProjectListing, error) {
 	return u.repo.GetProjectsOfTeacher(teacherID)
 }
 
-func (u usecase) NewProject(teacherID int32, name string) (*model.Project, error) {
+func (u eUsecase) NewProject(teacherID int32, name string) (*model.Project, error) {
 	return u.repo.NewProject(teacherID, name)
 }
 
-func (u usecase) EditProject(
+func (u eUsecase) EditProject(
 	projectID int32,
 	teacherID int32,
 	databaseID sql.NullInt64,
@@ -67,7 +67,7 @@ func (u usecase) EditProject(
 	)
 }
 
-func (u usecase) DeleteProject(teacherID int32, projectID int32) error {
+func (u eUsecase) DeleteProject(teacherID int32, projectID int32) error {
 	project, err := u.repo.GetProject(projectID, false)
 	if project == nil {
 		return fmt.Errorf("Project with the id '%d' could not be found", projectID)
