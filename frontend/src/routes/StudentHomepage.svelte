@@ -1,5 +1,5 @@
 <script>
-  import { ImageLoader } from "carbon-components-svelte";
+  import { ImageLoader } from 'carbon-components-svelte'
 </script>
 
-<ImageLoader src=""></ImageLoader>
+<ImageLoader src="" />
