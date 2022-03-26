@@ -7,11 +7,19 @@
       </database-info>
       <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
       <secret-storage>session</secret-storage>
-      <user-name>lenniprotte</user-name>
+      <user-name>tonyborchert</user-name>
       <schema-mapping>
         <introspection-scope>
-          <node kind="database" qname="@">
-            <node kind="schema" qname="@" />
+          <node negative="1">
+            <node kind="database" qname="@">
+              <node kind="schema" qname="@" />
+            </node>
+            <node kind="database" qname="postgres">
+              <node kind="schema">
+                <name qname="utils" />
+                <name qname="public" />
+              </node>
+            </node>
           </node>
         </introspection-scope>
       </schema-mapping>
