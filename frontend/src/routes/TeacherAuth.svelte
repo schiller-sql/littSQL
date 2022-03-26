@@ -7,43 +7,43 @@
     Button,
     ButtonSet,
     InlineNotification,
-  } from "carbon-components-svelte";
-  import { push, replace } from "svelte-spa-router";
-  export let isLogin;
-  let email = "";
-  let password = "";
-  let confirmPassword = "";
+  } from 'carbon-components-svelte'
+  import { push, replace } from 'svelte-spa-router'
+  export let isLogin
+  let email = ''
+  let password = ''
+  let confirmPassword = ''
 
-  let confirmedPasswordInvalid = false;
-  let requestError: string | undefined;
+  let confirmedPasswordInvalid = false
+  let requestError: string | undefined
 
   $: disabled =
     email.length == 0 ||
     password.length == 0 ||
-    (isLogin ? false : confirmPassword.length == 0);
+    (isLogin ? false : confirmPassword.length == 0)
 
   function changePath() {
-    replace(isLogin ? "/teacher-signup" : "/teacher-login");
+    replace(isLogin ? '/teacher-signup' : '/teacher-login')
   }
   async function submit() {
-    requestError = undefined;
-    confirmedPasswordInvalid = false;
+    requestError = undefined
+    confirmedPasswordInvalid = false
 
     if (!isLogin) {
       if (password !== confirmPassword) {
-        confirmedPasswordInvalid = true;
-        return;
+        confirmedPasswordInvalid = true
+        return
       }
     } else {
     }
-    const url = `http://localhost:8080/auth/${isLogin ? "login" : "signup"}`;
-    const data = { email, password };
+    const url = `http://localhost:8080/auth/${isLogin ? 'login' : 'signup'}`
+    const data = { email, password }
     const res = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
-    });
-    console.log(res);
+    })
+    console.log(res)
     if (!res.ok) {
       const text = await res.text();
       if (text.length === 0) {
@@ -53,9 +53,9 @@
       }
     } else {
       if (isLogin) {
-        push("/logged-in");
+        push('/logged-in')
       } else {
-        replace("/teacher-login");
+        replace('/teacher-login')
       }
     }
   }
@@ -67,23 +67,21 @@
   <PasswordInput
     bind:value={password}
     placeholder="Enter password..."
-    required
-  />
+    required />
   {#if !isLogin}
     <PasswordInput
       bind:value={confirmPassword}
       invalid={confirmedPasswordInvalid}
       invalidText="Please repeat your password correctly"
       placeholder="Confirm password..."
-      required
-    />
+      required />
   {/if}
   <ButtonSet>
     <Button type="submit" {disabled}>
-      {#if isLogin} Login {:else} Sign up {/if}
+      {#if isLogin}Login{:else}Sign up{/if}
     </Button>
     <Button kind="secondary" on:click={changePath}>
-      {#if !isLogin} Go to login {:else} Go to sign up {/if}
+      {#if !isLogin}Go to login{:else}Go to sign up{/if}
     </Button>
   </ButtonSet>
 </Form>
@@ -93,8 +91,7 @@
     lowContrast
     kind="error"
     title="Error:"
-    subtitle={requestError}
-  />
+    subtitle={requestError} />
 {/if}
 
 <Button kind="tertiary" href="#/student-login">Login as student?</Button>
