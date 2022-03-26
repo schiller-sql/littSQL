@@ -31,20 +31,42 @@ func (e eRepository) NewProject(teacherID int32, name string) (*model.Project, e
 	return &project, result.Error
 }
 
-func (e eRepository) GetProject(projectID int32, tasks bool) (*model.Project, error) {
+func (e eRepository) GetProject(projectID int32, fillTasks bool) (*model.Project, error) {
 	query := e.DB
-	if tasks {
-		// TODO: Preloading not working properly
+	if fillTasks {
 		query = query.Preload(clause.Associations)
 	}
 	var project model.Project
 	result := query.Find(&project, projectID)
-	if result.Error != nil {
-		return nil, result.Error
+	err := result.Error
+	if err != nil {
+		return nil, err
 	}
 	if result.RowsAffected == 0 {
 		return nil, nil
 	}
+	tasks := project.Tasks
+	taskIds := make([]int32, len(tasks))
+	for i := range taskIds {
+		taskIds[i] = project.Tasks[i].Number
+	}
+	var questions []model.Question
+	result = e.DB.
+		Raw("select * from questions where project_id = ? and task_number in ?", projectID, taskIds).
+		Scan(&questions)
+	err = result.Error
+	if err != nil {
+		return nil, err
+	}
+	for _, question := range questions {
+		for i, task := range tasks {
+			if question.TaskNumber == task.Number {
+				tasks[i].Questions = append(task.Questions, question)
+				break
+			}
+		}
+	}
+	project.Tasks = tasks
 	return &project, nil
 }
 

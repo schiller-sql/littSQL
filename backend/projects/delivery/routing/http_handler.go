@@ -132,18 +132,18 @@ type NewProjectForm struct {
 	Name string `json:"name" binding:"required"`
 }
 
-// TODO: Possibly conversions not working correctly
 func projectToProjectReturnForm(project model.Project) ProjectReturnForm {
 	taskForms := make([]TaskForm, len(project.Tasks))
 	for i := 0; i < len(taskForms); i++ {
 		for j := 0; j < len(taskForms); j++ {
 			if project.Tasks[j].Number == int32(i) {
 				task := project.Tasks[j]
-				questionForms := make([]QuestionForm, len(task.Questions))
+				questions := task.Questions
+				questionForms := make([]QuestionForm, len(questions))
 				for k := 0; k < len(questionForms); k++ {
 					for l := 0; l < len(questionForms); l++ {
-						if task.Questions[l].TaskNumber == int32(k) {
-							question := task.Questions[l]
+						if task.Questions[l].Number == int32(k) {
+							question := questions[l]
 							questionForms[k] = QuestionForm{
 								Question: question.Question,
 								Type:     question.Type,
@@ -164,7 +164,8 @@ func projectToProjectReturnForm(project model.Project) ProjectReturnForm {
 		databaseID = &id
 	}
 	return ProjectReturnForm{
-		ID: project.ID,
+		ID:       project.ID,
+		IsPublic: !project.OwnerID.Valid,
 		ProjectEditForm: ProjectEditForm{
 			DatabaseID:      databaseID,
 			Name:            project.Name,
@@ -203,7 +204,8 @@ func taskFormsToTasks(projectID int32, taskForms []TaskForm) []model.Task {
 }
 
 type ProjectReturnForm struct {
-	ID int32 `json:"id"`
+	ID       int32 `json:"id"`
+	IsPublic bool  `json:"is_public"`
 	ProjectEditForm
 }
 
