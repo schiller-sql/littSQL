@@ -9,6 +9,7 @@ import (
 func InitConfigFile() {
 	viper.SetDefault("PORT", "8080")
 
+	// TODO: add underscores to make
 	viper.SetDefault("PGHOST", "127.0.0.1")
 	viper.SetDefault("PGNAME", "postgres")
 	viper.SetDefault("PGUSER", "")

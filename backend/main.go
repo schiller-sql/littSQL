@@ -11,6 +11,7 @@ import (
 )
 
 func main() {
+	// TODO: Set all routes here, so that auth middleware does not have to be given through
 	r := gin.Default()
 	err := r.SetTrustedProxies(nil)
 	if err != nil {

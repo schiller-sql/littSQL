@@ -45,8 +45,12 @@
     });
     console.log(res);
     if (!res.ok) {
-      const json = await res.json();
-      requestError = json.error.toLowerCase();
+      const text = await res.text();
+      if (text.length === 0) {
+        requestError = res.statusText;
+      } else {
+        requestError = JSON.parse(text).error;
+      }
     } else {
       if (isLogin) {
         push("/logged-in");
