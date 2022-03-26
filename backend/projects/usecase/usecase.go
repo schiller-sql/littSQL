@@ -1,7 +1,6 @@
 package usecase
 
 import (
-	"database/sql"
 	"fmt"
 	"github.com/schiller-sql/littSQL/databases"
 	"github.com/schiller-sql/littSQL/model"
@@ -33,7 +32,7 @@ func (u eUsecase) GetProjectDetails(teacherID int32, projectID int32) (*model.Pr
 	if project == nil {
 		return nil, fmt.Errorf("Project with the id '%d' could not be found", projectID)
 	}
-	if project.OwnerID.Valid && int32(project.OwnerID.Int64) != teacherID {
+	if project.OwnerID != nil && *project.OwnerID != teacherID {
 		return nil, fmt.Errorf("Not authorized to view the details of this project")
 	}
 	return project, err
@@ -42,7 +41,7 @@ func (u eUsecase) GetProjectDetails(teacherID int32, projectID int32) (*model.Pr
 func (u eUsecase) EditProject(
 	projectID int32,
 	teacherID int32,
-	databaseID sql.NullInt64,
+	databaseID *int32,
 	name string,
 	documentationMd string,
 	tasks []model.Task,
@@ -54,11 +53,11 @@ func (u eUsecase) EditProject(
 	if err != nil {
 		return err
 	}
-	if int32(project.OwnerID.Int64) != teacherID {
+	if project.OwnerID == nil || *project.OwnerID != teacherID {
 		return fmt.Errorf("Not authorized to delete this project")
 	}
-	if databaseID.Valid {
-		databaseID := int32(databaseID.Int64)
+	if databaseID != nil {
+		databaseID := *databaseID
 		database, err := u.databasesRepo.GetDatabase(databaseID, false)
 		if err != nil {
 			return err
@@ -73,7 +72,7 @@ func (u eUsecase) EditProject(
 	return u.projectsRepo.SaveEditedProject(
 		&model.Project{
 			ID:              projectID,
-			OwnerID:         sql.NullInt64{Int64: int64(teacherID), Valid: true},
+			OwnerID:         &teacherID,
 			DatabaseID:      databaseID,
 			Name:            name,
 			DocumentationMd: documentationMd,
@@ -90,7 +89,7 @@ func (u eUsecase) DeleteProject(teacherID int32, projectID int32) error {
 	if err != nil {
 		return err
 	}
-	if int32(project.OwnerID.Int64) != teacherID {
+	if project.OwnerID == nil || *project.OwnerID != teacherID {
 		return fmt.Errorf("Not authorized to delete this project")
 	}
 	return u.projectsRepo.DeleteProject(projectID)

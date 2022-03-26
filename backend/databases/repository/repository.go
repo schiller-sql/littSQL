@@ -27,13 +27,13 @@ func (e eRepository) NewDatabase(teacherID int32, name string) (*model.Database,
 	panic("implement me")
 }
 
-func (e eRepository) GetDatabase(id int32, withData bool) (*model.Database, error) {
+func (e eRepository) GetDatabase(databaseId int32, withData bool) (*model.Database, error) {
 	var database model.Database
 	query := e.DB
 	if !withData {
 		query = query.Omit("data")
 	}
-	result := query.Find(&database, id)
+	result := query.Find(&database, databaseId)
 	err := result.Error
 	if err != nil {
 		return nil, err
@@ -44,10 +44,10 @@ func (e eRepository) GetDatabase(id int32, withData bool) (*model.Database, erro
 	return &database, nil
 }
 
-func (e eRepository) EditDatabase(id int32, sql string, imageData []byte) (*model.Database, error) {
+func (e eRepository) EditDatabase(databaseId int32, sql string, imageData []byte) (*model.Database, error) {
 	panic("implement me")
 }
 
-func (e eRepository) DeleteDatabase(id int32) {
+func (e eRepository) DeleteDatabase(databaseId int32) {
 	panic("implement me")
 }

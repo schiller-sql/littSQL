@@ -1,7 +1,6 @@
 package projects
 
 import (
-	"database/sql"
 	"github.com/schiller-sql/littSQL/model"
 )
 
@@ -13,7 +12,7 @@ type Usecase interface {
 	EditProject(
 		ID int32,
 		TeacherID int32,
-		DatabaseID sql.NullInt64,
+		DatabaseID *int32,
 		Name string,
 		DocumentationMd string,
 		Tasks []model.Task,

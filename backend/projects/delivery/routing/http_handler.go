@@ -1,7 +1,6 @@
 package routing
 
 import (
-	"database/sql"
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
 	"github.com/schiller-sql/littSQL/model"
@@ -66,17 +65,11 @@ func (h *projectsHandler) editProject(c *gin.Context) {
 	if err != nil {
 		return
 	}
-	databaseID := sql.NullInt64{Valid: true}
-	if projectEditForm.DatabaseID != nil {
-		databaseID.Int64 = int64(*projectEditForm.DatabaseID)
-	} else {
-		databaseID.Valid = false
-	}
 	tasks := taskFormsToTasks(projectID, projectEditForm.Tasks)
 	err = h.usecase.EditProject(
 		projectID,
 		teacherID,
-		databaseID,
+		projectEditForm.DatabaseID,
 		projectEditForm.Name,
 		projectEditForm.DocumentationMd,
 		tasks,
@@ -158,16 +151,11 @@ func projectToProjectReturnForm(project model.Project) ProjectReturnForm {
 			}
 		}
 	}
-	var databaseID *int32
-	if project.DatabaseID.Valid {
-		id := int32(project.DatabaseID.Int64)
-		databaseID = &id
-	}
 	return ProjectReturnForm{
 		ID:       project.ID,
-		IsPublic: !project.OwnerID.Valid,
+		IsPublic: project.OwnerID == nil,
 		ProjectEditForm: ProjectEditForm{
-			DatabaseID:      databaseID,
+			DatabaseID:      project.DatabaseID,
 			Name:            project.Name,
 			DocumentationMd: project.DocumentationMd,
 			Tasks:           taskForms,

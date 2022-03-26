@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"database/sql"
 	"github.com/schiller-sql/littSQL/model"
 	"github.com/schiller-sql/littSQL/projects"
 	"gorm.io/gorm"
@@ -26,7 +25,7 @@ func (e eRepository) GetProjectsOfTeacher(teacherID int32) (*[]model.ProjectList
 }
 
 func (e eRepository) NewProject(teacherID int32, name string) (*model.Project, error) {
-	project := model.Project{OwnerID: sql.NullInt64{Int64: int64(teacherID), Valid: true}, Name: name}
+	project := model.Project{OwnerID: &teacherID, Name: name}
 	result := e.DB.Create(&project)
 	return &project, result.Error
 }
