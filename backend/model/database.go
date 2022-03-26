@@ -14,7 +14,7 @@ type Database struct {
 }
 
 type DatabaseListing struct {
-	ID   int32  `json:"id"`
-	Name string `json:"name"`
-	IsPublic bool `json:"is_public"`
+	ID       int32  `json:"id"`
+	Name     string `json:"name"`
+	IsPublic bool   `json:"is_public"`
 }
