@@ -27,6 +27,7 @@ func ConfigureHandler(r *gin.Engine, jwtMiddleware *jwt.GinJWTMiddleware, usecas
 
 	group.GET("/", jwtMiddleware.MiddlewareFunc(), teacherMiddleware, handler.getDatabasesOfTeacher)
 	group.POST("/", jwtMiddleware.MiddlewareFunc(), teacherMiddleware, handler.newDatabase)
+	// TODO: Security flaw: only teacher or students of a course where the database is used should have access
 	group.GET("/:id", jwtMiddleware.MiddlewareFunc(), handler.getDatabase)
 	group.PUT("/:id", jwtMiddleware.MiddlewareFunc(), teacherMiddleware, handler.editDatabase)
 	group.DELETE("/:id", jwtMiddleware.MiddlewareFunc(), teacherMiddleware, handler.deleteDatabase)
