@@ -43,21 +43,21 @@ func NewAuthMiddleware(authusecase auth.Usecase) *jwt.GinJWTMiddleware {
 			_, passwordExists := jsonData["password"]
 			loginFormExists := emailExists && passwordExists
 			if !accessCodeExists && !loginFormExists {
-				return nil, fmt.Errorf("Need property 'access_code' to login as a student " +
+				return nil, fmt.Errorf("need property 'access_code' to login as a student " +
 					"or properties 'email' and 'password' to login as a teacher")
 			}
 			if accessCodeExists && (emailExists || passwordExists) {
-				return nil, fmt.Errorf("Cannot login as a student and teacher at the same time," +
+				return nil, fmt.Errorf("cannot login as a student and teacher at the same time," +
 					"use property 'access_code' to login as a student " +
 					"or properties 'email' and 'password' to login as a teacher")
 			}
 			if accessCodeExists {
 				var req participantLogin
 				if err := c.ShouldBindBodyWith(&req, binding.JSON); err != nil {
-					return nil, fmt.Errorf("Make sure the access code is a string")
+					return nil, fmt.Errorf("make sure the access code is a string")
 				}
 				if len(req.AccessCode) != 6 {
-					return nil, fmt.Errorf("The length of the access code has to be 6")
+					return nil, fmt.Errorf("the length of the access code has to be 6")
 				}
 				participant, err := authusecase.LogInParticipant(req.AccessCode)
 				if err != nil {
@@ -68,7 +68,7 @@ func NewAuthMiddleware(authusecase auth.Usecase) *jwt.GinJWTMiddleware {
 				var req teacherLogin
 				err := c.ShouldBindBodyWith(&req, binding.JSON)
 				if err != nil {
-					return nil, fmt.Errorf("Make sure the email is a valid email " +
+					return nil, fmt.Errorf("make sure the email is a valid email " +
 						"and the password is at least six characters long")
 				}
 				teacher, err := authusecase.LogInTeacher(req.Email, req.Password)
