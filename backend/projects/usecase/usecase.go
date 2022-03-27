@@ -30,10 +30,10 @@ func (u eUsecase) GetProjectDetails(teacherID int32, projectID int32) (*model.Pr
 		return nil, err
 	}
 	if project == nil {
-		return nil, fmt.Errorf("Project with the id '%d' could not be found", projectID)
+		return nil, fmt.Errorf("project with the id '%d' could not be found", projectID)
 	}
 	if project.OwnerID != nil && *project.OwnerID != teacherID {
-		return nil, fmt.Errorf("Not authorized to view the details of this project")
+		return nil, fmt.Errorf("not authorized to view the details of this project")
 	}
 	return project, err
 }
@@ -48,13 +48,13 @@ func (u eUsecase) EditProject(
 ) error {
 	project, err := u.projectsRepo.GetProject(projectID, false)
 	if project == nil {
-		return fmt.Errorf("Project with the id '%d' could not be found", projectID)
+		return fmt.Errorf("project with the id '%d' could not be found", projectID)
 	}
 	if err != nil {
 		return err
 	}
 	if project.OwnerID == nil || *project.OwnerID != teacherID {
-		return fmt.Errorf("Not authorized to delete this project")
+		return fmt.Errorf("not authorized to delete this project")
 	}
 	if databaseID != nil {
 		databaseID := *databaseID
@@ -63,10 +63,10 @@ func (u eUsecase) EditProject(
 			return err
 		}
 		if database == nil {
-			return fmt.Errorf("The database with the id '%d' does not exist", databaseID)
+			return fmt.Errorf("the database with the id '%d' does not exist", databaseID)
 		}
 		if database.OwnerID != nil && *database.OwnerID != teacherID {
-			return fmt.Errorf("The database with the id '%d' is not public", databaseID)
+			return fmt.Errorf("the database with the id '%d' is not public", databaseID)
 		}
 	}
 	return u.projectsRepo.SaveEditedProject(
@@ -84,13 +84,13 @@ func (u eUsecase) EditProject(
 func (u eUsecase) DeleteProject(teacherID int32, projectID int32) error {
 	project, err := u.projectsRepo.GetProject(projectID, false)
 	if project == nil {
-		return fmt.Errorf("Project with the id '%d' could not be found", projectID)
+		return fmt.Errorf("project with the id '%d' could not be found", projectID)
 	}
 	if err != nil {
 		return err
 	}
 	if project.OwnerID == nil || *project.OwnerID != teacherID {
-		return fmt.Errorf("Not authorized to delete this project")
+		return fmt.Errorf("not authorized to delete this project")
 	}
 	return u.projectsRepo.DeleteProject(projectID)
 }

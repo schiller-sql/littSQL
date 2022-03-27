@@ -22,7 +22,7 @@ func (u usecase) SignUpTeacher(email, password string) error {
 		return err
 	}
 	if teacher != nil {
-		return fmt.Errorf("TEACHER WITH EMAIL \"%v\" ALREADY EXISTS", email)
+		return fmt.Errorf("teacher with email '%v' already exists", email)
 	}
 	hashedPwd := u.repo.HashString(password)
 	return u.repo.CreateTeacher(email, hashedPwd)
@@ -34,11 +34,11 @@ func (u usecase) LogInTeacher(email, password string) (*model.Teacher, error) {
 		return nil, err
 	}
 	if teacher == nil {
-		return nil, fmt.Errorf("EMAIL \"%v\" NOT FOUND", email)
+		return nil, fmt.Errorf("email \"%v\" not foudn", email)
 	}
 	correctPwd := u.repo.HashedStringEquals(password, teacher.Password)
 	if !correctPwd {
-		return nil, errors.New("PASSWORD NOT CORRECT")
+		return nil, errors.New("password not correct ")
 	}
 	return teacher, nil
 }
