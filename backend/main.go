@@ -19,6 +19,9 @@ import (
 func main() {
 	// TODO: Set all routes here, so that auth middleware does not have to be given through
 	r := gin.Default()
+
+	gin.SetMode(viper.Get("MODE").(string))
+
 	err := r.SetTrustedProxies(nil)
 	if err != nil {
 		panic(err)

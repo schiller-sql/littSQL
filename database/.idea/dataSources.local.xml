@@ -1,25 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal" created-in="DB-213.6777.22">
-    <data-source name="PostgreSQL - postgres@localhost" uuid="b3ce7733-338d-4a17-89da-5c28a02c74af">
+    <data-source name="PostgreSQL - postgres@localhost" uuid="3d7d348a-e28b-4ada-9ebf-18bb16e2311b">
       <database-info product="PostgreSQL" version="14.2" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.2.22" dbms="POSTGRES" exact-version="14.2" exact-driver-version="42.2">
         <identifier-quote-string>&quot;</identifier-quote-string>
       </database-info>
       <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
-      <secret-storage>session</secret-storage>
       <user-name>tonyborchert</user-name>
       <schema-mapping>
         <introspection-scope>
-          <node negative="1">
-            <node kind="database" qname="@">
-              <node kind="schema" qname="@" />
-            </node>
-            <node kind="database" qname="postgres">
-              <node kind="schema">
-                <name qname="utils" />
-                <name qname="public" />
-              </node>
-            </node>
+          <node kind="database" qname="@">
+            <node kind="schema" qname="@" />
           </node>
         </introspection-scope>
       </schema-mapping>
