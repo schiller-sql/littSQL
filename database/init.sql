@@ -116,6 +116,8 @@ CREATE TYPE assignment_solution_mode AS ENUM ( -- how the solutions should be sh
     );
 
 -- TODO: timer for assignment (submission date)
+-- TODO: be possible to have the same project as multiple assigments
+-- TODO: assignment comment (and custom title?), from the teacher (for example: You have to do this)
 CREATE TABLE assignments -- an assignment given to the participant of a course, contains a project
 (
     project_id    INTEGER                  NOT NULL REFERENCES projects ON DELETE CASCADE,
