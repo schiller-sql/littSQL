@@ -2,17 +2,80 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0708636f-0b09-4e83-9229-83609ce2ddb5" name="Changes" comment="Add owner to projects (nullable)">
-      <change beforePath="$PROJECT_DIR$/../backend/databases/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/databases/repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/databases/repository/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/databases/repository/repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/databases/usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/databases/usecase.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/databases/usecase/usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/databases/usecase/usecase.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/model/participant.go" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/model/participant.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/model/project.go" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/model/project.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/projects/delivery/routing/http_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/projects/delivery/routing/http_handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/projects/repository/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/projects/repository/repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/projects/usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/projects/usecase.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/projects/usecase/usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/projects/usecase/usecase.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list
+      default="true"
+      id="0708636f-0b09-4e83-9229-83609ce2ddb5"
+      name="Changes"
+      comment="Add owner to projects (nullable)"
+    >
+      <change
+        beforePath="$PROJECT_DIR$/../backend/databases/repository.go"
+        beforeDir="false"
+        afterPath="$PROJECT_DIR$/../backend/databases/repository.go"
+        afterDir="false"
+      />
+      <change
+        beforePath="$PROJECT_DIR$/../backend/databases/repository/repository.go"
+        beforeDir="false"
+        afterPath="$PROJECT_DIR$/../backend/databases/repository/repository.go"
+        afterDir="false"
+      />
+      <change
+        beforePath="$PROJECT_DIR$/../backend/databases/usecase.go"
+        beforeDir="false"
+        afterPath="$PROJECT_DIR$/../backend/databases/usecase.go"
+        afterDir="false"
+      />
+      <change
+        beforePath="$PROJECT_DIR$/../backend/databases/usecase/usecase.go"
+        beforeDir="false"
+        afterPath="$PROJECT_DIR$/../backend/databases/usecase/usecase.go"
+        afterDir="false"
+      />
+      <change
+        beforePath="$PROJECT_DIR$/../backend/model/participant.go"
+        beforeDir="false"
+        afterPath="$PROJECT_DIR$/../backend/model/participant.go"
+        afterDir="false"
+      />
+      <change
+        beforePath="$PROJECT_DIR$/../backend/model/project.go"
+        beforeDir="false"
+        afterPath="$PROJECT_DIR$/../backend/model/project.go"
+        afterDir="false"
+      />
+      <change
+        beforePath="$PROJECT_DIR$/../backend/projects/delivery/routing/http_handler.go"
+        beforeDir="false"
+        afterPath="$PROJECT_DIR$/../backend/projects/delivery/routing/http_handler.go"
+        afterDir="false"
+      />
+      <change
+        beforePath="$PROJECT_DIR$/../backend/projects/repository/repository.go"
+        beforeDir="false"
+        afterPath="$PROJECT_DIR$/../backend/projects/repository/repository.go"
+        afterDir="false"
+      />
+      <change
+        beforePath="$PROJECT_DIR$/../backend/projects/usecase.go"
+        beforeDir="false"
+        afterPath="$PROJECT_DIR$/../backend/projects/usecase.go"
+        afterDir="false"
+      />
+      <change
+        beforePath="$PROJECT_DIR$/../backend/projects/usecase/usecase.go"
+        beforeDir="false"
+        afterPath="$PROJECT_DIR$/../backend/projects/usecase/usecase.go"
+        afterDir="false"
+      />
+      <change
+        beforePath="$PROJECT_DIR$/.idea/workspace.xml"
+        beforeDir="false"
+        afterPath="$PROJECT_DIR$/.idea/workspace.xml"
+        afterDir="false"
+      />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,35 +83,44 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$/.." value="master" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
-  </component>
-  <component name="ProjectId" id="25yHS1thpF04oNTcaxUi7X94WlM" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectId" id="26TyadxGhGIaBghui4bJ6Nzvm8Y" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DatabaseDriversLRU" value="postgresql" />
-    <property name="RunConfigurationTargetLRU" value="b3ce7733-338d-4a17-89da-5c28a02c74af" />
+    <property name="RunConfigurationTargetLRU" value="3d7d348a-e28b-4ada-9ebf-18bb16e2311b" />
     <property name="RunOnceActivity.OpenDatabaseViewOnStart" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RunManager" selected="Database Script.example.sql">
+    <configuration name="example.sql" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
+      <script-file value="$PROJECT_DIR$/example/example.sql" />
+      <script-mode>FILE</script-mode>
+      <data-source id="3d7d348a-e28b-4ada-9ebf-18bb16e2311b" />
+      <method v="2" />
+    </configuration>
+    <configuration name="init.sql" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
+      <script-file value="$PROJECT_DIR$/init.sql" />
+      <script-mode>FILE</script-mode>
+      <data-source id="3d7d348a-e28b-4ada-9ebf-18bb16e2311b" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Database Script.example.sql" />
+        <item itemvalue="Database Script.init.sql" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="Vcs.Log.Tabs.Properties">
@@ -61,10 +133,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="DataGrip" />
-    <option name="LAST_COMMIT_MESSAGE" value="DataGrip" />
   </component>
 </project>

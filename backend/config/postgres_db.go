@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+
 	"github.com/spf13/viper"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"

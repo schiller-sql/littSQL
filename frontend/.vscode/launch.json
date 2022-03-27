@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch Program",
+      "program": "${workspaceFolder}/test/index.js",
+      "request": "launch",
+      "skipFiles": ["<node_internals>/**"],
+      "type": "pwa-node"
+    },
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "Launch Chrome against dev server",
+      "url": "http://localhost:56197",
+      "webRoot": "${workspaceFolder}"
+    }
+  ]
+}

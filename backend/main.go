@@ -17,7 +17,11 @@ import (
 )
 
 func main() {
+	// TODO: Set all routes here, so that auth middleware does not have to be given through
 	r := gin.Default()
+
+	gin.SetMode(viper.Get("MODE").(string))
+
 	err := r.SetTrustedProxies(nil)
 	if err != nil {
 		panic(err)
@@ -41,7 +45,7 @@ func main() {
 	projectsUsecase := projectsU.NewUsecase(projectsRepo, databasesRepo)
 	projectsRouting.ConfigureHandler(r, authMiddleware, projectsUsecase)
 
-	err = r.Run(":8080")
+	err = r.Run(":" + (viper.Get("PORT").(string)))
 	if err != nil {
 		panic(err)
 	}

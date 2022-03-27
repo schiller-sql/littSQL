@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"fmt"
+
 	"github.com/schiller-sql/littSQL/databases"
 	"github.com/schiller-sql/littSQL/model"
 )
@@ -28,7 +29,7 @@ func (e eUsecase) GetDatabaseDetails(databaseId int32) (*model.Database, error) 
 		return nil, err
 	}
 	if database == nil {
-		return nil, fmt.Errorf("The database with the id '%d' does not exist", databaseId)
+		return nil, fmt.Errorf("the database with the id '%d' does not exist", databaseId)
 	}
 	return database, nil
 }

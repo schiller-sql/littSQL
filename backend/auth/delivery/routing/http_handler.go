@@ -1,10 +1,12 @@
 package routing
 
 import (
+	"net/http"
+
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 	"github.com/schiller-sql/littSQL/auth"
-	"net/http"
 )
 
 type authHandler struct {
@@ -33,12 +35,14 @@ type teacherSignUp struct {
 
 func (h *authHandler) signup(c *gin.Context) {
 	var req teacherSignUp
-	err := c.BindJSON(&req)
+	err := c.ShouldBindWith(&req, binding.JSON)
 	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "MAKE SURE THE EMAIL IS VALID"})
 		return
 	}
 	if len(req.Password) < 6 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "PASSWORD SHOULD BE AT LEAST SIX CHARACTERS LONG"})
+		return
 	}
 	err = h.usecase.SignUpTeacher(req.Email, req.Password)
 	if err != nil {
