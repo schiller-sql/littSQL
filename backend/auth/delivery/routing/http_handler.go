@@ -81,8 +81,8 @@ func (h *authHandler) getAccountDetails(c *gin.Context) {
 			return
 		}
 		res := gin.H{"id": participant.ID, "name": nil}
-		if participant.Name.Valid {
-			res["name"] = participant.Name.String
+		if participant.Name != nil {
+			res["name"] = *participant.Name
 		}
 		c.JSON(200, res)
 	}

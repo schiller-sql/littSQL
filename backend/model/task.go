@@ -9,4 +9,6 @@ type Task struct {
 	Description string `gorm:"column:description;type:VARCHAR;" json:"description"`
 	//[ 3] is_voluntary                                   BOOL                 null: false  primary: false  isArray: false  auto: false  col: BOOL            len: -1      default: [false]
 	IsVoluntary bool `gorm:"column:is_voluntary;type:BOOL;default:false;" json:"is_voluntary"`
+
+	Questions []Question
 }

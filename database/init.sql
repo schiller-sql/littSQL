@@ -29,15 +29,16 @@ CREATE TABLE teachers -- represents a teacher
 (
     id       INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     email    VARCHAR UNIQUE NOT NULL,
-    password VARCHAR NOT NULL CHECK (LENGTH(password) > 6)
+    password VARCHAR        NOT NULL
 );
 
 CREATE TABLE databases -- represents a sample database that can be used in a project
 (
-    id           INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    name         VARCHAR NOT NULL,
-    data         bytea   NOT NULL,
-    picture_path VARCHAR NOT NULL
+    id              INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    name            VARCHAR NOT NULL,
+    data            bytea   NOT NULL,
+    schema_svg_path VARCHAR,
+    owner_id        INTEGER REFERENCES teachers
 );
 
 -- TODO: project groups
@@ -46,16 +47,16 @@ CREATE TABLE projects -- represents a template for a project a teacher can use a
     id               INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     database_id      INTEGER REFERENCES databases,
     name             VARCHAR NOT NULL,
-    documentation_md TEXT,
-    owner            INTEGER REFERENCES teachers
+    documentation_md TEXT    NOT NULL DEFAULT '',
+    owner_id         INTEGER REFERENCES teachers
 );
 
 -- TODO: remove question, allow task to have any number of "child-tasks" (task of task)
 -- TOOD: trees?
-CREATE TABLE task -- a group of questions, can be voluntary or not
+CREATE TABLE tasks -- a group of questions, can be voluntary or not
 (
     project_id   INTEGER  NOT NULL REFERENCES projects ON DELETE CASCADE,
-    number       SMALLINT NOT NULL CHECK ( number > 0 ), -- position of the task (#1, #2, etc.)
+    number       SMALLINT NOT NULL CHECK ( number >= 0 ), -- position of the task (#1, #2, etc.)
     description  VARCHAR  NOT NULL,
     is_voluntary bool     NOT NULL DEFAULT FALSE,
     PRIMARY KEY (project_id, number)
@@ -73,11 +74,12 @@ CREATE TABLE questions -- a question asked to the participant, is part of a task
 (
     project_id  INTEGER       NOT NULL REFERENCES projects ON DELETE CASCADE,
     task_number INTEGER       NOT NULL,
-    number      SMALLINT      NOT NULL CHECK ( number > 0 ),
+    question    VARCHAR       NOT NULL,
+    number      SMALLINT      NOT NULL CHECK ( number >= 0 ),
     type        question_type NOT NULL,
     solution    VARCHAR       NOT NULL,
     PRIMARY KEY (project_id, task_number, number),
-    FOREIGN KEY (project_id, task_number) REFERENCES task (project_id, number) ON DELETE CASCADE
+    FOREIGN KEY (project_id, task_number) REFERENCES tasks (project_id, number) ON DELETE CASCADE
 );
 
 -- STUDENT SIDE --
@@ -114,13 +116,15 @@ CREATE TYPE assignment_solution_mode AS ENUM ( -- how the solutions should be sh
     );
 
 -- TODO: timer for assignment (submission date)
+-- TODO: be possible to have the same project as multiple assigments
+-- TODO: assignment comment (and custom title?), from the teacher (for example: You have to do this)
 CREATE TABLE assignments -- an assignment given to the participant of a course, contains a project
 (
     project_id    INTEGER                  NOT NULL REFERENCES projects ON DELETE CASCADE,
     course_id     INTEGER                  NOT NULL REFERENCES courses ON DELETE CASCADE,
     status        assignment_status        NOT NULL,
     solution_mode assignment_solution_mode NOT NULL,
-    sequence      SMALLINT                 NOT NULL CHECK ( sequence > 0),
+    number        SMALLINT                 NOT NULL CHECK ( number >= 0),
     PRIMARY KEY (project_id, course_id)
 );
 
