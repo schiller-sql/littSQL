@@ -1,12 +1,13 @@
 package routing
 
 import (
+	"net/http"
+	"strconv"
+
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
 	"github.com/schiller-sql/littSQL/model"
 	"github.com/schiller-sql/littSQL/projects"
-	"net/http"
-	"strconv"
 )
 
 type projectsHandler struct {

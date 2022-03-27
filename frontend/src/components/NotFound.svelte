@@ -1,5 +1,5 @@
 <script lang="ts">
-  export let params;
+  export let params
 </script>
 
 <p>404: Could not find {params.wild}</p>

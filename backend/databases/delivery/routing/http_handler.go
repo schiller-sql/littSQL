@@ -1,11 +1,12 @@
 package routing
 
 import (
+	"net/http"
+	"strconv"
+
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
 	"github.com/schiller-sql/littSQL/databases"
-	"net/http"
-	"strconv"
 )
 
 type databasesHandler struct {
