@@ -1,54 +1,32 @@
 package routing
 
 import (
-	"net/http"
-	"strconv"
-
-	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
+	authM "github.com/schiller-sql/littSQL/auth/delivery/middleware"
 	"github.com/schiller-sql/littSQL/databases"
+	"github.com/schiller-sql/littSQL/helpers"
+	"net/http"
 )
 
 type databasesHandler struct {
 	usecase databases.Usecase
 }
 
-func ConfigureHandler(r *gin.Engine, jwtMiddleware *jwt.GinJWTMiddleware, usecase databases.Usecase) {
+func ConfigureHandler(r *gin.Engine, authMiddleware *authM.AuthMiddleware, usecase databases.Usecase) {
 	handler := databasesHandler{usecase}
 
-	group := r.Group("/databases")
+	group := r.Group("/databases", authMiddleware.JwtHandler, authMiddleware.IsTeacherValidator)
 
-	teacherMiddleware := func(c *gin.Context) {
-		claims := jwt.ExtractClaims(c)
-		if !claims["is_teacher"].(bool) {
-			c.JSON(http.StatusForbidden, gin.H{"error": "You have to be a teacher to access this resource"})
-		}
-	}
-
-	group.GET("/", jwtMiddleware.MiddlewareFunc(), teacherMiddleware, handler.getDatabasesOfTeacher)
-	group.POST("/", jwtMiddleware.MiddlewareFunc(), teacherMiddleware, handler.newDatabase)
-	// TODO: Security flaw: only teacher or students of a course where the database is used should have access
-	group.GET("/:id", jwtMiddleware.MiddlewareFunc(), handler.getDatabase)
-	group.PUT("/:id", jwtMiddleware.MiddlewareFunc(), teacherMiddleware, handler.editDatabase)
-	group.DELETE("/:id", jwtMiddleware.MiddlewareFunc(), teacherMiddleware, handler.deleteDatabase)
-}
-
-func getTeacherIDHelper(c *gin.Context) int32 {
-	id, _ := c.Get("id")
-	return id.(int32)
-}
-
-func getDatabaseIDHelper(c *gin.Context) (int32, error) {
-	databaseID, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return 0, err
-	}
-	return int32(databaseID), nil
+	// TODO: implement other methods, or let it be
+	group.GET("/", handler.getDatabasesOfTeacher)
+	//group.POST("/", handler.newDatabase)
+	group.GET("/:id", handler.getDatabase)
+	//group.PUT("/:id", handler.editDatabase)
+	//group.DELETE("/:id", handler.deleteDatabase)
 }
 
 func (h *databasesHandler) getDatabasesOfTeacher(c *gin.Context) {
-	teacherID := getTeacherIDHelper(c)
+	teacherID := helpers.GetJwtID(c)
 	databasesOfTeacher, err := h.usecase.GetDatabasesOfTeacher(teacherID)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -62,7 +40,7 @@ func (h *databasesHandler) newDatabase(c *gin.Context) {
 }
 
 func (h *databasesHandler) getDatabase(c *gin.Context) {
-	databaseID, err := getDatabaseIDHelper(c)
+	databaseID, err := helpers.GetParamID(c)
 	if err != nil {
 		return
 	}

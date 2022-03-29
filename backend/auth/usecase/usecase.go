@@ -3,6 +3,7 @@ package usecase
 import (
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/schiller-sql/littSQL/auth"
 	"github.com/schiller-sql/littSQL/model"
@@ -49,21 +50,22 @@ func (u usecase) DeleteTeacher(requestID int32) error {
 		return err
 	}
 	if teacher == nil {
-		return errors.New("ALREADY DELETED THIS ACCOUNT")
+		return errors.New("already deleted this account")
 	}
 	if teacher.ID != requestID {
-		return errors.New("CANNOT DELETE ANOTHER USER")
+		return errors.New("cannot delete another user")
 	}
 	return u.repo.DeleteTeacher(requestID)
 }
 
 func (u usecase) LogInParticipant(accessCode string) (*model.Participant, error) {
+	accessCode = strings.ToUpper(accessCode)
 	participant, err := u.repo.GetParticipantByAccessCode(accessCode)
 	if err != nil {
 		return nil, err
 	}
 	if participant == nil {
-		return nil, errors.New("ACCESS CODE DOES NOT EXIST")
+		return nil, errors.New("access code does not exist")
 	}
 	return participant, nil
 }
@@ -74,7 +76,7 @@ func (u usecase) GetTeacherAccountDetails(teacherID int32) (*model.Teacher, erro
 		return nil, err
 	}
 	if teacher == nil {
-		return nil, errors.New("ACCOUNT NOT FOUND")
+		return nil, errors.New("account not found")
 	}
 	return teacher, nil
 }
@@ -85,7 +87,7 @@ func (u usecase) GetParticipantAccountDetails(participantID int32) (*model.Parti
 		return nil, err
 	}
 	if participant == nil {
-		return nil, errors.New("ACCOUNT NOT FOUND")
+		return nil, errors.New("account not found")
 	}
 	return participant, nil
 }

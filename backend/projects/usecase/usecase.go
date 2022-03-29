@@ -55,7 +55,7 @@ func (u eUsecase) EditProject(
 		return err
 	}
 	if project.OwnerID == nil || *project.OwnerID != teacherID {
-		return fmt.Errorf("not authorized to delete this project")
+		return fmt.Errorf("not authorized to edit this project")
 	}
 	if databaseID != nil {
 		databaseID := *databaseID

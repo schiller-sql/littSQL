@@ -1,6 +1,7 @@
 package routing
 
 import (
+	authM "github.com/schiller-sql/littSQL/auth/delivery/middleware"
 	"net/http"
 
 	jwt "github.com/appleboy/gin-jwt/v2"
@@ -13,18 +14,18 @@ type authHandler struct {
 	usecase auth.Usecase
 }
 
-func ConfigureHandler(r *gin.Engine, jwtMiddleware *jwt.GinJWTMiddleware, usecase auth.Usecase) {
+func ConfigureHandler(r *gin.Engine, authMiddleware *authM.AuthMiddleware, usecase auth.Usecase) {
 	handler := authHandler{usecase}
 
 	group := r.Group("/auth")
 
 	group.POST("/signup", handler.signup)
-	group.POST("/login", jwtMiddleware.LoginHandler)
-	group.POST("/logout", jwtMiddleware.LogoutHandler)
-	group.GET("/refresh_token", jwtMiddleware.RefreshHandler)
+	group.POST("/login", authMiddleware.LoginHandler)
+	group.POST("/logout", authMiddleware.LogoutHandler)
+	group.GET("/refresh_token", authMiddleware.RefreshHandler)
 
-	group.GET("/account", jwtMiddleware.MiddlewareFunc(), handler.getAccountDetails)
-	group.DELETE("/account", jwtMiddleware.MiddlewareFunc(), handler.deleteAccount)
+	group.GET("/account", authMiddleware.JwtHandler, handler.getAccountDetails)
+	group.DELETE("/account", authMiddleware.JwtHandler, handler.deleteAccount)
 
 }
 
@@ -37,11 +38,11 @@ func (h *authHandler) signup(c *gin.Context) {
 	var req teacherSignUp
 	err := c.ShouldBindWith(&req, binding.JSON)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "MAKE SURE THE EMAIL IS VALID"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "make sure the email is valid"})
 		return
 	}
 	if len(req.Password) < 6 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "PASSWORD SHOULD BE AT LEAST SIX CHARACTERS LONG"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "password should be at least six characters long"})
 		return
 	}
 	err = h.usecase.SignUpTeacher(req.Email, req.Password)
@@ -60,7 +61,7 @@ func (h *authHandler) deleteAccount(c *gin.Context) {
 			return
 		}
 	} else {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "ONLY A TEACHER CAN DELETE THEIR ACCOUNT"})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "only a teacher can delete their account"})
 	}
 }
 

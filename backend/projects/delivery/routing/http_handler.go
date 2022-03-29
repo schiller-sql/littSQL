@@ -1,28 +1,22 @@
 package routing
 
 import (
-	"net/http"
-	"strconv"
-
-	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
+	authM "github.com/schiller-sql/littSQL/auth/delivery/middleware"
+	"github.com/schiller-sql/littSQL/helpers"
 	"github.com/schiller-sql/littSQL/model"
 	"github.com/schiller-sql/littSQL/projects"
+	"net/http"
 )
 
 type projectsHandler struct {
 	usecase projects.Usecase
 }
 
-func ConfigureHandler(r *gin.Engine, jwtMiddleware *jwt.GinJWTMiddleware, usecase projects.Usecase) {
+func ConfigureHandler(r *gin.Engine, authMiddleware *authM.AuthMiddleware, usecase projects.Usecase) {
 	handler := projectsHandler{usecase}
 
-	group := r.Group("/projects", jwtMiddleware.MiddlewareFunc(), func(c *gin.Context) {
-		claims := jwt.ExtractClaims(c)
-		if !claims["is_teacher"].(bool) {
-			c.JSON(http.StatusForbidden, gin.H{"error": "You have to be a teacher to access this resource"})
-		}
-	})
+	group := r.Group("/projects", authMiddleware.JwtHandler, authMiddleware.IsTeacherValidator)
 
 	group.GET("/", handler.getProjectsOfTeacher)
 	group.POST("/", handler.newProject)
@@ -31,22 +25,8 @@ func ConfigureHandler(r *gin.Engine, jwtMiddleware *jwt.GinJWTMiddleware, usecas
 	group.DELETE("/:id", handler.deleteProject)
 }
 
-func getTeacherIDHelper(c *gin.Context) int32 {
-	id, _ := c.Get("id")
-	return id.(int32)
-}
-
-func getProjectIDHelper(c *gin.Context) (int32, error) {
-	projectID, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return 0, err
-	}
-	return int32(projectID), nil
-}
-
 func (h *projectsHandler) getProjectsOfTeacher(c *gin.Context) {
-	teacherID := getTeacherIDHelper(c)
+	teacherID := helpers.GetJwtID(c)
 	projectsOfTeacher, err := h.usecase.GetProjectsOfTeacher(teacherID)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -56,8 +36,8 @@ func (h *projectsHandler) getProjectsOfTeacher(c *gin.Context) {
 }
 
 func (h *projectsHandler) editProject(c *gin.Context) {
-	teacherID := getTeacherIDHelper(c)
-	projectID, err := getProjectIDHelper(c)
+	teacherID := helpers.GetJwtID(c)
+	projectID, err := helpers.GetParamID(c)
 	if err != nil {
 		return
 	}
@@ -81,8 +61,8 @@ func (h *projectsHandler) editProject(c *gin.Context) {
 }
 
 func (h *projectsHandler) getProject(c *gin.Context) {
-	teacherID := getTeacherIDHelper(c)
-	projectID, err := getProjectIDHelper(c)
+	teacherID := helpers.GetJwtID(c)
+	projectID, err := helpers.GetParamID(c)
 	if err != nil {
 		return
 	}
@@ -96,8 +76,8 @@ func (h *projectsHandler) getProject(c *gin.Context) {
 }
 
 func (h *projectsHandler) deleteProject(c *gin.Context) {
-	teacherID := getTeacherIDHelper(c)
-	projectID, err := getProjectIDHelper(c)
+	teacherID := helpers.GetJwtID(c)
+	projectID, err := helpers.GetParamID(c)
 	if err != nil {
 		return
 	}
@@ -108,7 +88,7 @@ func (h *projectsHandler) deleteProject(c *gin.Context) {
 }
 
 func (h *projectsHandler) newProject(c *gin.Context) {
-	teacherID := getTeacherIDHelper(c)
+	teacherID := helpers.GetJwtID(c)
 	var newProjectForm NewProjectForm
 	err := c.BindJSON(&newProjectForm)
 	if err != nil {
