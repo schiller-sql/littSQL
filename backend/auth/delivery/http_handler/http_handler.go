@@ -1,4 +1,4 @@
-package routing
+package http_handler
 
 import (
 	"net/http"
@@ -9,23 +9,12 @@ import (
 	"github.com/schiller-sql/littSQL/auth"
 )
 
-type authHandler struct {
+type HttpHandler struct {
 	usecase auth.Usecase
 }
 
-func ConfigureHandler(r *gin.Engine, jwtMiddleware *jwt.GinJWTMiddleware, usecase auth.Usecase) {
-	handler := authHandler{usecase}
-
-	group := r.Group("/auth")
-
-	group.POST("/signup", handler.signup)
-	group.POST("/login", jwtMiddleware.LoginHandler)
-	group.POST("/logout", jwtMiddleware.LogoutHandler)
-	group.GET("/refresh_token", jwtMiddleware.RefreshHandler)
-
-	group.GET("/account", jwtMiddleware.MiddlewareFunc(), handler.getAccountDetails)
-	group.DELETE("/account", jwtMiddleware.MiddlewareFunc(), handler.deleteAccount)
-
+func NewHttpHandler(usecase auth.Usecase) HttpHandler {
+	return HttpHandler{usecase: usecase}
 }
 
 type teacherSignUp struct {
@@ -33,15 +22,15 @@ type teacherSignUp struct {
 	Password string `json:"password" binding:"required"`
 }
 
-func (h *authHandler) signup(c *gin.Context) {
+func (h *HttpHandler) Signup(c *gin.Context) {
 	var req teacherSignUp
 	err := c.ShouldBindWith(&req, binding.JSON)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "MAKE SURE THE EMAIL IS VALID"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "make sure the email is valid"})
 		return
 	}
 	if len(req.Password) < 6 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "PASSWORD SHOULD BE AT LEAST SIX CHARACTERS LONG"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "password should be at least six characters long"})
 		return
 	}
 	err = h.usecase.SignUpTeacher(req.Email, req.Password)
@@ -50,7 +39,7 @@ func (h *authHandler) signup(c *gin.Context) {
 	}
 }
 
-func (h *authHandler) deleteAccount(c *gin.Context) {
+func (h *HttpHandler) DeleteAccount(c *gin.Context) {
 	claims := jwt.ExtractClaims(c)
 	if claims["is_teacher"].(bool) {
 		id, _ := c.Get("id")
@@ -60,11 +49,11 @@ func (h *authHandler) deleteAccount(c *gin.Context) {
 			return
 		}
 	} else {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "ONLY A TEACHER CAN DELETE THEIR ACCOUNT"})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "only a teacher can delete their account"})
 	}
 }
 
-func (h *authHandler) getAccountDetails(c *gin.Context) {
+func (h *HttpHandler) GetAccountDetails(c *gin.Context) {
 	claims := jwt.ExtractClaims(c)
 	id, _ := c.Get("id")
 	if claims["is_teacher"].(bool) {

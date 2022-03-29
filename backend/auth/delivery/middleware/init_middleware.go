@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"net/http"
 	"time"
 
 	jwt "github.com/appleboy/gin-jwt/v2"
@@ -23,7 +24,7 @@ type teacherLogin struct {
 	Password string `json:"password" binding:"required"`
 }
 
-func NewAuthMiddleware(authusecase auth.Usecase) *jwt.GinJWTMiddleware {
+func NewAuthMiddleware(usecase auth.Usecase) *AuthMiddleware {
 	jwtMiddleware, err := jwt.New(&jwt.GinJWTMiddleware{
 		Realm:            "littSQL",
 		SigningAlgorithm: viper.Get("JWT_SIGN_ALG").(string),
@@ -103,5 +104,22 @@ func NewAuthMiddleware(authusecase auth.Usecase) *jwt.GinJWTMiddleware {
 	if err != nil {
 		panic(err)
 	}
-	return jwtMiddleware
+	return &AuthMiddleware{
+		LoginHandler:   jwtMiddleware.LoginHandler,
+		LogoutHandler:  jwtMiddleware.LogoutHandler,
+		RefreshHandler: jwtMiddleware.RefreshHandler,
+		JwtHandler:     jwtMiddleware.MiddlewareFunc(),
+		IsTeacherValidator: func(c *gin.Context) {
+			claims := jwt.ExtractClaims(c)
+			if !claims["is_teacher"].(bool) {
+				c.JSON(http.StatusForbidden, gin.H{"error": "you have to be a teacher to access this resource"})
+			}
+		},
+		IsStudentValidator: func(c *gin.Context) {
+			claims := jwt.ExtractClaims(c)
+			if claims["is_teacher"].(bool) {
+				c.JSON(http.StatusForbidden, gin.H{"error": "you have to be a student to access this resource"})
+			}
+		},
+	}
 }
