@@ -9,10 +9,10 @@ import (
 )
 
 func InitPostgresDB() *gorm.DB {
-	host := viper.Get("PGHOST")
-	name := viper.Get("PGNAME")
-	user := viper.Get("PGUSER")
-	pass := viper.Get("PGPASSWORD")
+	host := viper.Get("PG_HOST")
+	name := viper.Get("PG_NAME")
+	user := viper.Get("PG_USER")
+	pass := viper.Get("PG_PASSWORD")
 
 	dsn := fmt.Sprintf("host=%v database=%v user=%v password=%v", host, name, user, pass)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})

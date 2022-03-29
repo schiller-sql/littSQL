@@ -11,10 +11,10 @@ func InitConfigFile() {
 
 	viper.SetDefault("PORT", "8080")
 	// TODO: add underscores to make
-	viper.SetDefault("PGHOST", "127.0.0.1")
-	viper.SetDefault("PGNAME", "postgres")
-	viper.SetDefault("PGUSER", "")
-	viper.SetDefault("PGPASSWORD", "postgres")
+	viper.SetDefault("PG_HOST", "127.0.0.1")
+	viper.SetDefault("PG_NAME", "postgres")
+	viper.SetDefault("PG_USER", "")
+	viper.SetDefault("PG_PASSWORD", "postgres")
 
 	viper.SetDefault("CORS_ORIGIN", "http://localhost:5555")
 

@@ -17,10 +17,10 @@ In the backend folder, now run `go get` to install the go dependecies needed for
 After that create a .env file in the [backend](./backend/) directory, to configure the backend with the PostgreSQL credentials. Below is a sample .env with important key-value pairs and their respective defaults:
 
 ```bash
-PGHOST="127.0.0.1"
-PGNAME="postgres"
-PGUSER=""
-PGPASSWORD="postgres"
+PG_HOST="127.0.0.1"
+PG_NAME="postgres"
+PG_USER=""
+PG_PASSWORD="postgres"
 ```
 
 To use the default of a key, you can omit that key-value pair. If PostgreSQL has been installed without much configuration, you probably only need to configure the `PGUSER` key with your home directory name.
