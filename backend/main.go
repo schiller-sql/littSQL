@@ -7,9 +7,9 @@ import (
 	authR "github.com/schiller-sql/littSQL/auth/repository"
 	authU "github.com/schiller-sql/littSQL/auth/usecase"
 	"github.com/schiller-sql/littSQL/config"
-	databasesRouting "github.com/schiller-sql/littSQL/databases/delivery/routing"
-	databasesR "github.com/schiller-sql/littSQL/databases/repository"
-	databasesU "github.com/schiller-sql/littSQL/databases/usecase"
+	databaseTemplatesRouting "github.com/schiller-sql/littSQL/database_templates/delivery/routing"
+	databaseTemplatesR "github.com/schiller-sql/littSQL/database_templates/repository"
+	databaseTemplatesU "github.com/schiller-sql/littSQL/database_templates/usecase"
 	projectsRouting "github.com/schiller-sql/littSQL/projects/delivery/routing"
 	projectsR "github.com/schiller-sql/littSQL/projects/repository"
 	projectsU "github.com/schiller-sql/littSQL/projects/usecase"
@@ -38,12 +38,12 @@ func main() {
 	authMiddleware := authM.NewAuthMiddleware(authUsecase)
 	authRouting.ConfigureHandler(r, authMiddleware, authUsecase)
 
-	databasesRepo := databasesR.NewRepository(db)
-	databasesUsecase := databasesU.NewUsecase(databasesRepo)
-	databasesRouting.ConfigureHandler(r, authMiddleware, databasesUsecase)
+	databaseTemplatesRepo := databaseTemplatesR.NewRepository(db)
+	databaseTemplatesUsecase := databaseTemplatesU.NewUsecase(databaseTemplatesRepo)
+	databaseTemplatesRouting.ConfigureHandler(r, authMiddleware, databaseTemplatesUsecase)
 
 	projectsRepo := projectsR.NewRepository(db)
-	projectsUsecase := projectsU.NewUsecase(projectsRepo, databasesRepo)
+	projectsUsecase := projectsU.NewUsecase(projectsRepo)
 	projectsRouting.ConfigureHandler(r, authMiddleware, projectsUsecase)
 
 	err = r.Run(":" + (viper.Get("PORT").(string)))

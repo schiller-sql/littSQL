@@ -5,8 +5,8 @@ CREATE SCHEMA utils;
 CREATE OR REPLACE FUNCTION utils.random_string(length INTEGER) RETURNS CHAR AS
 $$
 DECLARE
-    chars  TEXT[]  := '{0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z}';
-    result TEXT    := '';
+    chars  TEXT[] := '{0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z}';
+    result TEXT   := '';
 BEGIN
     IF length <= 0 THEN
         RAISE EXCEPTION 'Given length cannot be less than 0';
@@ -30,32 +30,34 @@ CREATE TABLE teachers -- represents a teacher
     password VARCHAR        NOT NULL
 );
 
-CREATE TABLE databases -- represents a sample database that can be used in a project
+CREATE TABLE database_templates -- represents a sample database that can be used in a project
 (
-    id              INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    name            VARCHAR NOT NULL,
-    data            bytea   NOT NULL,
-    schema_svg_path VARCHAR,
-    owner_id        INTEGER REFERENCES teachers
+    id          INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    name        VARCHAR NOT NULL,
+    description TEXT    NOT NULL,
+    sql         TEXT    NOT NULL
 );
 
--- TODO: project groups
 CREATE TABLE projects -- represents a template for a project a teacher can use as an assignment
 (
     id               INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    database_id      INTEGER REFERENCES databases,
     name             VARCHAR NOT NULL,
     documentation_md TEXT    NOT NULL DEFAULT '',
+    db_sql           TEXT,
     owner_id         INTEGER REFERENCES teachers
 );
 
--- TODO: remove question, allow task to have any number of "child-tasks" (task of task)
--- TOOD: trees?
+CREATE TABLE cached_projects_sql_data
+(
+    project_id INTEGER PRIMARY KEY REFERENCES projects,
+    data       bytea NOT NULL
+);
+
 CREATE TABLE tasks -- a group of questions, can be voluntary or not
 (
     project_id   INTEGER  NOT NULL REFERENCES projects ON DELETE CASCADE,
     number       SMALLINT NOT NULL CHECK ( number >= 0 ), -- position of the task (#1, #2, etc.)
-    description  VARCHAR  NOT NULL,
+    description  TEXT     NOT NULL,
     is_voluntary bool     NOT NULL DEFAULT FALSE,
     PRIMARY KEY (project_id, number)
 );
@@ -81,7 +83,7 @@ CREATE TABLE questions -- a question asked to the participant, is part of a task
 );
 
 -- STUDENT SIDE --
--- TODO: more than one teacher for one and the same course
+-- TODO: more than one teacher for the same course
 CREATE TABLE courses -- a course with participants, belongs to a teacher
 (
     id         INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -144,5 +146,5 @@ CREATE TABLE answers -- time and content the participant has answered to a quest
     answer                     VARCHAR   NOT NULL,
     is_correct_automatic       correct   NOT NULL DEFAULT 'unknown',
     is_correct_manual_approval correct   NOT NULL DEFAULT 'unknown',
-    FOREIGN KEY (project_id, task_number, question_number) REFERENCES questions (project_id, task_number, number)
+    FOREIGN KEY (project_id, task_number, question_number) REFERENCES questions (project_id, task_number, number) ON DELETE CASCADE
 );

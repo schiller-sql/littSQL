@@ -50,9 +50,9 @@ func (h *projectsHandler) editProject(c *gin.Context) {
 	err = h.usecase.EditProject(
 		projectID,
 		teacherID,
-		projectEditForm.DatabaseID,
 		projectEditForm.Name,
 		projectEditForm.DocumentationMd,
+		projectEditForm.DbSQL,
 		tasks,
 	)
 	if err != nil {
@@ -136,7 +136,7 @@ func projectToProjectReturnForm(project model.Project) ProjectReturnForm {
 		ID:       project.ID,
 		IsPublic: project.OwnerID == nil,
 		ProjectEditForm: ProjectEditForm{
-			DatabaseID:      project.DatabaseID,
+			DbSQL:           project.DbSQL,
 			Name:            project.Name,
 			DocumentationMd: project.DocumentationMd,
 			Tasks:           taskForms,
@@ -179,7 +179,7 @@ type ProjectReturnForm struct {
 }
 
 type ProjectEditForm struct {
-	DatabaseID      *int32     `json:"database_id"`
+	DbSQL           *string    `json:"sql"`
 	Name            string     `json:"name" binding:"required"`
 	DocumentationMd string     `json:"documentation_md"`
 	Tasks           []TaskForm `json:"tasks" binding:"required"`

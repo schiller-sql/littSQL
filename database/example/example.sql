@@ -3,24 +3,24 @@ INSERT INTO teachers(email, password)
 VALUES ('main@hello.world', '$2a$04$sA/YyRJDkxLg3jK6URBAdOxrRgKeDLTLgXcLsm9x7E8xtVQdDfQo6'),
        ('second@world.com', '$2a$04$sA/YyRJDkxLg3jK6URBAdOxrRgKeDLTLgXcLsm9x7E8xtVQdDfQo6');
 
--- insert public database
-INSERT INTO databases(name, data, schema_svg_path)
-VALUES ('public database', '', NULL);
-
--- insert non public database of different teachers
-INSERT INTO databases(name, data, schema_svg_path, owner_id)
-VALUES ('database of main', '', NULL, 1),
-       ('database of second', '', NULL, 2);
+-- insert (public) database templates
+INSERT INTO database_templates(name, description, sql)
+VALUES ('cars', 'different car manufacturers', 'create table cars(name varchar);
+insert into cars values (''mazda''), (''ferrari''), (''rolls royce'')'),
+       ('programming languages', 'important programming languages',
+        'create table programming_languages(name varchar);
+insert into programming_languages ' ||
+        'values (''assembly''), (''c++''),(''perl'')');
 
 -- insert public projects
-INSERT INTO projects(database_id, name, documentation_md)
-VALUES (1, 'public project 1', '# docs'),
-       (NULL, 'public project 2', '# other docs');
+INSERT INTO projects(name, documentation_md, db_sql)
+VALUES ('public project 1', '# docs', NULL),
+       ('public project 2', '# other docs', (SELECT sql FROM database_templates WHERE id = 1));
 
 -- insert non public projects
-INSERT INTO projects (database_id, name, documentation_md, owner_id)
-VALUES (2, 'project of main', '# docs', 1),
-       (3, 'project of second (no tasks or questions)', '# other docs', 2);
+INSERT INTO projects(name, documentation_md, db_sql, owner_id)
+VALUES ('public project 1', '# docs', (SELECT sql FROM database_templates WHERE id = 1), 1),
+       ('public project 2', '# other docs', (SELECT sql FROM database_templates WHERE id = 1), 2);
 
 -- insert tasks and questions for 'project of main'
 INSERT INTO tasks(project_id, number, description, is_voluntary)
@@ -30,8 +30,8 @@ VALUES (3, 0, 'First task of project of main', FALSE),
 INSERT INTO questions(project_id, task_number, question, number, type, solution)
 VALUES (3, 0, 'Why is this the first question of the first task?', 0, 'text', 'I don''t know...'),
        (3, 0, 'Why is this the second question of the first task?', 1, 'text', 'I don''t know...'),
-       (3, 1, 'Why is this the first question of the first task?', 0, 'text', 'I don''t know...'),
-       (3, 1, 'Why is this the second question of the first task?', 1, 'text', 'I don''t know...');
+       (3, 1, 'Why is this the first question of the second task?', 0, 'text', 'I don''t know...'),
+       (3, 1, 'Why is this the second question of the second task?', 1, 'text', 'I don''t know...');
 
 -- insert course of 'main' teacher
 INSERT INTO courses(teacher_id, name)
