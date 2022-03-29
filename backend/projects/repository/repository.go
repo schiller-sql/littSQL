@@ -18,7 +18,8 @@ func NewRepository(db *gorm.DB) projects.Repository {
 func (e eRepository) GetProjectsOfTeacher(teacherID int32) (*[]model.ProjectListing, error) {
 	var projectsOfTeacher []model.ProjectListing
 	result := e.DB.Raw(
-		"select id, name, owner_id is null as is_public from projects where owner_id is null or owner_id = ?",
+		"select id, name, owner_id is null as is_public "+
+			"from projects where owner_id is null or owner_id = ? order by is_public, upper(name)",
 		teacherID,
 	).Find(&projectsOfTeacher)
 	return &projectsOfTeacher, result.Error

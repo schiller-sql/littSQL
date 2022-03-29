@@ -5,7 +5,6 @@ import (
 )
 
 type Usecase interface {
-	// TODO: Sort by: is not public; name
 	GetDatabaseTemplates() (*[]model.DatabaseTemplateListing, error)
 	NewDatabase(teacherID int32, name string) *model.DatabaseTemplate
 	GetDatabaseDetails(databaseId int32) (*model.DatabaseTemplate, error)

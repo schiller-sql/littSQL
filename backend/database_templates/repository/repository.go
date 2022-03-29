@@ -16,7 +16,7 @@ func NewRepository(db *gorm.DB) databaseTemplates.Repository {
 
 func (e eRepository) GetDatabaseTemplates() (*[]model.DatabaseTemplateListing, error) {
 	var databaseTemplatesOfTeacher []model.DatabaseTemplateListing
-	result := e.DB.Table("database_templates").Find(&databaseTemplatesOfTeacher)
+	result := e.DB.Table("database_templates").Order("upper(name)").Find(&databaseTemplatesOfTeacher)
 	return &databaseTemplatesOfTeacher, result.Error
 }
 
