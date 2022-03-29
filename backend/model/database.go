@@ -9,12 +9,10 @@ type DatabaseTemplate struct {
 	Description string `gorm:"column:description;type:TEXT;" json:"description"`
 	//[ 3] name                                           TEXT null: false  primary: false  isArray: false  auto: false  col: VARCHAR         len: -1      default: []
 	SQL string `gorm:"column:sql;type:TEXT;" json:"sql"`
-	//[ 4] owner_id                                       INT4                 null: true   primary: false  isArray: false  auto: false  col: INT4            len: -1      default: []
-	OwnerID *int32 `gorm:"column:owner_id;type:INT4;" json:"owner_id"`
 }
 
-type DatabaseListing struct {
-	ID       int32  `json:"id"`
-	Name     string `json:"name"`
-	IsPublic bool   `json:"is_public"`
+type DatabaseTemplateListing struct {
+	ID          int32  `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
 }

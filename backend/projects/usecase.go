@@ -12,12 +12,12 @@ type Usecase interface {
 	//CloneProject(teacherID int32, projectID int32, name string) (*model.Project, error)
 	GetProjectDetails(teacherID int32, projectID int32) (*model.Project, error)
 	EditProject(
-		ID int32,
-		TeacherID int32,
-		DatabaseID *int32,
-		Name string,
-		DocumentationMd string,
-		Tasks []model.Task,
+		projectID int32,
+		teacherID int32,
+		name string,
+		documentationMd string,
+		sql *string,
+		tasks []model.Task,
 	) error
 	DeleteProject(teacherID int32, projectID int32) error
 }

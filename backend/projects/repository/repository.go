@@ -71,10 +71,59 @@ func (e eRepository) GetProject(projectID int32, fillTasks bool) (*model.Project
 
 func (e eRepository) SaveEditedProject(editedProject *model.Project) error {
 	err := e.DB.Transaction(func(tx *gorm.DB) error {
-		if err := e.DB.Where("project_id = ?", editedProject.ID).Delete(&model.Task{}).Error; err != nil {
+		// gather important data to use later
+		tasks := editedProject.Tasks
+		taskNumbers := make([]int32, len(tasks))
+		questions := make([]model.Question, 0, len(tasks)*2)
+		for i, task := range tasks {
+			taskNumbers[i] = task.Number
+			for _, question := range task.Questions {
+				questions = append(questions, question)
+			}
+		}
+		// delete all redundant tasks
+		if err := e.DB.Where("project_id = ? and number not in ?", editedProject.ID, taskNumbers).
+			Delete(&model.Task{}).Error; err != nil {
 			return err
 		}
-		if err := e.DB.Create(editedProject.Tasks).Error; err != nil {
+		// get all questions that are in the database
+		var beforeQuestions []model.Question
+		if err := e.DB.Where("project_id = ?", editedProject.ID).Find(&beforeQuestions).Error; err != nil {
+			return err
+		}
+		// delete all redundant questions
+		deltaQuestions := make([]model.Question, 0)
+	bQ:
+		for _, beforeQuestion := range beforeQuestions {
+			for _, afterQuestion := range questions {
+				if beforeQuestion.TaskNumber == afterQuestion.TaskNumber &&
+					beforeQuestion.Number == afterQuestion.Number {
+					continue bQ
+				}
+			}
+			deltaQuestions = append(deltaQuestions, beforeQuestion)
+		}
+		for _, question := range deltaQuestions {
+			if err := e.DB.Where(
+				"project_id = ? and task_number = ? and number = ?",
+				question.ProjectID,
+				question.TaskNumber,
+				question.Number,
+			).Delete(&model.Question{}).Error; err != nil {
+				return err
+			}
+		}
+		// saving tasks, then questions and at last the project
+		if err := e.DB.Clauses(clause.OnConflict{
+			Columns:   []clause.Column{{Name: "project_id"}, {Name: "number"}},
+			DoUpdates: clause.AssignmentColumns([]string{"description", "is_voluntary"}),
+		}).Save(tasks).Error; err != nil {
+			return err
+		}
+		if err := e.DB.Clauses(clause.OnConflict{
+			Columns:   []clause.Column{{Name: "project_id"}, {Name: "task_number"}, {Name: "number"}},
+			DoUpdates: clause.AssignmentColumns([]string{"question", "type", "solution"}),
+		}).Save(questions).Error; err != nil {
 			return err
 		}
 		if err := e.DB.Select("*").Omit("id", "owner_id").Save(&editedProject).Error; err != nil {
@@ -83,7 +132,6 @@ func (e eRepository) SaveEditedProject(editedProject *model.Project) error {
 		return nil
 	})
 	return err
-
 }
 
 func (e eRepository) DeleteProject(projectID int32) error {

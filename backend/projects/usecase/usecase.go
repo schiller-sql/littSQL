@@ -3,18 +3,16 @@ package usecase
 import (
 	"fmt"
 
-	"github.com/schiller-sql/littSQL/databases"
 	"github.com/schiller-sql/littSQL/model"
 	"github.com/schiller-sql/littSQL/projects"
 )
 
 type eUsecase struct {
-	projectsRepo  projects.Repository
-	databasesRepo databases.Repository
+	projectsRepo projects.Repository
 }
 
-func NewUsecase(projectsRepo projects.Repository, databasesRepo databases.Repository) projects.Usecase {
-	return &eUsecase{projectsRepo, databasesRepo}
+func NewUsecase(projectsRepo projects.Repository) projects.Usecase {
+	return &eUsecase{projectsRepo}
 }
 
 func (u eUsecase) GetProjectsOfTeacher(teacherID int32) (*[]model.ProjectListing, error) {
@@ -42,9 +40,9 @@ func (u eUsecase) GetProjectDetails(teacherID int32, projectID int32) (*model.Pr
 func (u eUsecase) EditProject(
 	projectID int32,
 	teacherID int32,
-	databaseID *int32,
 	name string,
 	documentationMd string,
+	sql *string,
 	tasks []model.Task,
 ) error {
 	project, err := u.projectsRepo.GetProject(projectID, false)
@@ -57,24 +55,11 @@ func (u eUsecase) EditProject(
 	if project.OwnerID == nil || *project.OwnerID != teacherID {
 		return fmt.Errorf("not authorized to edit this project")
 	}
-	if databaseID != nil {
-		databaseID := *databaseID
-		database, err := u.databasesRepo.GetDatabase(databaseID, false)
-		if err != nil {
-			return err
-		}
-		if database == nil {
-			return fmt.Errorf("the database with the id '%d' does not exist", databaseID)
-		}
-		if database.OwnerID != nil && *database.OwnerID != teacherID {
-			return fmt.Errorf("the database with the id '%d' is not public", databaseID)
-		}
-	}
 	return u.projectsRepo.SaveEditedProject(
 		&model.Project{
 			ID:              projectID,
 			OwnerID:         &teacherID,
-			DatabaseID:      databaseID,
+			DbSQL:           sql,
 			Name:            name,
 			DocumentationMd: documentationMd,
 			Tasks:           tasks,

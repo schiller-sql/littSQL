@@ -146,5 +146,5 @@ CREATE TABLE answers -- time and content the participant has answered to a quest
     answer                     VARCHAR   NOT NULL,
     is_correct_automatic       correct   NOT NULL DEFAULT 'unknown',
     is_correct_manual_approval correct   NOT NULL DEFAULT 'unknown',
-    FOREIGN KEY (project_id, task_number, question_number) REFERENCES questions (project_id, task_number, number)
+    FOREIGN KEY (project_id, task_number, question_number) REFERENCES questions (project_id, task_number, number) ON DELETE CASCADE
 );
