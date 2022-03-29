@@ -18,16 +18,17 @@ import (
 
 func main() {
 	// TODO: Set all routes here, so that auth middleware does not have to be given through
-	r := gin.Default()
+	config.InitConfigFile()
 
-	gin.SetMode(viper.Get("MODE").(string))
+	mode := viper.Get("MODE").(string)
+	gin.SetMode(mode)
+
+	r := gin.Default()
 
 	err := r.SetTrustedProxies(nil)
 	if err != nil {
 		panic(err)
 	}
-
-	config.InitConfigFile()
 	r.Use(config.InitCORSMiddleware())
 
 	db := config.InitPostgresDB()
