@@ -16,9 +16,8 @@ type Project struct {
 }
 
 type CachedProjectsSqlData struct {
-	ProjectID       int32  `gorm:"primary_key;AUTO_INCREMENT;column:id;type:INT4;" json:"id"`
-	Data            []byte `gorm:"column:data;type:bytea;" json:"data"`
-	DocumentationMd string `gorm:"column:documentation_md;type:TEXT;" json:"documentation_md"`
+	ProjectID int32  `gorm:"primary_key;AUTO_INCREMENT;column:project_id;type:INT4;" json:"id"`
+	Data      []byte `gorm:"column:data;type:bytea;" json:"data"`
 }
 
 type ProjectListing struct {

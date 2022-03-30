@@ -17,7 +17,7 @@ func ConfigureHandler(r *gin.Engine, authMiddleware *authM.AuthMiddleware, useca
 
 	group := r.Group("/database-templates", authMiddleware.JwtHandler, authMiddleware.IsTeacherValidator)
 
-	// TODO: implement other methods, or let it be
+	// TODO: implement other methods
 	group.GET("/", handler.getDatabaseTemplates)
 	//group.POST("/", handler.newDatabase)
 	group.GET("/:id", handler.getDatabase)
