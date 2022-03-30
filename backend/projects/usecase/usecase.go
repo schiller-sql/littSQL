@@ -2,17 +2,19 @@ package usecase
 
 import (
 	"fmt"
+	sqlExecutor "github.com/schiller-sql/littSQL/sql_executor"
 
 	"github.com/schiller-sql/littSQL/model"
 	"github.com/schiller-sql/littSQL/projects"
 )
 
 type eUsecase struct {
-	projectsRepo projects.Repository
+	projectsRepo    projects.Repository
+	sqlExecutorRepo sqlExecutor.Repository
 }
 
-func NewUsecase(projectsRepo projects.Repository) projects.Usecase {
-	return &eUsecase{projectsRepo}
+func NewUsecase(projectsRepo projects.Repository, sqlExecutorRepo sqlExecutor.Repository) projects.Usecase {
+	return &eUsecase{projectsRepo, sqlExecutorRepo}
 }
 
 func (u eUsecase) GetProjectsOfTeacher(teacherID int32) (*[]model.ProjectListing, error) {
@@ -55,7 +57,7 @@ func (u eUsecase) EditProject(
 	if project.OwnerID == nil || *project.OwnerID != teacherID {
 		return fmt.Errorf("not authorized to edit this project")
 	}
-	return u.projectsRepo.SaveEditedProject(
+	err = u.projectsRepo.SaveEditedProject(
 		&model.Project{
 			ID:              projectID,
 			OwnerID:         &teacherID,
@@ -65,6 +67,20 @@ func (u eUsecase) EditProject(
 			Tasks:           tasks,
 		},
 	)
+	if err != nil {
+		return err
+	}
+	var sqlData *[]byte
+	if sql != nil {
+		if sqlData, err = u.sqlExecutorRepo.ExecuteSQLite(*sql); err != nil {
+			return err
+		}
+	}
+	err = u.projectsRepo.SaveEditedProjectSqlData(projectID, sqlData)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (u eUsecase) DeleteProject(teacherID int32, projectID int32) error {
