@@ -4,20 +4,9 @@ CREATE SCHEMA utils;
 
 CREATE OR REPLACE FUNCTION utils.random_string(length INTEGER) RETURNS CHAR AS
 $$
-DECLARE
-    chars  TEXT[] := '{0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z}';
-    result TEXT   := '';
-BEGIN
-    IF length <= 0 THEN
-        RAISE EXCEPTION 'Given length cannot be less than 0';
-    END IF;
-    FOR i IN 1..length
-        LOOP
-            result := result || chars[1 + RANDOM() * (ARRAY_LENGTH(chars, 1) - 1)];
-        END LOOP;
-    RETURN result;
-END;
-$$ LANGUAGE plpgsql;
+    SELECT ARRAY(SELECT SUBSTR('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ', ((RANDOM() * (36 - 1) + 1)::INTEGER), 1)
+        FROM GENERATE_SERIES(1, length)), '')
+$$ LANGUAGE sql;
 
 
 DROP SCHEMA IF EXISTS public CASCADE;
