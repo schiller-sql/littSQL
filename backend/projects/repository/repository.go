@@ -135,21 +135,6 @@ func (e eRepository) SaveEditedProject(editedProject *model.Project) error {
 	return err
 }
 
-func (e eRepository) SaveEditedProjectSqlData(projectID int32, data *[]byte) error {
-	return e.DB.Transaction(func(tx *gorm.DB) error {
-		if err := tx.Where("project_id = ?", projectID).Delete(&model.CachedProjectsSqlData{}).Error; err != nil {
-			return err
-		}
-		if data == nil {
-			return nil
-		}
-		if err := tx.Create(&model.CachedProjectsSqlData{ProjectID: projectID, Data: *data}).Error; err != nil {
-			return err
-		}
-		return nil
-	})
-}
-
 func (e eRepository) DeleteProject(projectID int32) error {
 	return e.DB.Delete(&model.Project{}, projectID).Error
 }

@@ -27,7 +27,6 @@ CREATE TABLE database_templates -- represents a sample database that can be used
     sql         TEXT    NOT NULL
 );
 
--- TODO: add support for PDF, for example through attributes: documentation bytea, documentation_type (md/pdf)
 CREATE TABLE projects -- represents a template for a project a teacher can use as an assignment
 (
     id               INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -37,7 +36,6 @@ CREATE TABLE projects -- represents a template for a project a teacher can use a
     owner_id         INTEGER REFERENCES teachers
 );
 
--- TODO: possibly also cache the md as html (would conflict with todo in like 41 however
 CREATE TABLE cached_projects_sql_data
 (
     project_id INTEGER PRIMARY KEY REFERENCES projects,

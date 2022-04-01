@@ -13,11 +13,13 @@ import (
 	projectsRouting "github.com/schiller-sql/littSQL/projects/delivery/routing"
 	projectsR "github.com/schiller-sql/littSQL/projects/repository"
 	projectsU "github.com/schiller-sql/littSQL/projects/usecase"
-	sqlExecutorR "github.com/schiller-sql/littSQL/sql_executor/repository"
 	"github.com/spf13/viper"
 )
 
-func getRouter() *gin.Engine {
+func main() {
+	// TODO: Set all routes here, so that auth middleware does not have to be given through
+	config.InitConfigFile()
+
 	mode := viper.Get("MODE").(string)
 	gin.SetMode(mode)
 
@@ -28,33 +30,24 @@ func getRouter() *gin.Engine {
 		panic(err)
 	}
 	r.Use(config.InitCORSMiddleware())
-	return r
-}
-
-func main() {
-	// TODO: Set all routes here, so that auth middleware does not have to be given through
-	config.InitConfigFile()
-
-	r := getRouter()
 
 	db := config.InitPostgresDB()
 
 	authRepo := authR.NewRepository(db, viper.Get("BCRYPT_COST").(int))
-	databaseTemplatesRepo := databaseTemplatesR.NewRepository(db)
-	projectsRepo := projectsR.NewRepository(db)
-	sqlExecutorRepo := sqlExecutorR.NewRepository()
-
 	authUsecase := authU.NewUsecase(authRepo)
 	authMiddleware := authM.NewAuthMiddleware(authUsecase)
 	authRouting.ConfigureHandler(r, authMiddleware, authUsecase)
 
+	databaseTemplatesRepo := databaseTemplatesR.NewRepository(db)
 	databaseTemplatesUsecase := databaseTemplatesU.NewUsecase(databaseTemplatesRepo)
 	databaseTemplatesRouting.ConfigureHandler(r, authMiddleware, databaseTemplatesUsecase)
 
-	projectsUsecase := projectsU.NewUsecase(projectsRepo, sqlExecutorRepo)
+	projectsRepo := projectsR.NewRepository(db)
+	projectsUsecase := projectsU.NewUsecase(projectsRepo)
 	projectsRouting.ConfigureHandler(r, authMiddleware, projectsUsecase)
 
-	if err := r.Run(":" + (viper.Get("PORT").(string))); err != nil {
+	err = r.Run(":" + (viper.Get("PORT").(string)))
+	if err != nil {
 		panic(err)
 	}
 }

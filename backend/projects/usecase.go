@@ -5,6 +5,7 @@ import (
 )
 
 type Usecase interface {
+	// TODO: Sort by: is not public; name
 	GetProjectsOfTeacher(teacherID int32) (*[]model.ProjectListing, error)
 	NewProject(teacherID int32, name string) (*model.Project, error)
 	// TODO: Maybe add something similar in the future:
