@@ -4,6 +4,16 @@
   import TeacherRouter from './routes/teacher/Router.svelte'
   import ParticipantRouter from './routes/participant/Router.svelte'
   import { onDestroy } from 'svelte'
+  import {
+    Header,
+    HeaderNav,
+    HeaderNavItem,
+    HeaderNavMenu,
+    HeaderPanelLinks,
+    HeaderPanelLink,
+    HeaderPanelDivider,
+    Tabs,
+  } from 'carbon-components-svelte'
 
   let firstVal = true
   const unsubscribe = authStore.subscribe((_) => {
@@ -16,6 +26,12 @@
 
   onDestroy(unsubscribe)
 </script>
+
+<Header company="littSQL">
+  <HeaderPanelLinks>
+    <HeaderPanelLink />
+  </HeaderPanelLinks>
+</Header>
 
 <main>
   {#if $authStore == null}

@@ -29,11 +29,9 @@
     requestError = undefined
     confirmedPasswordInvalid = false
 
-    if (!isLogin) {
-      if (password !== confirmPassword) {
-        confirmedPasswordInvalid = true
-        return
-      }
+    if (!isLogin && password !== confirmPassword) {
+      confirmedPasswordInvalid = true
+      return
     }
     const url = `http://localhost:8080/auth/${isLogin ? 'login' : 'signup'}`
     const data = { email, password }
