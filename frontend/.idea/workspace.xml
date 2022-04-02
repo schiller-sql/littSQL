@@ -1,30 +1,13 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list
-      default="true"
-      id="37474918-9b81-4f75-a54d-8d021fa48a85"
-      name="Changes"
-      comment="TeacherAuth.svelte"
-    >
-      <change
-        beforePath="$PROJECT_DIR$/../database/.idea/workspace.xml"
-        beforeDir="false"
-        afterPath="$PROJECT_DIR$/../database/.idea/workspace.xml"
-        afterDir="false"
-      />
-      <change
-        beforePath="$PROJECT_DIR$/.idea/workspace.xml"
-        beforeDir="false"
-        afterPath="$PROJECT_DIR$/.idea/workspace.xml"
-        afterDir="false"
-      />
-      <change
-        beforePath="$PROJECT_DIR$/package-lock.json"
-        beforeDir="false"
-        afterPath="$PROJECT_DIR$/package-lock.json"
-        afterDir="false"
-      />
+    <list default="true" id="37474918-9b81-4f75-a54d-8d021fa48a85" name="Changes" comment="TeacherAuth.svelte">
+      <change beforePath="$PROJECT_DIR$/../database/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../database/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../database/.idea/dataSources/3d7d348a-e28b-4ada-9ebf-18bb16e2311b.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../database/.idea/dataSources/3d7d348a-e28b-4ada-9ebf-18bb16e2311b.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/auth/StudentAuth.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/auth/StudentAuth.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/auth/TeacherAuth.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/auth/TeacherAuth.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,14 +47,8 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property
-      name="settings.editor.selected.configurable"
-      value="preferences.fileTypes"
-    />
-    <property
-      name="ts.external.directory.path"
-      value="$PROJECT_DIR$/node_modules/typescript/lib"
-    />
+    <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
+    <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -82,22 +59,10 @@
       <recent name="$PROJECT_DIR$/static/img" />
     </key>
   </component>
-  <component
-    name="SpellCheckerSettings"
-    RuntimeDictionaries="0"
-    Folders="0"
-    CustomDictionaries="0"
-    DefaultDictionary="application-level"
-    UseSingleDictionary="true"
-    transferred="true"
-  />
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist
-        id="37474918-9b81-4f75-a54d-8d021fa48a85"
-        name="Changes"
-        comment=""
-      />
+      <changelist id="37474918-9b81-4f75-a54d-8d021fa48a85" name="Changes" comment="" />
       <created>1646817182270</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -107,6 +72,7 @@
       <workItem from="1647432161292" duration="1083000" />
       <workItem from="1647461680505" duration="6943000" />
       <workItem from="1647525936799" duration="934000" />
+      <workItem from="1648916444715" duration="1375000" />
     </task>
     <task id="LOCAL-00001" summary="TeacherAuth.svelte">
       <created>1647468238836</created>

@@ -8,7 +8,7 @@
     InlineNotification,
   } from 'carbon-components-svelte'
   import { replace } from 'svelte-spa-router'
-  import { authStore, UserType } from '../../auth'
+  import {authStore, DEFAULT_URL, UserType} from '../../auth'
   export let isLogin
   let email = ''
   let password = ''
@@ -33,7 +33,7 @@
       confirmedPasswordInvalid = true
       return
     }
-    const url = `http://localhost:8080/auth/${isLogin ? 'login' : 'signup'}`
+    const url = `${DEFAULT_URL}auth/${isLogin ? 'login' : 'signup'}`
     const data = { email, password }
     const res = await fetch(url, {
       method: 'POST',
