@@ -6,13 +6,8 @@
   import { onDestroy } from 'svelte'
   import {
     Header,
-    HeaderNav,
-    HeaderNavItem,
-    HeaderNavMenu,
     HeaderPanelLinks,
-    HeaderPanelLink,
-    HeaderPanelDivider,
-    Tabs,
+    HeaderPanelLink, Content,
   } from 'carbon-components-svelte'
 
   let firstVal = true
@@ -33,6 +28,7 @@
   </HeaderPanelLinks>
 </Header>
 
+<Content>
 <main>
   {#if $authStore == null}
     <AuthRouter />
@@ -42,3 +38,4 @@
     <ParticipantRouter />
   {/if}
 </main>
+</Content>

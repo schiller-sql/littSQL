@@ -4,10 +4,7 @@
     <list default="true" id="37474918-9b81-4f75-a54d-8d021fa48a85" name="Changes" comment="TeacherAuth.svelte">
       <change beforePath="$PROJECT_DIR$/../database/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../database/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../database/.idea/dataSources/3d7d348a-e28b-4ada-9ebf-18bb16e2311b.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../database/.idea/dataSources/3d7d348a-e28b-4ada-9ebf-18bb16e2311b.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/auth.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/auth/StudentAuth.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/auth/StudentAuth.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/auth/TeacherAuth.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/auth/TeacherAuth.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LoggedInRouter.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/LoggedInRouter.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +69,7 @@
       <workItem from="1647432161292" duration="1083000" />
       <workItem from="1647461680505" duration="6943000" />
       <workItem from="1647525936799" duration="934000" />
-      <workItem from="1648916444715" duration="1375000" />
+      <workItem from="1648916444715" duration="1635000" />
     </task>
     <task id="LOCAL-00001" summary="TeacherAuth.svelte">
       <created>1647468238836</created>
