@@ -33,7 +33,7 @@
       }
     } else {
       const json = await res.json()
-      authStore.set({ jwt: json['token'], type: UserType.student })
+      authStore.set({ token: json['token'], type: UserType.student })
     }
   }
 </script>

@@ -6,7 +6,7 @@ export enum UserType {
 }
 
 export interface User {
-  jwt: string;
+  token: string;
   type: UserType;
 }
 

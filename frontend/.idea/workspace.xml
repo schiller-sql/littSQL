@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="37474918-9b81-4f75-a54d-8d021fa48a85" name="Changes" comment="Router update (Ole fix)">
+    <list default="true" id="37474918-9b81-4f75-a54d-8d021fa48a85" name="Changes" comment="add todo">
       <change beforePath="$PROJECT_DIR$/../database/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../database/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../database/.idea/dataSources/3d7d348a-e28b-4ada-9ebf-18bb16e2311b.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../database/.idea/dataSources/3d7d348a-e28b-4ada-9ebf-18bb16e2311b.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LoggedInRouter.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/LoggedInRouter.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/auth/StudentAuth.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/auth/StudentAuth.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/auth/TeacherAuth.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/auth/TeacherAuth.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/teacher/Projects.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/teacher/Projects.svelte" afterDir="false" />
     </list>
+    <list id="2c6a2a75-ef8a-45eb-b87a-a74e4d91a32b" name="Changes by tonyborchert" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -41,6 +46,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -69,7 +75,7 @@
       <workItem from="1647432161292" duration="1083000" />
       <workItem from="1647461680505" duration="6943000" />
       <workItem from="1647525936799" duration="934000" />
-      <workItem from="1648916444715" duration="1981000" />
+      <workItem from="1648916444715" duration="4723000" />
     </task>
     <task id="LOCAL-00001" summary="TeacherAuth.svelte">
       <created>1647468238836</created>
@@ -85,7 +91,14 @@
       <option name="project" value="LOCAL" />
       <updated>1648919607657</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="add todo">
+      <created>1648919998638</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1648919998638</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -105,7 +118,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="TeacherAuth.svelte" />
     <MESSAGE value="Router update (Ole fix)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Router update (Ole fix)" />
+    <MESSAGE value="add todo" />
+    <option name="LAST_COMMIT_MESSAGE" value="add todo" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
