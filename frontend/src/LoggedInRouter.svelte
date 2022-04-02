@@ -22,20 +22,20 @@
   onDestroy(unsubscribe)
 </script>
 
-<Header company="littSQL">
+<Header company="littSQL"> <!--TODO: set as link o homepage-->
   <HeaderPanelLinks>
     <HeaderPanelLink />
   </HeaderPanelLinks>
 </Header>
 
 <Content>
-<main>
-  {#if $authStore == null}
-    <AuthRouter />
-  {:else if $authStore.type === UserType.teacher}
-    <TeacherRouter />
-  {:else}
-    <ParticipantRouter />
-  {/if}
-</main>
+  <main>
+    {#if $authStore == null}
+      <AuthRouter />
+    {:else if $authStore.type === UserType.teacher}
+      <TeacherRouter />
+    {:else}
+      <ParticipantRouter />
+    {/if}
+  </main>
 </Content>
