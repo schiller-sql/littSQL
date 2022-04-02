@@ -29,7 +29,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	r.Use(config.InitCORSMiddleware())
+	//r.Use(config.InitCORSMiddleware())
 
 	db := config.InitPostgresDB()
 
