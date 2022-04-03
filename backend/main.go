@@ -14,39 +14,48 @@ import (
 	projectsR "github.com/schiller-sql/littSQL/projects/repository"
 	projectsU "github.com/schiller-sql/littSQL/projects/usecase"
 	"github.com/spf13/viper"
+	"net/http"
 )
 
-func main() {
-	// TODO: Set all routes here, so that auth middleware does not have to be given through
-	config.InitConfigFile()
-
+func getRouter() *gin.Engine {
 	mode := viper.Get("MODE").(string)
 	gin.SetMode(mode)
 
-	r := gin.Default()
+	router := gin.Default()
 
-	err := r.SetTrustedProxies(nil)
+	// setup static files for svelte
+	router.NoRoute(gin.WrapH(http.FileServer(gin.Dir("../frontend/public", false))))
+
+	err := router.SetTrustedProxies(nil)
 	if err != nil {
 		panic(err)
 	}
-	r.Use(config.InitCORSMiddleware())
+	return router
+}
 
+func main() {
+	config.InitConfigFile()
 	db := config.InitPostgresDB()
 
-	authRepo := authR.NewRepository(db, viper.Get("BCRYPT_COST").(int))
-	authUsecase := authU.NewUsecase(authRepo)
-	authMiddleware := authM.NewAuthMiddleware(authUsecase)
-	authRouting.ConfigureHandler(r, authMiddleware, authUsecase)
+	r := getRouter()
+	{
+		g := r.Group("/api")
 
-	databaseTemplatesRepo := databaseTemplatesR.NewRepository(db)
-	databaseTemplatesUsecase := databaseTemplatesU.NewUsecase(databaseTemplatesRepo)
-	databaseTemplatesRouting.ConfigureHandler(r, authMiddleware, databaseTemplatesUsecase)
+		authRepo := authR.NewRepository(db, viper.Get("BCRYPT_COST").(int))
+		authUsecase := authU.NewUsecase(authRepo)
+		authMiddleware := authM.NewAuthMiddleware(authUsecase)
+		authRouting.ConfigureHandler(g, authMiddleware, authUsecase)
 
-	projectsRepo := projectsR.NewRepository(db)
-	projectsUsecase := projectsU.NewUsecase(projectsRepo)
-	projectsRouting.ConfigureHandler(r, authMiddleware, projectsUsecase)
+		databaseTemplatesRepo := databaseTemplatesR.NewRepository(db)
+		databaseTemplatesUsecase := databaseTemplatesU.NewUsecase(databaseTemplatesRepo)
+		databaseTemplatesRouting.ConfigureHandler(g, authMiddleware, databaseTemplatesUsecase)
 
-	err = r.Run(":" + (viper.Get("PORT").(string)))
+		projectsRepo := projectsR.NewRepository(db)
+		projectsUsecase := projectsU.NewUsecase(projectsRepo)
+		projectsRouting.ConfigureHandler(g, authMiddleware, projectsUsecase)
+	}
+
+	err := r.Run(":" + (viper.Get("PORT").(string)))
 	if err != nil {
 		panic(err)
 	}

@@ -12,7 +12,7 @@ type databaseTemplatesHandler struct {
 	usecase databaseTemplates.Usecase
 }
 
-func ConfigureHandler(r *gin.Engine, authMiddleware *authM.AuthMiddleware, usecase databaseTemplates.Usecase) {
+func ConfigureHandler(r *gin.RouterGroup, authMiddleware *authM.AuthMiddleware, usecase databaseTemplates.Usecase) {
 	handler := databaseTemplatesHandler{usecase}
 
 	group := r.Group("/database-templates", authMiddleware.JwtHandler, authMiddleware.IsTeacherValidator)

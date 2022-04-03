@@ -15,8 +15,6 @@ func InitConfigFile() {
 	viper.SetDefault("PG_USER", "")
 	viper.SetDefault("PG_PASSWORD", "postgres")
 
-	viper.SetDefault("CORS_ORIGIN", "http://localhost:5555")
-
 	viper.SetDefault("JWT_SECRET", "1")
 	viper.SetDefault("JWT_SIGN_ALG", "HS256")
 

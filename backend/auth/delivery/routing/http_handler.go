@@ -14,7 +14,7 @@ type authHandler struct {
 	usecase auth.Usecase
 }
 
-func ConfigureHandler(r *gin.Engine, authMiddleware *authM.AuthMiddleware, usecase auth.Usecase) {
+func ConfigureHandler(r *gin.RouterGroup, authMiddleware *authM.AuthMiddleware, usecase auth.Usecase) {
 	handler := authHandler{usecase}
 
 	group := r.Group("/auth")

@@ -13,7 +13,7 @@ type projectsHandler struct {
 	usecase projects.Usecase
 }
 
-func ConfigureHandler(r *gin.Engine, authMiddleware *authM.AuthMiddleware, usecase projects.Usecase) {
+func ConfigureHandler(r *gin.RouterGroup, authMiddleware *authM.AuthMiddleware, usecase projects.Usecase) {
 	handler := projectsHandler{usecase}
 
 	group := r.Group("/projects", authMiddleware.JwtHandler, authMiddleware.IsTeacherValidator)

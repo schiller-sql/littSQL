@@ -4,7 +4,7 @@
   "scripts": {
     "build": "npx rollup -c",
     "dev": "npx rollup -c -w",
-    "start": "npx serve -n -l 5555 public",
+    "start": "npx serve -n -l 8081 public",
     "validate": "svelte-check"
   },
   "devDependencies": {
