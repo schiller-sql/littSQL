@@ -27,6 +27,7 @@
     "typescript": "^4.6.2"
   },
   "dependencies": {
+    "carbon-icons-svelte": "^10.45.1",
     "newman": "^5.3.2"
   }
 }
