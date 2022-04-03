@@ -1,0 +1,10 @@
+:root {
+  --global-column-gap: 16px;
+  --global-row-gap: 16px;
+}
+
+.grid-container__tile {
+  display: grid;
+  grid-template-columns: auto auto auto; //TODO: fix this shit
+  column-gap: var(--global-column-gap);
+}

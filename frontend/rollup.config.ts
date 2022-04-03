@@ -8,6 +8,9 @@ import typescript from '@rollup/plugin-typescript'
 import css from 'rollup-plugin-css-only'
 import { optimizeImports } from 'carbon-preprocess-svelte'
 
+import scss from "rollup-plugin-scss";
+
+//TODO: overthink this entire rollup because there is probably a smarter way
 const production = !process.env.ROLLUP_WATCH
 
 function serve() {
@@ -34,7 +37,7 @@ function serve() {
 export default {
   input: 'src/main.ts',
   output: {
-    sourcemap: true,
+    //sourcemap: true,
     format: 'iife',
     name: 'app',
     file: 'public/build/bundle.js',
@@ -53,6 +56,12 @@ export default {
     // we'll extract any component CSS out into
     // a separate file - better for performance
     css({ output: 'bundle.css' }),
+    scss({
+      output: "./build/css/style.css",
+      failOnError: true,
+      include: ["/**/*.css", "/**/*.scss", "/**/*.sass"],
+      //runtime: require("sass"),
+    }),
 
     // If you have external dependencies installed from
     // npm, you'll most likely need these plugins. In

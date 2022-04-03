@@ -2,17 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="37474918-9b81-4f75-a54d-8d021fa48a85" name="Changes" comment="load and show projects&#10;TODO: fix Übersichtlihkeit">
-      <change afterPath="$PROJECT_DIR$/src/components/ProjectTile.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/types/Project.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/containers.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/font.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/reset.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../database/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../database/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../database/.idea/dataSources/3d7d348a-e28b-4ada-9ebf-18bb16e2311b.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../database/.idea/dataSources/3d7d348a-e28b-4ada-9ebf-18bb16e2311b.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/teacher/Projects.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/teacher/Projects.svelte" afterDir="false" />
-    </list>
-    <list id="dc629f05-5e03-45f2-9446-1dd7d6c338c5" name="Changes by tonyborchert" comment="Changes by tonyborchert">
-      <change beforePath="$PROJECT_DIR$/src/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rollup.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/rollup.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ProjectTile.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ProjectTile.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/colors.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +28,7 @@
         <option value="JavaScript File" />
         <option value="ProjectTile" />
         <option value="TypeScript File" />
+        <option value="SCSS File" />
       </list>
     </option>
   </component>
@@ -37,6 +39,14 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -50,13 +60,14 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="TODO_SCOPE" value="All Places" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="list.type.of.created.stylesheet" value="SCSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
+    <property name="settings.editor.selected.configurable" value="watcher.settings" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -83,7 +94,7 @@
       <workItem from="1647525936799" duration="934000" />
       <workItem from="1648916444715" duration="5427000" />
       <workItem from="1648985268037" duration="1042000" />
-      <workItem from="1648986568784" duration="7053000" />
+      <workItem from="1648986568784" duration="10354000" />
     </task>
     <task id="LOCAL-00001" summary="TeacherAuth.svelte">
       <created>1647468238836</created>
@@ -113,7 +124,21 @@
       <option name="project" value="LOCAL" />
       <updated>1648923355246</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="load and show projects&#10;TODO: fix Übersichtlihkeit">
+      <created>1648993784341</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1648993784341</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Add method">
+      <created>1648993830833</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1648993830833</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -136,7 +161,8 @@
     <MESSAGE value="add todo" />
     <MESSAGE value="add request" />
     <MESSAGE value="load and show projects&#10;TODO: fix Übersichtlihkeit" />
-    <option name="LAST_COMMIT_MESSAGE" value="load and show projects&#10;TODO: fix Übersichtlihkeit" />
+    <MESSAGE value="Add method" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add method" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
