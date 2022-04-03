@@ -10,7 +10,6 @@ export interface User {
   type: UserType;
 }
 
-export const DEFAULT_URL = 'http://localhost:8080/';
-
+export const DEFAULT_URL = "api/";
 
 export const authStore: Writable<User | null> = writable();
