@@ -7,6 +7,9 @@ import (
 	authR "github.com/schiller-sql/littSQL/auth/repository"
 	authU "github.com/schiller-sql/littSQL/auth/usecase"
 	"github.com/schiller-sql/littSQL/config"
+	coursesRouting "github.com/schiller-sql/littSQL/courses/delivery/routing"
+	coursesR "github.com/schiller-sql/littSQL/courses/repository"
+	coursesU "github.com/schiller-sql/littSQL/courses/usecase"
 	databaseTemplatesRouting "github.com/schiller-sql/littSQL/database_templates/delivery/routing"
 	databaseTemplatesR "github.com/schiller-sql/littSQL/database_templates/repository"
 	databaseTemplatesU "github.com/schiller-sql/littSQL/database_templates/usecase"
@@ -53,6 +56,10 @@ func main() {
 		projectsRepo := projectsR.NewRepository(db)
 		projectsUsecase := projectsU.NewUsecase(projectsRepo)
 		projectsRouting.ConfigureHandler(g, authMiddleware, projectsUsecase)
+
+		coursesRepo := coursesR.NewRepository(db)
+		coursesUsecase := coursesU.NewUsecase(coursesRepo)
+		coursesRouting.ConfigureHandler(g, authMiddleware, coursesUsecase)
 	}
 
 	err := r.Run(":" + (viper.Get("PORT").(string)))

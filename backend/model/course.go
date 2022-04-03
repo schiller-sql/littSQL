@@ -8,3 +8,8 @@ type Course struct {
 	//[ 2] name                                           VARCHAR              null: false  primary: false  isArray: false  auto: false  col: VARCHAR         len: -1      default: []
 	Name string `gorm:"column:name;type:VARCHAR;" json:"name"`
 }
+
+type CourseListing struct {
+	ID   int32  `json:"id"`
+	Name string `json:"name"`
+}
