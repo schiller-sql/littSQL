@@ -13,3 +13,10 @@ export interface User {
 export const DEFAULT_URL = "api/";
 
 export const authStore: Writable<User | null> = writable();
+
+export function fetchWithToken(url: string, method: string, token: string) {
+  return fetch(DEFAULT_URL + url, {
+    method: method,
+    headers: {Authorization: `Bearer ${token}`},
+  }).then((res) => res.json())
+}
