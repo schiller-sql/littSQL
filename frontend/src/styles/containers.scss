@@ -3,8 +3,19 @@
   --global-row-gap: 16px;
 }
 
-.grid-container__tile {
+/*%grid-container {
   display: grid;
-  grid-template-columns: auto auto auto; //TODO: fix this shit
-  column-gap: var(--global-column-gap);
+}*/
+
+.grid-container__tile {
+  //@extend %grid-container;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-template-areas: "area"; //TODO: ...
+  //column-gap: var(--global-column-gap);
 }
+
+/*.grid-container__tabview {
+  @extend .grid-container__tile;
+  //...
+}*/

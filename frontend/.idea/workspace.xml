@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="37474918-9b81-4f75-a54d-8d021fa48a85" name="Changes" comment="load and show projects&#10;TODO: fix Übersichtlihkeit">
-      <change afterPath="$PROJECT_DIR$/src/styles/containers.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/styles/font.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/styles/reset.scss" afterDir="false" />
+    <list default="true" id="37474918-9b81-4f75-a54d-8d021fa48a85" name="Changes" comment="Import SCSS as well as create SCSS classes">
       <change beforePath="$PROJECT_DIR$/../database/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../database/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../database/.idea/dataSources/3d7d348a-e28b-4ada-9ebf-18bb16e2311b.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../database/.idea/dataSources/3d7d348a-e28b-4ada-9ebf-18bb16e2311b.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rollup.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/rollup.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/build/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/ProjectTile.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ProjectTile.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/colors.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/containers.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/containers.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +88,7 @@
       <workItem from="1647525936799" duration="934000" />
       <workItem from="1648916444715" duration="5427000" />
       <workItem from="1648985268037" duration="1042000" />
-      <workItem from="1648986568784" duration="10354000" />
+      <workItem from="1648986568784" duration="13570000" />
     </task>
     <task id="LOCAL-00001" summary="TeacherAuth.svelte">
       <created>1647468238836</created>
@@ -138,7 +132,14 @@
       <option name="project" value="LOCAL" />
       <updated>1648993830833</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Import SCSS as well as create SCSS classes">
+      <created>1649005720288</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1649005720288</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -162,7 +163,8 @@
     <MESSAGE value="add request" />
     <MESSAGE value="load and show projects&#10;TODO: fix Übersichtlihkeit" />
     <MESSAGE value="Add method" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add method" />
+    <MESSAGE value="Import SCSS as well as create SCSS classes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Import SCSS as well as create SCSS classes" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

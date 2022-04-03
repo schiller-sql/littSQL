@@ -18,14 +18,14 @@
     }
 </script>
 
-<Tile class="grid-container__tile">
+<Tile style="display: grid; grid-template-columns: auto auto auto"> <!--class="grid-container__tile"-->
     {project.name}
     {#if !project.is_public}
         <Link size="lg" on:click={openProject} icon={Edit}/>
     {:else}
         <Link size="lg" on:click={openProject} icon={View}/>
     {/if}
-    <OverflowMenu open flipped >
+    <OverflowMenu open flipped>
         {#if project.is_public}
             <OverflowMenuItem on:click={openProject} text="View project"/>
         {:else}
