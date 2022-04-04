@@ -42,7 +42,7 @@ func main() {
 	authRepo := authR.NewRepository(db, viper.Get("BCRYPT_COST").(int))
 	databaseTemplatesRepo := databaseTemplatesR.NewRepository(db)
 	projectsRepo := projectsR.NewRepository(db)
-	sqlExecutorRepo := sqlExecutorR.NewRepository()
+	sqlExecutorRepo := sqlExecutorR.NewRepository(viper.Get("SQLITE_DIR").(string))
 
 	authUsecase := authU.NewUsecase(authRepo)
 	authMiddleware := authM.NewAuthMiddleware(authUsecase)

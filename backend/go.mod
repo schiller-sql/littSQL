@@ -6,7 +6,6 @@ require (
 	github.com/appleboy/gin-jwt/v2 v2.8.0
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-gonic/gin v1.7.7
-	github.com/google/uuid v1.3.0
 	github.com/mattn/go-sqlite3 v1.14.12
 	github.com/spf13/viper v1.10.1
 	golang.org/x/crypto v0.0.0-20220214200702-86341886e292

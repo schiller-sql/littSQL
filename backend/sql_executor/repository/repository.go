@@ -4,24 +4,32 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"github.com/google/uuid"
 	"github.com/mattn/go-sqlite3"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/schiller-sql/littSQL/sql_executor"
-	"github.com/spf13/viper"
+	"io/ioutil"
 	"os"
 )
 
 type eRepository struct {
+	databasesDir string
 }
 
-func NewRepository() sqlExecutor.Repository {
-	return &eRepository{}
+func NewRepository(databasesDir string) sqlExecutor.Repository {
+	return &eRepository{databasesDir}
 }
 
 func (e eRepository) ExecuteSQLite(sqlString string) (*[]byte, error) {
-	filename := viper.Get("SQLITE_DIR").(string) + "/" + uuid.NewString()
-	db, err := sql.Open("sqlite3", "file:"+filename+"?cache=shared")
+	file, err := ioutil.TempFile(e.databasesDir, "*.sqlite3")
+	if err != nil {
+		panic(err)
+	}
+	err = file.Close()
+	if err != nil {
+		panic(err)
+	}
+	path := file.Name()
+	db, err := sql.Open("sqlite3", "file:"+path+"?cache=shared")
 	if err != nil {
 		panic(err)
 	}
@@ -37,7 +45,7 @@ func (e eRepository) ExecuteSQLite(sqlString string) (*[]byte, error) {
 		}
 		return nil, err
 	}
-	content, err := os.ReadFile(filename)
+	content, err := os.ReadFile(path)
 	if err != nil {
 		panic(err)
 	}
