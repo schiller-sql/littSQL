@@ -5,7 +5,7 @@
     Button,
     InlineNotification,
   } from 'carbon-components-svelte'
-  import {authStore, DEFAULT_URL, UserType} from '../../auth'
+  import { authStore, DEFAULT_URL, UserType } from '../../auth'
 
   let accessCode = ''
   $: disabled = accessCode.length != 6
@@ -16,7 +16,7 @@
   async function submit() {
     requestError = undefined
 
-    const url = DEFAULT_URL+'auth/login'
+    const url = DEFAULT_URL + 'auth/login'
     const data = { access_code: accessCode }
     const res = await fetch(url, {
       method: 'POST',

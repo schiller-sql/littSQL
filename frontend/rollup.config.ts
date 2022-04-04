@@ -8,7 +8,7 @@ import typescript from '@rollup/plugin-typescript'
 import css from 'rollup-plugin-css-only'
 import { optimizeImports } from 'carbon-preprocess-svelte'
 
-import scss from "rollup-plugin-scss";
+import scss from 'rollup-plugin-scss'
 
 //TODO: overthink this entire rollup because there is probably a smarter way
 const production = !process.env.ROLLUP_WATCH
@@ -57,9 +57,9 @@ export default {
     // a separate file - better for performance
     css({ output: 'bundle.css' }),
     scss({
-      output: "./build/css/style.css",
+      output: './build/css/style.css',
       failOnError: true,
-      include: ["/**/*.css", "/**/*.scss", "/**/*.sass"],
+      include: ['/**/*.css', '/**/*.scss', '/**/*.sass'],
       //runtime: require("sass"),
     }),
 

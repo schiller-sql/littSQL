@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/schiller-sql/littSQL/database_templates"
+	databaseTemplates "github.com/schiller-sql/littSQL/database_templates"
 	"github.com/schiller-sql/littSQL/model"
 	"gorm.io/gorm"
 )

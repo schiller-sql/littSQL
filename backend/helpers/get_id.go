@@ -1,9 +1,10 @@
 package helpers
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
+
+	"github.com/gin-gonic/gin"
 )
 
 func GetParamID(c *gin.Context) (int32, error) {

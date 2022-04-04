@@ -8,7 +8,7 @@
     InlineNotification,
   } from 'carbon-components-svelte'
   import { replace } from 'svelte-spa-router'
-  import {authStore, DEFAULT_URL, UserType} from '../../auth'
+  import { authStore, DEFAULT_URL, UserType } from '../../auth'
   export let isLogin
   let email = ''
   let password = ''
@@ -39,21 +39,21 @@
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
-    });
+    })
 
     if (!res.ok) {
-      const text = await res.text();
+      const text = await res.text()
       if (text.length === 0) {
-        requestError = res.statusText;
+        requestError = res.statusText
       } else {
-        requestError = JSON.parse(text).error;
+        requestError = JSON.parse(text).error
       }
     } else {
       if (isLogin) {
-        const json = await res.json();
-        authStore.set({ token: json['token'], type: UserType.teacher });
+        const json = await res.json()
+        authStore.set({ token: json['token'], type: UserType.teacher })
       } else {
-        replace('/teacher-login');
+        replace('/teacher-login')
       }
     }
   }

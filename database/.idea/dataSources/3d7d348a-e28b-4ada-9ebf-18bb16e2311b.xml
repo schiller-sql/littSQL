@@ -1,6 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <dataSource name="PostgreSQL - postgres@localhost">
-  <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.32">
+  <database-model
+    serializer="dbm"
+    dbms="POSTGRES"
+    family-id="POSTGRES"
+    format-version="4.32"
+  >
     <root id="1">
       <DateStyle>mdy</DateStyle>
       <IntrospectionStateNumber>1609</IntrospectionStateNumber>
@@ -4474,7 +4479,11 @@ text</Labels>
       <RefTableName>participants</RefTableName>
       <RefTableKind>table</RefTableKind>
     </foreign-key>
-    <foreign-key id="295" parent="273" name="answers_project_id_task_number_question_number_fkey">
+    <foreign-key
+      id="295"
+      parent="273"
+      name="answers_project_id_task_number_question_number_fkey"
+    >
       <ColNames>project_id
 task_number
 question_number</ColNames>
@@ -4940,7 +4949,11 @@ course_id</ColNames>
       <StateNumber>1590</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <foreign-key id="349" parent="279" name="questions_project_id_task_number_fkey">
+    <foreign-key
+      id="349"
+      parent="279"
+      name="questions_project_id_task_number_fkey"
+    >
       <ColNames>project_id
 task_number</ColNames>
       <NameSurrogate>1</NameSurrogate>

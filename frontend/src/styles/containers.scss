@@ -11,7 +11,7 @@
   //@extend %grid-container;
   display: grid;
   grid-template-columns: auto auto auto;
-  grid-template-areas: "area"; //TODO: ...
+  grid-template-areas: 'area'; //TODO: ...
   //column-gap: var(--global-column-gap);
 }
 

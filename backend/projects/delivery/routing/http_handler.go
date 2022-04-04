@@ -1,12 +1,13 @@
 package routing
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	authM "github.com/schiller-sql/littSQL/auth/delivery/middleware"
 	"github.com/schiller-sql/littSQL/helpers"
 	"github.com/schiller-sql/littSQL/model"
 	"github.com/schiller-sql/littSQL/projects"
-	"net/http"
 )
 
 type projectsHandler struct {

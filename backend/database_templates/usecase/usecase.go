@@ -3,7 +3,7 @@ package usecase
 import (
 	"fmt"
 
-	"github.com/schiller-sql/littSQL/database_templates"
+	databaseTemplates "github.com/schiller-sql/littSQL/database_templates"
 	"github.com/schiller-sql/littSQL/model"
 )
 

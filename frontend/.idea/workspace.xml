@@ -1,13 +1,48 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="37474918-9b81-4f75-a54d-8d021fa48a85" name="Changes" comment="Import SCSS as well as create SCSS classes">
-      <change beforePath="$PROJECT_DIR$/../database/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../database/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../database/.idea/dataSources/3d7d348a-e28b-4ada-9ebf-18bb16e2311b.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../database/.idea/dataSources/3d7d348a-e28b-4ada-9ebf-18bb16e2311b.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/build/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/ProjectTile.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ProjectTile.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/containers.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/containers.scss" afterDir="false" />
+    <list
+      default="true"
+      id="37474918-9b81-4f75-a54d-8d021fa48a85"
+      name="Changes"
+      comment="Import SCSS as well as create SCSS classes"
+    >
+      <change
+        beforePath="$PROJECT_DIR$/../database/.idea/dataSources.local.xml"
+        beforeDir="false"
+        afterPath="$PROJECT_DIR$/../database/.idea/dataSources.local.xml"
+        afterDir="false"
+      />
+      <change
+        beforePath="$PROJECT_DIR$/../database/.idea/dataSources/3d7d348a-e28b-4ada-9ebf-18bb16e2311b.xml"
+        beforeDir="false"
+        afterPath="$PROJECT_DIR$/../database/.idea/dataSources/3d7d348a-e28b-4ada-9ebf-18bb16e2311b.xml"
+        afterDir="false"
+      />
+      <change
+        beforePath="$PROJECT_DIR$/.idea/workspace.xml"
+        beforeDir="false"
+        afterPath="$PROJECT_DIR$/.idea/workspace.xml"
+        afterDir="false"
+      />
+      <change
+        beforePath="$PROJECT_DIR$/build/css/style.css"
+        beforeDir="false"
+        afterPath="$PROJECT_DIR$/build/css/style.css"
+        afterDir="false"
+      />
+      <change
+        beforePath="$PROJECT_DIR$/src/components/ProjectTile.svelte"
+        beforeDir="false"
+        afterPath="$PROJECT_DIR$/src/components/ProjectTile.svelte"
+        afterDir="false"
+      />
+      <change
+        beforePath="$PROJECT_DIR$/src/styles/containers.scss"
+        beforeDir="false"
+        afterPath="$PROJECT_DIR$/src/styles/containers.scss"
+        afterDir="false"
+      />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,9 +95,18 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="SCSS" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="watcher.settings" />
-    <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
+    <property
+      name="run.code.analysis.last.selected.profile"
+      value="pProject Default"
+    />
+    <property
+      name="settings.editor.selected.configurable"
+      value="watcher.settings"
+    />
+    <property
+      name="ts.external.directory.path"
+      value="$PROJECT_DIR$/node_modules/typescript/lib"
+    />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -73,10 +117,22 @@
       <recent name="$PROJECT_DIR$/static/img" />
     </key>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component
+    name="SpellCheckerSettings"
+    RuntimeDictionaries="0"
+    Folders="0"
+    CustomDictionaries="0"
+    DefaultDictionary="application-level"
+    UseSingleDictionary="true"
+    transferred="true"
+  />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="37474918-9b81-4f75-a54d-8d021fa48a85" name="Changes" comment="" />
+      <changelist
+        id="37474918-9b81-4f75-a54d-8d021fa48a85"
+        name="Changes"
+        comment=""
+      />
       <created>1646817182270</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -118,7 +174,10 @@
       <option name="project" value="LOCAL" />
       <updated>1648923355246</updated>
     </task>
-    <task id="LOCAL-00005" summary="load and show projects&#10;TODO: fix Übersichtlihkeit">
+    <task
+      id="LOCAL-00005"
+      summary="load and show projects&#10;TODO: fix Übersichtlihkeit"
+    >
       <created>1648993784341</created>
       <option name="number" value="00005" />
       <option name="presentableId" value="LOCAL-00005" />
@@ -164,7 +223,10 @@
     <MESSAGE value="load and show projects&#10;TODO: fix Übersichtlihkeit" />
     <MESSAGE value="Add method" />
     <MESSAGE value="Import SCSS as well as create SCSS classes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Import SCSS as well as create SCSS classes" />
+    <option
+      name="LAST_COMMIT_MESSAGE"
+      value="Import SCSS as well as create SCSS classes"
+    />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

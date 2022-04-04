@@ -1,11 +1,12 @@
 package routing
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	authM "github.com/schiller-sql/littSQL/auth/delivery/middleware"
-	"github.com/schiller-sql/littSQL/database_templates"
+	databaseTemplates "github.com/schiller-sql/littSQL/database_templates"
 	"github.com/schiller-sql/littSQL/helpers"
-	"net/http"
 )
 
 type databaseTemplatesHandler struct {

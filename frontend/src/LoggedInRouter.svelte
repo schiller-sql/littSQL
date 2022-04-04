@@ -7,7 +7,8 @@
   import {
     Header,
     HeaderPanelLinks,
-    HeaderPanelLink, Content,
+    HeaderPanelLink,
+    Content,
   } from 'carbon-components-svelte'
 
   let firstVal = true
@@ -22,7 +23,8 @@
   onDestroy(unsubscribe)
 </script>
 
-<Header company="littSQL"> <!--TODO: set as link o homepage-->
+<Header company="littSQL">
+  <!--TODO: set as link o homepage-->
   <HeaderPanelLinks>
     <HeaderPanelLink />
   </HeaderPanelLinks>
