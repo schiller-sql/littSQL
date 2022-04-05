@@ -18,6 +18,9 @@ func NewUsecase(participantsRepo participants.Repository, coursesRepo courses.Re
 
 func (u eUsecase) checkCourseBelongsToTeacher(courseID, teacherID int32) error {
 	course, err := u.coursesRepo.GetCourse(courseID)
+	if course == nil {
+		return fmt.Errorf("course with id '%d' does not exist", courseID)
+	}
 	if err != nil {
 		return err
 	}
@@ -29,6 +32,9 @@ func (u eUsecase) checkCourseBelongsToTeacher(courseID, teacherID int32) error {
 
 func (u eUsecase) checkParticipantBelongsToCourse(participantID, courseID int32) error {
 	participant, err := u.participantsRepo.GetParticipant(participantID)
+	if participant == nil {
+		return fmt.Errorf("student with id '%d' does not exist", participantID)
+	}
 	if err != nil {
 		return err
 	}

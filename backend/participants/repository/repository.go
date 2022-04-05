@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"fmt"
 	"github.com/schiller-sql/littSQL/model"
 	"github.com/schiller-sql/littSQL/participants"
 	"gorm.io/gorm"
@@ -38,7 +37,7 @@ func (e eRepository) GetParticipant(participantID int32) (*model.Participant, er
 		return nil, err
 	}
 	if result.RowsAffected == 0 {
-		return nil, fmt.Errorf("student with id '%d' does not exist", participantID)
+		return nil, nil
 	}
 	return &participant, nil
 }
