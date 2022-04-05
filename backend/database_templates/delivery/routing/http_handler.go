@@ -39,7 +39,7 @@ func (h *databaseTemplatesHandler) newDatabase(c *gin.Context) {
 }
 
 func (h *databaseTemplatesHandler) getDatabase(c *gin.Context) {
-	databaseID, err := helpers.GetParamID(c)
+	databaseID, err := helpers.GetParamIDInt32(c)
 	if err != nil {
 		return
 	}

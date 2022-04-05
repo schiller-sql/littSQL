@@ -51,7 +51,7 @@ func (h *coursesHandler) newCourse(c *gin.Context) {
 
 func (h *coursesHandler) getCourse(c *gin.Context) {
 	teacherID := helpers.GetJwtID(c)
-	courseID, err := helpers.GetParamID(c)
+	courseID, err := helpers.GetParamIDInt32(c)
 	if err != nil {
 		return
 	}
@@ -65,7 +65,7 @@ func (h *coursesHandler) getCourse(c *gin.Context) {
 
 func (h *coursesHandler) editCourse(c *gin.Context) {
 	teacherID := helpers.GetJwtID(c)
-	courseID, err := helpers.GetParamID(c)
+	courseID, err := helpers.GetParamIDInt32(c)
 	if err != nil {
 		return
 	}
@@ -82,7 +82,7 @@ func (h *coursesHandler) editCourse(c *gin.Context) {
 
 func (h *coursesHandler) deleteCourse(c *gin.Context) {
 	teacherID := helpers.GetJwtID(c)
-	courseID, err := helpers.GetParamID(c)
+	courseID, err := helpers.GetParamIDInt32(c)
 	if err != nil {
 		return
 	}
