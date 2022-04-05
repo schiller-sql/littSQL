@@ -13,6 +13,9 @@ import (
 	databaseTemplatesRouting "github.com/schiller-sql/littSQL/database_templates/delivery/routing"
 	databaseTemplatesR "github.com/schiller-sql/littSQL/database_templates/repository"
 	databaseTemplatesU "github.com/schiller-sql/littSQL/database_templates/usecase"
+	participantsRouting "github.com/schiller-sql/littSQL/participants/delivery/routing"
+	participantsR "github.com/schiller-sql/littSQL/participants/repository"
+	participantsU "github.com/schiller-sql/littSQL/participants/usecase"
 	projectsRouting "github.com/schiller-sql/littSQL/projects/delivery/routing"
 	projectsR "github.com/schiller-sql/littSQL/projects/repository"
 	projectsU "github.com/schiller-sql/littSQL/projects/usecase"
@@ -59,7 +62,11 @@ func main() {
 
 		coursesRepo := coursesR.NewRepository(db)
 		coursesUsecase := coursesU.NewUsecase(coursesRepo)
-		coursesRouting.ConfigureHandler(g, authMiddleware, coursesUsecase)
+		coursesGroup := coursesRouting.ConfigureHandler(g, authMiddleware, coursesUsecase)
+
+		participantsRepo := participantsR.NewRepository(db)
+		participantsUsecase := participantsU.NewUsecase(participantsRepo, coursesRepo)
+		participantsRouting.ConfigureHandler(coursesGroup, authMiddleware, participantsUsecase)
 	}
 
 	err := r.Run(":" + (viper.Get("PORT").(string)))
