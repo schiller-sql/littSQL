@@ -12,7 +12,11 @@ type coursesHandler struct {
 	usecase courses.Usecase
 }
 
-func ConfigureHandler(r *gin.RouterGroup, authMiddleware *authM.AuthMiddleware, usecase courses.Usecase) {
+func ConfigureHandler(
+	r *gin.RouterGroup,
+	authMiddleware *authM.AuthMiddleware,
+	usecase courses.Usecase,
+) *gin.RouterGroup {
 	handler := coursesHandler{usecase}
 
 	group := r.Group("/courses", authMiddleware.JwtHandler, authMiddleware.IsTeacherValidator)
@@ -22,6 +26,8 @@ func ConfigureHandler(r *gin.RouterGroup, authMiddleware *authM.AuthMiddleware, 
 	group.GET("/:id", handler.getCourse)
 	group.PUT("/:id", handler.editCourse)
 	group.DELETE("/:id", handler.deleteCourse)
+
+	return group
 }
 
 func (h *coursesHandler) getCoursesOfTeacher(c *gin.Context) {
