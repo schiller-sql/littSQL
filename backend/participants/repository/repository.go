@@ -16,7 +16,7 @@ func NewRepository(db *gorm.DB) participants.Repository {
 
 func (e eRepository) GetParticipantsOfCourse(courseID int32) (*[]model.ParticipantListing, error) {
 	var participantsOfCourse []model.ParticipantListing
-	err := e.DB.Model(&model.Participant{}).Find(&participantsOfCourse, &model.Participant{CourseID: courseID}).Error
+	err := e.DB.Model(&model.Participant{}).Order("Upper(name)").Find(&participantsOfCourse, &model.Participant{CourseID: courseID}).Error
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +43,7 @@ func (e eRepository) GetParticipant(participantID int32) (*model.Participant, er
 }
 
 func (e eRepository) EditParticipant(participantID int32, name *string) error {
-	return e.DB.Save(&model.Participant{ID: participantID, Name: name}).Error
+	return e.DB.Omit("course_id, access_code").Save(&model.Participant{ID: participantID, Name: name}).Error
 }
 
 func (e eRepository) RefreshParticipantAccessCode(participantID int32) (string, error) {

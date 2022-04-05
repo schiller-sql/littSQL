@@ -19,15 +19,16 @@ func ConfigureHandler(
 ) *gin.RouterGroup {
 	handler := coursesHandler{usecase}
 
-	group := r.Group("/courses", authMiddleware.JwtHandler, authMiddleware.IsTeacherValidator)
+	coursesGroup := r.Group("/courses", authMiddleware.JwtHandler, authMiddleware.IsTeacherValidator)
+	courseGroup := coursesGroup.Group("/:id")
 
-	group.GET("/", handler.getCoursesOfTeacher)
-	group.POST("/", handler.newCourse)
-	group.GET("/:id", handler.getCourse)
-	group.PUT("/:id", handler.editCourse)
-	group.DELETE("/:id", handler.deleteCourse)
+	coursesGroup.GET("", handler.getCoursesOfTeacher)
+	coursesGroup.POST("", handler.newCourse)
+	courseGroup.GET("", handler.getCourse)
+	courseGroup.PUT("", handler.editCourse)
+	courseGroup.DELETE("", handler.deleteCourse)
 
-	return group
+	return courseGroup
 }
 
 func (h *coursesHandler) getCoursesOfTeacher(c *gin.Context) {

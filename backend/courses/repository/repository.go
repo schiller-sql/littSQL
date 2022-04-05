@@ -16,7 +16,7 @@ func NewRepository(db *gorm.DB) courses.Repository {
 
 func (e eRepository) GetCoursesOfTeacher(teacherID int32) (*[]model.CourseListing, error) {
 	var coursesOfTeacher []model.CourseListing
-	result := e.DB.Table("courses").Find(&coursesOfTeacher, &model.Course{TeacherID: teacherID})
+	result := e.DB.Table("courses").Order("Upper(name)").Find(&coursesOfTeacher, &model.Course{TeacherID: teacherID})
 	return &coursesOfTeacher, result.Error
 }
 
@@ -28,7 +28,7 @@ func (e eRepository) NewCourse(teacherID int32, name string) (*model.Course, err
 
 func (e eRepository) GetCourse(courseID int32) (*model.Course, error) {
 	var course model.Course
-	result := e.DB.Order("Upper(name)").Find(&course, courseID)
+	result := e.DB.Find(&course, courseID)
 	if result.RowsAffected == 0 {
 		return nil, nil
 	}

@@ -12,13 +12,13 @@ type participantsHandler struct {
 	usecase participants.Usecase
 }
 
-func ConfigureHandler(courses *gin.RouterGroup, authMiddleware *authM.AuthMiddleware, usecase participants.Usecase) {
+func ConfigureHandler(courseGroup *gin.RouterGroup, authMiddleware *authM.AuthMiddleware, usecase participants.Usecase) {
 	handler := participantsHandler{usecase}
 
-	group := courses.Group("/participants", authMiddleware.JwtHandler, authMiddleware.IsTeacherValidator)
+	group := courseGroup.Group("/participants", authMiddleware.JwtHandler, authMiddleware.IsTeacherValidator)
 
-	group.GET("/", handler.getParticipantsOfTeacher)
-	group.POST("/", handler.newParticipant)
+	group.GET("", handler.getParticipantsOfTeacher)
+	group.POST("", handler.newParticipant)
 	group.PUT("/:participant-id", handler.editParticipant)
 	group.PUT("/:participant-id/refresh-access-code", handler.refreshParticipantAccessCode)
 	group.DELETE("/:participant-id", handler.deleteParticipant)
@@ -126,5 +126,5 @@ type ParticipantReturnForm struct {
 }
 
 type ParticipantEditForm struct {
-	Name *string `json:"name" binding:"exists"`
+	Name *string `json:"name"`
 }

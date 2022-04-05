@@ -44,6 +44,7 @@ func main() {
 	db := config.InitPostgresDB()
 
 	r := getRouter()
+
 	{
 		g := r.Group("/api")
 
@@ -62,11 +63,11 @@ func main() {
 
 		coursesRepo := coursesR.NewRepository(db)
 		coursesUsecase := coursesU.NewUsecase(coursesRepo)
-		coursesGroup := coursesRouting.ConfigureHandler(g, authMiddleware, coursesUsecase)
+		courseGroup := coursesRouting.ConfigureHandler(g, authMiddleware, coursesUsecase)
 
 		participantsRepo := participantsR.NewRepository(db)
 		participantsUsecase := participantsU.NewUsecase(participantsRepo, coursesRepo)
-		participantsRouting.ConfigureHandler(coursesGroup, authMiddleware, participantsUsecase)
+		participantsRouting.ConfigureHandler(courseGroup, authMiddleware, participantsUsecase)
 	}
 
 	err := r.Run(":" + (viper.Get("PORT").(string)))
