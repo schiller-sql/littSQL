@@ -1,28 +1,28 @@
-<!--TODO: complete css layout; see: https://github.com/carbon-design-system/carbon-components-svelte/issues/503-->
 <script lang="ts">
   import {
     Link,
     OverflowMenu,
     OverflowMenuItem,
     Tile,
-  } from "carbon-components-svelte";
-  import Edit from "carbon-icons-svelte/lib/Edit.svelte";
-  import View from "carbon-icons-svelte/lib/View.svelte";
-  import type Project from "../types/Project";
-  import { createEventDispatcher } from "svelte";
+  } from 'carbon-components-svelte'
+  import Edit from 'carbon-icons-svelte/lib/Edit.svelte'
+  import View from 'carbon-icons-svelte/lib/View.svelte'
+  import type Project from '../types/Project'
+  import { createEventDispatcher } from 'svelte'
 
-  export let project: Project;
+  export let project: Project
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher()
 
   function openProject() {
-    dispatch("open", { id: project.id });
+    dispatch('open', { id: project.id })
   }
   function deleteProject() {
-    dispatch("delete", { id: project.id });
+    dispatch('delete', { id: project.id })
   }
 </script>
 
+<!--TODO: complete css layout; see: https://github.com/carbon-design-system/carbon-components-svelte/issues/503-->
 <Tile style="display: grid; grid-template-columns: auto auto auto">
   <!--class="grid-container__tile"-->
   {project.name}

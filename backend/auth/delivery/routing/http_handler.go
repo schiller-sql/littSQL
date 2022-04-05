@@ -1,8 +1,9 @@
 package routing
 
 import (
-	authM "github.com/schiller-sql/littSQL/auth/delivery/middleware"
 	"net/http"
+
+	authM "github.com/schiller-sql/littSQL/auth/delivery/middleware"
 
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"

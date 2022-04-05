@@ -1,6 +1,8 @@
 package main
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	authM "github.com/schiller-sql/littSQL/auth/delivery/middleware"
 	authRouting "github.com/schiller-sql/littSQL/auth/delivery/routing"
@@ -14,7 +16,6 @@ import (
 	projectsR "github.com/schiller-sql/littSQL/projects/repository"
 	projectsU "github.com/schiller-sql/littSQL/projects/usecase"
 	"github.com/spf13/viper"
-	"net/http"
 )
 
 func getRouter() *gin.Engine {

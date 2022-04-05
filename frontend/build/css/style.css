@@ -9,7 +9,7 @@
 .grid-container__tile {
   display: grid;
   grid-template-columns: auto auto auto;
-  grid-template-areas: "area";
+  grid-template-areas: 'area';
 }
 
 /*.grid-container__tabview {

@@ -1,37 +1,37 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-  import { authStore, fetchWithToken } from "../../auth";
-  import { Button, Loading, Modal, TextInput } from "carbon-components-svelte";
-  import ProjectTile from "../../components/ProjectTile.svelte";
-  import type Project from "../../types/Project";
-  import Add from "carbon-icons-svelte/lib/Add.svelte";
+  import { onMount } from 'svelte'
+  import { authStore, fetchWithToken } from '../../auth'
+  import { Button, Loading, Modal, TextInput } from 'carbon-components-svelte'
+  import ProjectTile from '../../components/ProjectTile.svelte'
+  import type Project from '../../types/Project'
+  import Add from 'carbon-icons-svelte/lib/Add.svelte'
 
   onMount(async () => {
     try {
-      projects = await fetchWithToken("projects", "GET", $authStore.token);
-      loading = false;
+      projects = await fetchWithToken('projects', 'GET', $authStore.token)
+      loading = false
     } catch (e) {
-      error = error.toString();
+      error = error.toString()
     }
-  });
-  let open = false;
-  let newProjectName: string;
+  })
+  let open = false
+  let newProjectName: string
 
-  let loading = true;
-  let error: string;
-  let projects: Project[] = [];
+  let loading = true
+  let error: string
+  let projects: Project[] = []
 
   //TODO: send request to the server
   async function deleteProject(event) {
-    const id = event.detail.id;
+    const id = event.detail.id
     try {
     } catch (e) {}
-    projects = projects.filter((project) => project.id != id);
+    projects = projects.filter((project) => project.id != id)
   }
 
   //TODO: navigation
   function openProject(event) {
-    const id = event.detail.id;
+    const id = event.detail.id
   }
 
   //TODO: send request to the server
@@ -56,20 +56,18 @@
       primaryButtonDisabled={!newProjectName}
       secondaryButtonText="Cancel"
       on:click:button--secondary={({ detail: { text } }) => {
-        if (text === "Cancel") open = false;
+        if (text === 'Cancel') open = false
       }}
-      on:open={() => (newProjectName = "")}
+      on:open={() => (newProjectName = '')}
       on:submit={() => {
-        open = false;
-        addProject();
-      }}
-    >
+        open = false
+        addProject()
+      }}>
       <TextInput
         bind:value={newProjectName}
         labelText="Project name"
         helperText="The project name required"
-        placeholder="Enter project name..."
-      />
+        placeholder="Enter project name..." />
     </Modal>
   {/if}
 </body>
