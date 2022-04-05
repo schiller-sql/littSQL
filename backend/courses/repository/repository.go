@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"fmt"
 	"github.com/schiller-sql/littSQL/courses"
 	"github.com/schiller-sql/littSQL/model"
 	"gorm.io/gorm"
@@ -31,7 +30,7 @@ func (e eRepository) GetCourse(courseID int32) (*model.Course, error) {
 	var course model.Course
 	result := e.DB.Order("Upper(name)").Find(&course, courseID)
 	if result.RowsAffected == 0 {
-		return nil, fmt.Errorf("course with id '%d' not found", courseID)
+		return nil, nil
 	}
 	return &course, result.Error
 }

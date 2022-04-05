@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"errors"
+	"fmt"
 	"github.com/schiller-sql/littSQL/courses"
 	"github.com/schiller-sql/littSQL/model"
 )
@@ -27,6 +28,9 @@ func (u eUsecase) GetCourseDetails(teacherID int32, courseID int32) (*model.Cour
 	if err != nil {
 		return nil, err
 	}
+	if course == nil {
+		return nil, fmt.Errorf("course with id '%d' not found", courseID)
+	}
 	if course.TeacherID != teacherID {
 		return nil, errors.New("this course does not belong to your account")
 	}
@@ -38,6 +42,9 @@ func (u eUsecase) EditCourse(courseID int32, teacherID int32, name string) error
 	if err != nil {
 		return err
 	}
+	if course == nil {
+		return fmt.Errorf("course with id '%d' not found", courseID)
+	}
 	if course.TeacherID != teacherID {
 		return errors.New("this course does not belong to your account")
 	}
@@ -48,6 +55,9 @@ func (u eUsecase) DeleteCourse(teacherID int32, courseID int32) error {
 	course, err := u.coursesRepo.GetCourse(courseID)
 	if err != nil {
 		return err
+	}
+	if course == nil {
+		return fmt.Errorf("course with id '%d' not found", courseID)
 	}
 	if course.TeacherID != teacherID {
 		return errors.New("this course does not belong to your account")
