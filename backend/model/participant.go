@@ -10,3 +10,9 @@ type Participant struct {
 	//[ 3] access_code                                    BPCHAR(6)            null: false  primary: false  isArray: false  auto: false  col: BPCHAR          len: 6       default: [utils.random_string(6)]
 	AccessCode string `gorm:"column:access_code;type:BPCHAR;size:6;default:utils.random_string(6);" json:"access_code"`
 }
+
+type ParticipantListing struct {
+	ID         int32   `gorm:"primary_key;AUTO_INCREMENT;column:id;type:INT4;" json:"id"`
+	Name       *string `gorm:"column:name;type:VARCHAR;" json:"name"`
+	AccessCode string  `gorm:"column:access_code;type:BPCHAR;size:6;default:utils.random_string(6);" json:"access_code"`
+}
