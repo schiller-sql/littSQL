@@ -48,9 +48,10 @@ VALUES (1, 'student 3'),
        (1, 'student 4');
 
 -- insert one public and one private project as assignments to 'Main course'
-INSERT INTO assignments(project_id, course_id, status, solution_mode, number)
-VALUES (1, 1, 'finished', 'tryout', 0),
-       (3, 1, 'open', 'tryout', 1);
+INSERT INTO assignments_data(name, comment, course_id, project_id, submission_date, manual_status, solution_mode)
+VALUES ('first assigment', 'manually finished', 1, 3, null, 'finished', 'tryout'),
+('second assigment', 'automatically finished', 1, 3, now(), 'open', 'tryout'),
+('third assigment', 'still open', 1, 3, now() + interval '55 years', 'open', 'tryout');
 
 -- insert answer of 'student 1' into the second (and still open) assignment in the 'Main course'
 INSERT INTO answers(course_id, project_id, participant_id, task_number, question_number, answer)

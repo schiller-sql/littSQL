@@ -4,8 +4,9 @@ CREATE SCHEMA utils;
 
 CREATE OR REPLACE FUNCTION utils.random_string(length INTEGER) RETURNS CHAR AS
 $$
-    SELECT ARRAY_TO_STRING(
-        ARRAY(SELECT SUBSTR('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ', ((RANDOM() * (36 - 1) + 1)::INTEGER), 1) FROM GENERATE_SERIES(1, length)), '')
+SELECT ARRAY_TO_STRING(
+               ARRAY(SELECT SUBSTR('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ', ((RANDOM() * (36 - 1) + 1)::INTEGER), 1)
+                     FROM GENERATE_SERIES(1, length)), '')
 $$ LANGUAGE sql;
 
 
@@ -99,23 +100,37 @@ CREATE TYPE assignment_status AS ENUM ( -- the status of one assignment of a cou
 CREATE TYPE assignment_solution_mode AS ENUM ( -- how the solutions should be shown to the participant
     'exam', -- no solutions, no query output, no submitting
     'tryout', -- on sql questions can see if the query wrong/the supposed query output is shown,
-    -- after submitting, the solutions are shown, however the query can't be resubmitted
+    --           after submitting, the solutions are shown, however the query can't be resubmitted
     'no-solutions-tryout', -- same as tryout, but after submitting the solutions are still not shown
     'voluntary' -- can always see if requested, no submitting
     );
 
--- TODO: timer for assignment (submission date)
--- TODO: be possible to have the same project as multiple assigments
--- TODO: assignment comment (and custom title?), from the teacher (for example: You have to do this)
-CREATE TABLE assignments -- an assignment given to the participant of a course, contains a project
+CREATE TABLE assignments_data -- an assignment given to the participant of a course, contains a project
 (
-    project_id    INTEGER                  NOT NULL REFERENCES projects ON DELETE CASCADE,
-    course_id     INTEGER                  NOT NULL REFERENCES courses ON DELETE CASCADE,
-    status        assignment_status        NOT NULL,
-    solution_mode assignment_solution_mode NOT NULL,
-    number        SMALLINT                 NOT NULL CHECK ( number >= 0),
-    PRIMARY KEY (project_id, course_id)
+    id              INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    name            VARCHAR                  NOT NULL,
+    comment         VARCHAR,
+    course_id       INTEGER                  NOT NULL REFERENCES courses ON DELETE CASCADE,
+    project_id      INTEGER                  NOT NULL REFERENCES projects ON DELETE CASCADE,
+    submission_date TIMESTAMP, -- in the assignments view, this overrides the manual_status, for the status
+    manual_status   assignment_status        NOT NULL,
+    solution_mode   assignment_solution_mode NOT NULL
+    -- TODO: how should ordering be done: number          SMALLINT                 NOT NULL CHECK ( number >= 0)
 );
+
+CREATE VIEW assignments AS
+SELECT id,
+       name,
+       comment,
+       course_id,
+       project_id,
+       submission_date,
+       (CASE
+            WHEN submission_date IS NOT NULL AND (submission_date < NOW())
+                THEN 'finished'
+            ELSE manual_status END) AS status,
+       solution_mode
+FROM assignments_data;
 
 CREATE TYPE correct AS ENUM ( -- if a question has been answered correctly
     'unknown',
