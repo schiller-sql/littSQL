@@ -4,7 +4,7 @@
   import { Button, Loading, Modal, TextInput } from 'carbon-components-svelte'
   import ProjectTile from '../../components/ProjectTile.svelte'
   import type Project from '../../types/Project'
-  import Add from 'carbon-icons-svelte/lib/Add.svelte'
+  import Add from 'carbon-icons-svelte/lib/Add16/Add16.svelte'
 
   onMount(async () => {
     try {

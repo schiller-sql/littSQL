@@ -5,8 +5,8 @@
     OverflowMenuItem,
     Tile,
   } from 'carbon-components-svelte'
-  import Edit from 'carbon-icons-svelte/lib/Edit.svelte'
-  import View from 'carbon-icons-svelte/lib/View.svelte'
+  import Edit from 'carbon-icons-svelte/lib/Edit16/Edit16.svelte'
+  import View from 'carbon-icons-svelte/lib/View16/View16.svelte'
   import type Project from '../types/Project'
   import { createEventDispatcher } from 'svelte'
 
