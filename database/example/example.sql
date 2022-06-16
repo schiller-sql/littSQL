@@ -19,8 +19,8 @@ VALUES ('public project 1', '# docs', NULL),
 
 -- insert non public projects
 INSERT INTO projects(name, documentation_md, db_sql, owner_id)
-VALUES ('public project 1', '# docs', (SELECT sql FROM database_templates WHERE id = 1), 1),
-       ('public project 2', '# other docs', (SELECT sql FROM database_templates WHERE id = 1), 2);
+VALUES ('private project 1', '# docs', (SELECT sql FROM database_templates WHERE id = 1), 1),
+       ('private project 2', '# other docs', (SELECT sql FROM database_templates WHERE id = 1), 2);
 
 -- insert tasks and questions for 'project of main'
 INSERT INTO tasks(project_id, number, description, is_voluntary)
