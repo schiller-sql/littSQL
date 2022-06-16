@@ -26,16 +26,27 @@ func (e eRepository) GetProjectsOfTeacher(teacherID int32) (*[]model.ProjectList
 }
 
 func (e eRepository) NewProject(teacherID int32, name string) (*model.Project, error) {
-	project := model.Project{OwnerID: &teacherID, Name: name}
+	project := model.Project{ProjectSuperficial: model.ProjectSuperficial{OwnerID: &teacherID, Name: name}}
 	result := e.DB.Create(&project)
 	return &project, result.Error
 }
 
-func (e eRepository) GetProject(projectID int32, fillTasks bool) (*model.Project, error) {
-	query := e.DB
-	if fillTasks {
-		query = query.Preload(clause.Associations)
+func (e eRepository) GetProjectSuperficial(projectID int32) (*model.ProjectSuperficial, error) {
+	var project model.ProjectSuperficial
+	result := e.DB.Table("projects").Find(&project, projectID)
+	err := result.Error
+	if err != nil {
+		return nil, err
 	}
+	if result.RowsAffected == 0 {
+		return nil, nil
+	}
+	return &project, nil
+}
+
+func (e eRepository) GetProject(projectID int32) (*model.Project, error) {
+	query := e.DB
+	query = query.Preload(clause.Associations)
 	var project model.Project
 	result := query.Find(&project, projectID)
 	err := result.Error
@@ -136,5 +147,6 @@ func (e eRepository) SaveEditedProject(editedProject *model.Project) error {
 }
 
 func (e eRepository) DeleteProject(projectID int32) error {
-	return e.DB.Delete(&model.Project{}, projectID).Error
+	i := e.DB.Exec("delete from projects where id = ?", projectID)
+	return i.Error
 }

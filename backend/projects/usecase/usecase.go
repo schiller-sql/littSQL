@@ -3,7 +3,7 @@ package usecase
 import (
 	"fmt"
 
-	"github.com/schiller-sql/littSQL/model"
+	model "github.com/schiller-sql/littSQL/model"
 	"github.com/schiller-sql/littSQL/projects"
 )
 
@@ -24,7 +24,7 @@ func (u eUsecase) NewProject(teacherID int32, name string) (*model.Project, erro
 }
 
 func (u eUsecase) GetProjectDetails(teacherID int32, projectID int32) (*model.Project, error) {
-	project, err := u.projectsRepo.GetProject(projectID, true)
+	project, err := u.projectsRepo.GetProject(projectID)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func (u eUsecase) EditProject(
 	sql *string,
 	tasks []model.Task,
 ) error {
-	project, err := u.projectsRepo.GetProject(projectID, false)
+	project, err := u.projectsRepo.GetProjectSuperficial(projectID)
 	if project == nil {
 		return fmt.Errorf("project with the id '%d' could not be found", projectID)
 	}
@@ -57,10 +57,12 @@ func (u eUsecase) EditProject(
 	}
 	return u.projectsRepo.SaveEditedProject(
 		&model.Project{
-			ID:              projectID,
-			OwnerID:         &teacherID,
+			ProjectSuperficial: model.ProjectSuperficial{
+				ID:              projectID,
+				OwnerID:         &teacherID,
+				Name:            name,
+			},
 			DbSQL:           sql,
-			Name:            name,
 			DocumentationMd: documentationMd,
 			Tasks:           tasks,
 		},
@@ -68,7 +70,7 @@ func (u eUsecase) EditProject(
 }
 
 func (u eUsecase) DeleteProject(teacherID int32, projectID int32) error {
-	project, err := u.projectsRepo.GetProject(projectID, false)
+	project, err := u.projectsRepo.GetProjectSuperficial(projectID)
 	if project == nil {
 		return fmt.Errorf("project with the id '%d' could not be found", projectID)
 	}
