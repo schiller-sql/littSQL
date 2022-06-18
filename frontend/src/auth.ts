@@ -21,7 +21,7 @@ function userTypeFromString(rawUserType: string | null): UserType | null {
   return null;
 }
 
-function userTypeToString(userType: UserType): string {
+export function userTypeToString(userType: UserType): string {
   switch (userType) {
     case UserType.teacher:
       return "teacher";

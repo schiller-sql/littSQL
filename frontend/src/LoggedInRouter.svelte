@@ -1,14 +1,18 @@
 <script lang="ts">
-  import { authStore, UserType } from "./auth";
+  import { authStore, UserType, userTypeToString } from "./auth";
   import AuthRouter from "./routes/auth/Router.svelte";
   import TeacherRouter from "./routes/teacher/Router.svelte";
   import ParticipantRouter from "./routes/participant/Router.svelte";
+  import { UserAvatarFilledAlt16 } from "carbon-icons-svelte";
   import { onDestroy } from "svelte";
   import {
     Header,
+    HeaderAction,
+    HeaderUtilities,
     HeaderPanelLinks,
     HeaderPanelLink,
     Content,
+    HeaderPanelDivider,
   } from "carbon-components-svelte";
 
   let firstVal = true;
@@ -21,13 +25,30 @@
   });
 
   onDestroy(unsubscribe);
+
+  function logOut(): void {
+    authStore.set(null);
+  }
 </script>
 
 <Header company="littSQL" href="#/">
-  <!--TODO: set as link o homepage-->
-  <!--<HeaderPanelLinks>
-    <HeaderPanelLink />
-  </HeaderPanelLinks>-->
+  {#if $authStore != null}
+    <HeaderUtilities>
+      <HeaderAction
+        icon={UserAvatarFilledAlt16}
+        closeIcon={UserAvatarFilledAlt16}
+      >
+        <HeaderPanelLinks>
+          <HeaderPanelDivider
+            >logged in as a {userTypeToString(
+              $authStore.type
+            )}</HeaderPanelDivider
+          >
+          <HeaderPanelLink on:click={logOut}>Log out</HeaderPanelLink>
+        </HeaderPanelLinks>
+      </HeaderAction>
+    </HeaderUtilities>
+  {/if}
 </Header>
 
 <Content>
