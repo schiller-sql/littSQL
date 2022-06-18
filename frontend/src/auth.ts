@@ -35,6 +35,7 @@ export const DEFAULT_URL = "api/";
 const localStorageTokenKey = "token";
 const localStorageUserTypeKey = "user_type";
 
+// TODO: token should first be refreshed before being used
 function getUserFromLocalStorage(): User | null {
   const token: string | null = localStorage.getItem(localStorageTokenKey);
   const rawUserType: string | null = localStorage.getItem(

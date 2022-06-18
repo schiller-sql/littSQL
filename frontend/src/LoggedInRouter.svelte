@@ -1,33 +1,33 @@
 <script lang="ts">
-  import { authStore, UserType } from './auth'
-  import AuthRouter from './routes/auth/Router.svelte'
-  import TeacherRouter from './routes/teacher/Router.svelte'
-  import ParticipantRouter from './routes/participant/Router.svelte'
-  import { onDestroy } from 'svelte'
+  import { authStore, UserType } from "./auth";
+  import AuthRouter from "./routes/auth/Router.svelte";
+  import TeacherRouter from "./routes/teacher/Router.svelte";
+  import ParticipantRouter from "./routes/participant/Router.svelte";
+  import { onDestroy } from "svelte";
   import {
     Header,
     HeaderPanelLinks,
     HeaderPanelLink,
     Content,
-  } from 'carbon-components-svelte'
+  } from "carbon-components-svelte";
 
-  let firstVal = true
+  let firstVal = true;
   const unsubscribe = authStore.subscribe((_) => {
     if (firstVal) {
-      firstVal = false
+      firstVal = false;
     } else {
-      window.location.hash = ''
+      window.location.hash = "";
     }
-  })
+  });
 
-  onDestroy(unsubscribe)
+  onDestroy(unsubscribe);
 </script>
 
-<Header company="littSQL">
+<Header company="littSQL" href="#/">
   <!--TODO: set as link o homepage-->
-  <HeaderPanelLinks>
+  <!--<HeaderPanelLinks>
     <HeaderPanelLink />
-  </HeaderPanelLinks>
+  </HeaderPanelLinks>-->
 </Header>
 
 <Content>
