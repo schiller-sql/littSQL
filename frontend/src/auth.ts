@@ -1,5 +1,4 @@
 import { writable, type Writable } from "svelte/store";
-import TeacherAuth from "./routes/auth/TeacherAuth.svelte";
 
 export enum UserType {
   teacher,
