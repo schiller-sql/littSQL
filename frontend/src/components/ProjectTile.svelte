@@ -1,35 +1,46 @@
 <script lang="ts">
   import {
-    Link,
+    ClickableTile,
     OverflowMenu,
     OverflowMenuItem,
-    Tile,
-  } from 'carbon-components-svelte'
-  import Edit from 'carbon-icons-svelte/lib/Edit16/Edit16.svelte'
-  import View from 'carbon-icons-svelte/lib/View16/View16.svelte'
-  import type Project from '../types/Project'
-  import { createEventDispatcher } from 'svelte'
+    TooltipIcon,
+  } from "carbon-components-svelte";
+  import Edit16 from "carbon-icons-svelte/lib/Edit16/Edit16.svelte";
+  import View16 from "carbon-icons-svelte/lib/View16/View16.svelte";
+  import type Project from "../types/Project";
+  import { createEventDispatcher } from "svelte";
 
-  export let project: Project
+  export let project: Project;
 
-  const dispatch = createEventDispatcher()
+  const dispatch = createEventDispatcher();
 
   function openProject() {
-    dispatch('open', { id: project.id })
+    dispatch("open", { id: project.id });
   }
   function deleteProject() {
-    dispatch('delete', { id: project.id })
+    dispatch("delete", { id: project.id });
   }
 </script>
 
 <!--TODO: complete css layout; see: https://github.com/carbon-design-system/carbon-components-svelte/issues/503-->
-<Tile style="display: grid; grid-template-columns: auto auto auto">
+<ClickableTile
+  style="display: grid; grid-template-columns: 1fr auto auto"
+  on:click={openProject}
+>
   <!--class="grid-container__tile"-->
   {project.name}
   {#if !project.is_public}
-    <Link size="lg" on:click={openProject} icon={Edit} />
+    <TooltipIcon
+      tooltipText="private project"
+      on:click={openProject}
+      icon={Edit16}
+    />
   {:else}
-    <Link size="lg" on:click={openProject} icon={View} />
+    <TooltipIcon
+      tooltipText="public project"
+      on:click={openProject}
+      icon={View16}
+    />
   {/if}
   <OverflowMenu open flipped>
     {#if project.is_public}
@@ -39,4 +50,4 @@
       <OverflowMenuItem on:click={deleteProject} danger text="Delete project" />
     {/if}
   </OverflowMenu>
-</Tile>
+</ClickableTile>
