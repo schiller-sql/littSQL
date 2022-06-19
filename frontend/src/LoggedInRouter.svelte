@@ -3,7 +3,7 @@
   import AuthRouter from "./routes/auth/Router.svelte";
   import TeacherRouter from "./routes/teacher/Router.svelte";
   import ParticipantRouter from "./routes/participant/Router.svelte";
-  import { UserAvatarFilledAlt16 } from "carbon-icons-svelte";
+  import { UserAvatarFilledAlt20 } from "carbon-icons-svelte";
   import { onDestroy } from "svelte";
   import {
     Header,
@@ -35,8 +35,8 @@
   {#if $authStore != null}
     <HeaderUtilities>
       <HeaderAction
-        icon={UserAvatarFilledAlt16}
-        closeIcon={UserAvatarFilledAlt16}
+        icon={UserAvatarFilledAlt20}
+        closeIcon={UserAvatarFilledAlt20}
       >
         <HeaderPanelLinks>
           <HeaderPanelDivider
