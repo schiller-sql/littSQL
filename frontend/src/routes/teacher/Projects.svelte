@@ -24,7 +24,6 @@
 
   async function deleteProject(event) {
     const id = event.detail.id;
-    console.log(id);
     try {
       await requestWithToken(`projects/${id}`, "DELETE", $authStore.token);
       projects = projects.filter((project) => project.id != id);
@@ -39,8 +38,29 @@
     const id = event.detail.id;
   }
 
-  //TODO: send request to the server
-  function addProject() {}
+  async function addProject() {
+    try {
+      const newProject = await fetchWithToken(
+        `projects`,
+        "POST",
+        $authStore.token,
+        { name: newProjectName }
+      );
+      console.log(newProject);
+      // sort new project into projects
+      projects = [...projects, newProject].sort((a, b) => {
+        if (a.is_public != b.is_public) {
+          return a.is_public - b.is_public;
+        }
+        if (a.name < b.name) return -1;
+        if (a.name > b.name) return 1;
+        return 0;
+      });
+    } catch (e) {
+      console.log(e);
+      error = "could not add project";
+    }
+  }
 </script>
 
 <body>
@@ -49,7 +69,7 @@
   {:else if error}
     <p style="color: red">{error.toString()}</p>
   {:else}
-    {#each projects as project}
+    {#each projects as project (project.id)}
       <ProjectTile {project} on:open={openProject} on:delete={deleteProject} />
     {/each}
     <Button on:click={() => (open = true)} icon={Add}>Create project</Button>

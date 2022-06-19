@@ -42,7 +42,7 @@
       icon={View16}
     />
   {/if}
-  <OverflowMenu open flipped>
+  <OverflowMenu flipped>
     {#if project.is_public}
       <OverflowMenuItem on:click={openProject} text="View project" />
     {:else}

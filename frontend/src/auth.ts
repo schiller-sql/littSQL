@@ -68,13 +68,24 @@ authStore.subscribe((user) => {
   writeUserToLocalStorage(user);
 });
 
-export function fetchWithToken(url: string, method: string, token: string) {
-  return requestWithToken(url, method, token).then((res) => res.json());
+export function fetchWithToken(
+  url: string,
+  method: string,
+  token: string,
+  body?: Object
+) {
+  return requestWithToken(url, method, token, body).then((res) => res.json());
 }
 
-export function requestWithToken(url: string, method: string, token: string) {
+export function requestWithToken(
+  url: string,
+  method: string,
+  token: string,
+  body?: Object
+) {
   return fetch(DEFAULT_URL + url, {
     method: method,
+    body: JSON.stringify(body),
     headers: { Authorization: `Bearer ${token}` },
   });
 }
