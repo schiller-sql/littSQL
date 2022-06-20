@@ -5,6 +5,7 @@
   import ProjectTile from "../../components/ProjectTile.svelte";
   import type Project from "../../types/Project";
   import Add from "carbon-icons-svelte/lib/Add16/Add16.svelte";
+  import { push } from "svelte-spa-router";
 
   onMount(async () => {
     try {
@@ -36,6 +37,7 @@
   //TODO: navigation
   function openProject(event) {
     const id = event.detail.id;
+    push(`#/project/${id}`);
   }
 
   async function addProject() {

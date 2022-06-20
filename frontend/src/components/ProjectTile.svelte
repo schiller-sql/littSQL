@@ -22,12 +22,10 @@
   }
 </script>
 
-<!--TODO: complete css layout; see: https://github.com/carbon-design-system/carbon-components-svelte/issues/503-->
 <ClickableTile
   style="display: grid; grid-template-columns: 1fr auto auto"
   on:click={openProject}
 >
-  <!--class="grid-container__tile"-->
   {project.name}
   {#if !project.is_public}
     <TooltipIcon
