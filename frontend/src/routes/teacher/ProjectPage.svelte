@@ -9,7 +9,7 @@
   import { Save20 } from "carbon-icons-svelte";
 
   import { onMount } from "svelte";
-  import { authStore, fetchWithToken } from "../../auth";
+  import { authStore, fetchWithToken, requestWithToken } from "../../auth";
   import type Project from "../../types/ProjectListing";
 
   export let params: {
@@ -31,17 +31,32 @@
   });
 
   let loading = true;
-  let error: string;
+  let error: string | undefined;
   let project: Project | undefined;
+  $: hasData = project !== undefined;
 
-  function save() {}
+  async function save() {
+    loading = true;
+    try {
+      await requestWithToken(
+        `projects/${params.projectId}`,
+        "put",
+        $authStore.token,
+        project
+      );
+    } catch (e) {
+      console.log(e);
+      error = e;
+    }
+    loading = false;
+  }
 </script>
 
-{#if loading}
-  <Loading description="Active loading indicator" withOverlay={false} />
-{:else if error}
+{#if error !== undefined}
   <p style="color: red">{error.toString()}</p>
 {:else}
-  {JSON.stringify(project)}
-  <Button on:click={save} icon={Save20}>Save</Button>
+  {#if hasData}
+    {JSON.stringify(project)}
+  {/if}
+  <Button disabled={loading} on:click={save} icon={Save20}>Save</Button>
 {/if}

@@ -31,6 +31,7 @@
   }
 </script>
 
+<!--TODO: feedback css on header logo when clicked-->
 <Header company="littSQL" href="#/">
   {#if $authStore != null}
     <HeaderUtilities>
