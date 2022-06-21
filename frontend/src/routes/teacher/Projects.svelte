@@ -37,7 +37,7 @@
   //TODO: navigation
   function openProject(event) {
     const id = event.detail.id;
-    push(`#/project/${id}`);
+    push(`#/projects/${id}`);
   }
 
   async function addProject() {

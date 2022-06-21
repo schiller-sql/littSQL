@@ -1,10 +1,5 @@
 <script lang="ts">
-  import {
-    Button,
-    Loading,
-    TextArea,
-    TextInput,
-  } from "carbon-components-svelte";
+  import { Button } from "carbon-components-svelte";
 
   import { Save20 } from "carbon-icons-svelte";
 

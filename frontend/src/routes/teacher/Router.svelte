@@ -4,7 +4,7 @@
   import AlreadyLoggedIn from "../../components/AlreadyLoggedIn.svelte";
   import NotFound from "../../components/NotFound.svelte";
   import HomePage from "./HomePage.svelte";
-  import ProjectPage from "./ProjectPage.svelte";
+  import ProjectEditPage from "./ProjectEditPage.svelte";
 
   const routes = {
     "/": HomePage,
@@ -12,8 +12,8 @@
     "/student-login": AlreadyLoggedIn,
     "/teacher-login": AlreadyLoggedIn,
     "/teacher-signup": AlreadyLoggedIn,
-    "/project/:projectId": wrap({
-      component: ProjectPage,
+    "/projects/:projectId": wrap({
+      component: ProjectEditPage,
     }),
     "*": NotFound,
   };
