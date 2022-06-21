@@ -1,5 +1,11 @@
 <script lang="ts">
-  import { Add16, CaretDown16, CaretUp16, Delete16 } from "carbon-icons-svelte";
+  import {
+    Add20,
+    Add24,
+    CaretDown16,
+    CaretUp16,
+    Delete16,
+  } from "carbon-icons-svelte";
 
   import type Task from "../types/Task";
 
@@ -10,32 +16,33 @@
   export let onNewQuestion: () => void;
 </script>
 
-<div class="outer-box">
-  <div class="outer-box">
-    <span class="task-number">{taskNumber}.</span>
+<!-- give a line next to each question on the level of the task -->
+
+<li class="bx--tree-node">
+  <div class="task-content">
+    <span class="task-number">{taskNumber}. </span>
     {task.description}
-    <div class="up-down-box">
-      <CaretUp16 style="height: 20px" on:click={() => onMove(true)} />
-      <CaretDown16 style="height: 20px" on:click={() => onMove(false)} />
-      <Delete16 on:click={onDelete} />
-    </div>
+    <div />
+    <CaretUp16 on:click={() => onMove(true)} />
+    <CaretDown16 on:click={() => onMove(false)} />
+    <Delete16 on:click={onDelete} />
   </div>
   <slot />
-  <Add16 on:click={onNewQuestion} />
-</div>
+  <a> <Add24 on:click={onNewQuestion} style="margin-left: 0.8rem;" /></a>
+</li>
 
 <style>
-  .up-down-box {
-    float: right;
-    width: 10;
-    flex-direction: column;
-  }
-
   .task-number {
     font-weight: 700;
   }
+  li {
+    padding: 8px;
+    padding-top: 1rem;
+  }
 
-  .outer-box {
-    margin: 10em 0 1em 0;
+  .task-content {
+    display: grid;
+    grid-template-columns: auto auto 1fr auto auto auto 1rem;
+    margin-bottom: 20px;
   }
 </style>

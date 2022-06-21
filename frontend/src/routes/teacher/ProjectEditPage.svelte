@@ -133,35 +133,36 @@
 {:else}
   {#if project !== undefined}
     <!-- svelte-ignore missing-declaration -->
-    {#each project.tasks as task, taskNumber (task)}
-      <TaskComponent
-        {task}
-        {taskNumber}
-        onMove={(up) => {
-          moveTask(taskNumber, up);
-        }}
-        onDelete={() => {
-          deleteTask(taskNumber);
-        }}
-        onNewQuestion={() => {
-          newQuestion(taskNumber);
-        }}
-      >
-        {#each task.questions as question, questionNumber (question)}
-          <QuestionComponent
-            {question}
-            {questionNumber}
-            onDelete={() => deleteQuestion(taskNumber, questionNumber)}
-            onMove={(up) => moveQuestion(taskNumber, questionNumber, up)}
-          />
-        {/each}
-      </TaskComponent>
-    {/each}
+    <ul class:bx--tree={true} class:bx--tree--default={true}>
+      {#each project.tasks as task, taskNumber (task)}
+        <TaskComponent
+          {task}
+          {taskNumber}
+          onMove={(up) => {
+            moveTask(taskNumber, up);
+          }}
+          onDelete={() => {
+            deleteTask(taskNumber);
+          }}
+          onNewQuestion={() => {
+            newQuestion(taskNumber);
+          }}
+        >
+          <ul class:bx--tree={true} class:bx--tree--default={true}>
+            {#each task.questions as question, questionNumber (question)}
+              <QuestionComponent
+                {question}
+                {questionNumber}
+                onDelete={() => deleteQuestion(taskNumber, questionNumber)}
+                onMove={(up) => moveQuestion(taskNumber, questionNumber, up)}
+              />
+            {/each}
+          </ul>
+        </TaskComponent>
+      {/each}
+    </ul>
   {/if}
-  <br />
-  <br />
-  <br />
-  <br />
+  <div style="height: 1em" />
   {#if projectIsPrivate}
     <Button skeleton={loading} disabled={!edited} on:click={save} icon={Save20}
       >Save</Button

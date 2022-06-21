@@ -8,30 +8,23 @@
   export let onDelete: () => void;
 </script>
 
-<div class="outer-box">
-  <span class="question-number">{questionNumber}.</span>
+<li class="bx--tree-node">
+  <span class="question-number">{questionNumber}. </span>
   {question.question}
   {question.solution}
-  <div class="up-down-box">
-    <CaretUp16 on:click={() => onMove(true)} />
-    <CaretDown16 on:click={() => onMove(false)} />
-    <Delete16 on:click={() => onDelete()} />
-  </div>
-</div>
+  <div />
+  <CaretUp16 on:click={() => onMove(true)} />
+  <CaretDown16 on:click={() => onMove(false)} />
+  <Delete16 on:click={() => onDelete()} />
+</li>
 
 <style>
-  .up-down-box {
-    float: right;
-    width: 10;
-    flex-direction: column;
-  }
-
   .question-number {
     font-weight: 700;
   }
-
-  .outer-box {
-    padding: 1em;
-    margin-left: 10em;
+  li {
+    padding: 8px;
+    display: grid;
+    grid-template-columns: auto auto 1fr auto auto auto;
   }
 </style>
