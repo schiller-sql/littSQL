@@ -7,10 +7,10 @@
   } from "carbon-components-svelte";
   import Edit16 from "carbon-icons-svelte/lib/Edit16/Edit16.svelte";
   import View16 from "carbon-icons-svelte/lib/View16/View16.svelte";
-  import type Project from "../types/Project";
+  import type ProjectListing from "../types/ProjectListing";
   import { createEventDispatcher } from "svelte";
 
-  export let project: Project;
+  export let project: ProjectListing;
 
   const dispatch = createEventDispatcher();
 

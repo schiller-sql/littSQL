@@ -3,7 +3,7 @@
   import { authStore, fetchWithToken, requestWithToken } from "../../auth";
   import { Button, Loading, Modal, TextInput } from "carbon-components-svelte";
   import ProjectTile from "../../components/ProjectTile.svelte";
-  import type Project from "../../types/Project";
+  import type ProjectListing from "../../types/ProjectListing";
   import Add from "carbon-icons-svelte/lib/Add16/Add16.svelte";
   import { push } from "svelte-spa-router";
 
@@ -21,7 +21,7 @@
 
   let loading = true;
   let error: string;
-  let projects: Project[] = [];
+  let projects: ProjectListing[] = [];
 
   async function deleteProject(event) {
     const id = event.detail.id;
