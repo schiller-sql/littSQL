@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="go test backend" type="GoTestRunConfiguration" factoryName="Go Test" nameIsGenerated="true">
+    <module name="backend" />
+    <working_directory value="$PROJECT_DIR$" />
+    <parameters value="-v" />
+    <kind value="DIRECTORY" />
+    <package value="github.com/schiller-sql/littSQL" />
+    <directory value="$PROJECT_DIR$" />
+    <filePath value="$PROJECT_DIR$/../backend|$PROJECT_DIR$/test_db/test_db.go" />
+    <framework value="gotest" />
+    <method v="2" />
+  </configuration>
+</component>
