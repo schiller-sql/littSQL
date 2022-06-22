@@ -1,7 +1,13 @@
 <script lang="ts">
   import { Button, InlineNotification } from "carbon-components-svelte";
 
-  import { Save20 } from "carbon-icons-svelte";
+  import {
+    Save20,
+    Delete20,
+    Add24,
+    TaskSettings16,
+    Add20,
+  } from "carbon-icons-svelte";
 
   import { onMount } from "svelte";
   import TaskComponent from "../../components/Task.svelte";
@@ -9,6 +15,7 @@
   import { authStore, fetchWithToken, requestWithToken } from "../../auth";
   import type Project from "../../types/Project";
   import type Question from "../../types/Question";
+  import type Task from "../../types/Task";
 
   export let params: {
     projectId: number;
@@ -124,6 +131,16 @@
     project = project;
     edited = true;
   }
+
+  function newTask() {
+    const newTask: Task = {
+      description: "description",
+      isVoluntary: false,
+      questions: [],
+    };
+    project.tasks.push(newTask);
+    project = project;
+  }
 </script>
 
 <!-- TODO: edit history -->
@@ -160,6 +177,17 @@
           </ul>
         </TaskComponent>
       {/each}
+      <li class="bx--tree-node" style="padding-left: 0">
+        <Button
+          size="small"
+          kind="ghost"
+          on:click={newTask}
+          style="align-items:center; display:flex; padding-left: 10px"
+        >
+          <Add20 />
+          <span style="font-size:smaller"> add new task</span>
+        </Button>
+      </li>
     </ul>
   {/if}
   <div style="height: 1em" />
@@ -167,7 +195,7 @@
     <Button skeleton={loading} disabled={!edited} on:click={save} icon={Save20}
       >Save</Button
     >
-    <Button kind="danger" skeleton={loading}>Delete</Button>
+    <Button kind="danger" skeleton={loading} icon={Delete20}>Delete</Button>
   {:else}
     <InlineNotification
       lowContrast
