@@ -6,7 +6,6 @@
 
 <p>Logged in as a teacher!</p>
 
-<!--TODO: Remember tab for going back -->
 <Tabs>
   <Tab label="Courses" />
   <Tab label="Projects" />
