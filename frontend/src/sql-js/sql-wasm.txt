@@ -1,0 +1,9 @@
+The sql-wasm.d.ts and the sql-wasm.js
+files are from https://github.com/sql-js/sql.js.
+
+Both files are not in node_modules to be modified for the following reason:
+Per default, the library (sql.js) is not compatible
+with the current rollup configuration (rollup.config.js).
+
+As the sql-wasm.js requires a hosted webassembly file,
+this is hosted from the folder static/wasm.
