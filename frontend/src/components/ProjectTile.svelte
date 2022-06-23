@@ -9,6 +9,7 @@
     import View16 from "carbon-icons-svelte/lib/View16/View16.svelte";
     import type ProjectListing from "../types/ProjectListing";
     import {createEventDispatcher} from "svelte";
+    import {TrashCan16} from "carbon-icons-svelte";
 
     export let project: ProjectListing;
 
@@ -40,12 +41,7 @@
                 icon={View16}
         />
     {/if}
-    <OverflowMenu flipped style="z-index: 1">
-        {#if project.is_public}
-            <OverflowMenuItem on:click={openProject} text="View project"/>
-        {:else}
-            <OverflowMenuItem on:click={openProject} text="Edit project"/>
-            <OverflowMenuItem on:click={deleteProject} danger text="Delete project"/>
+        {#if !project.is_public}
+            <TooltipIcon tooltipTest="delete project" icon={TrashCan16} on:click={deleteProject} style="margin-left: 0.66rem"/>
         {/if}
-    </OverflowMenu>
 </ClickableTile>
