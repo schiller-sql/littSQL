@@ -31,11 +31,11 @@
       <div class="up-down-box">
         <CaretUp16
           on:click={() => onMove(true)}
-          style="position: relative; top: 6px; "
+          style="position: relative; top: 6px;"
         />
         <CaretDown16
           on:click={() => onMove(false)}
-          style="position: relative; top: -6px; "
+          style="position: relative; top: -6px;"
         />
       </div>
       <Delete16 on:click={onDelete} />
@@ -46,10 +46,10 @@
     size="small"
     kind="ghost"
     on:click={onNewQuestion}
-    style="align-items:center; display:flex; padding-left: 0.66rem; border-left: 2px solid grey; line-height: 0"
+    style="align-items:center; display:flex; padding-left: 0.66rem; border-left: 2px solid grey; line-height: 0;"
   >
     <Add20 />
-    <span style="font-size:smaller"> add new question </span>
+    <span style="font-size: smaller;">add new question</span>
   </Button>
 </li>
 
