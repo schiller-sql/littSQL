@@ -5,7 +5,6 @@ import livereload from "rollup-plugin-livereload";
 import { terser } from "rollup-plugin-terser";
 import sveltePreprocess from "svelte-preprocess";
 import typescript from "@rollup/plugin-typescript";
-import css from "rollup-plugin-css-only";
 import { optimizeImports } from "carbon-preprocess-svelte";
 import polyfills from "rollup-plugin-node-polyfills";
 
@@ -57,9 +56,8 @@ export default {
     }),
     // we'll extract any component CSS out into
     // a separate file - better for performance
-    css({ output: "bundle.css" }), // fix css (scss compiling into other file and css not being needed as css also handles that (line: 60))
     scss({
-      output: "./build/css/style.css",
+      output: "./public/build/bundle.css",
       failOnError: true,
       include: ["/**/*.css", "/**/*.scss", "/**/*.sass"],
       //runtime: require("sass"),
