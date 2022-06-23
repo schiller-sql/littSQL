@@ -10,11 +10,17 @@
     const rawLastSelectedTab = localStorage.getItem(lastSelectedTabKey);
     if (rawLastSelectedTab !== null) {
       selected = Number.parseInt(rawLastSelectedTab);
+    } else {
+      selected = 0;
     }
   });
 
-  let selected: number = 0;
-  $: localStorage.setItem(lastSelectedTabKey, selected.toString());
+  let selected: number;
+  $: {
+    if (selected !== undefined) {
+      localStorage.setItem(lastSelectedTabKey, selected.toString());
+    }
+  }
 </script>
 
 <p>Logged in as a teacher!</p>
