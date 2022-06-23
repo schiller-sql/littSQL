@@ -75,7 +75,6 @@
       <ProjectTile {project} on:open={openProject} on:delete={deleteProject} />
     {/each}
     <Button on:click={() => (open = true)} icon={Add}>Create project</Button>
-
     <Modal
       bind:open
       modalHeading="Create new project"

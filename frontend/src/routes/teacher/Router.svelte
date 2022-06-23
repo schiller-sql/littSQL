@@ -5,6 +5,7 @@
   import NotFound from "../../components/NotFound.svelte";
   import HomePage from "./HomePage.svelte";
   import ProjectEditPage from "./ProjectEditPage.svelte";
+  import CoursesEditPage from "./CoursesEditPage.svelte";
 
   const routes = {
     "/": HomePage,
@@ -12,9 +13,8 @@
     "/student-login": AlreadyLoggedIn,
     "/teacher-login": AlreadyLoggedIn,
     "/teacher-signup": AlreadyLoggedIn,
-    "/projects/:projectId": wrap({
-      component: ProjectEditPage,
-    }),
+    "/courses/:coursesId": CoursesEditPage,
+    "/projects/:projectId": ProjectEditPage,
     "*": NotFound,
   };
 </script>
