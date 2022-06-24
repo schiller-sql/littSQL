@@ -177,6 +177,7 @@
                     onDelete={() => deleteQuestion(taskNumber, questionNumber)}
                     onMove={(up) =>
                       moveQuestion(taskNumber, questionNumber, up)}
+                    editable={projectIsPrivate}
                   />
                 {/each}
               </ul>

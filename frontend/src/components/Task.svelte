@@ -26,18 +26,21 @@
       </div>
     </div>
     <div />
+
     <div class="icons">
-      <div class="up-down-box">
-        <CaretUp20
-          on:click={() => onMove(true)}
-          style="position: relative; top: 6px;"
-        />
-        <CaretDown20
-          on:click={() => onMove(false)}
-          style="position: relative; top: -6px;"
-        />
-      </div>
-      <Delete20 on:click={onDelete} />
+      {#if editable}
+        <div class="up-down-box">
+          <CaretUp20
+            on:click={() => onMove(true)}
+            style="position: relative; top: 6px;"
+          />
+          <CaretDown20
+            on:click={() => onMove(false)}
+            style="position: relative; top: -6px;"
+          />
+        </div>
+        <Delete20 on:click={onDelete} />
+      {/if}
     </div>
   </div>
   <slot />

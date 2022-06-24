@@ -7,6 +7,7 @@
   $: questionNumberDisplay = (questionNumber + 1).toString();
   export let onMove: (up: boolean) => void;
   export let onDelete: () => void;
+  export let editable: boolean;
 </script>
 
 <li
@@ -20,17 +21,19 @@
   </div>
   <div />
   <div class="icons">
-    <div class="up-down-box">
-      <CaretUp16
-        on:click={() => onMove(true)}
-        style="position: relative; top: 6px; "
-      />
-      <CaretDown16
-        on:click={() => onMove(false)}
-        style="position: relative; top: -6px; "
-      />
-    </div>
-    <Delete16 on:click={onDelete} />
+    {#if editable}
+      <div class="up-down-box">
+        <CaretUp16
+          on:click={() => onMove(true)}
+          style="position: relative; top: 6px; "
+        />
+        <CaretDown16
+          on:click={() => onMove(false)}
+          style="position: relative; top: -6px; "
+        />
+      </div>
+      <Delete16 on:click={onDelete} />
+    {/if}
   </div>
 </li>
 
