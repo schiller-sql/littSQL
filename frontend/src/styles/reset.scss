@@ -1,9 +1,11 @@
-@font-face { /*TODO: fuck google*/
+@font-face {
+  /*TODO: fuck google*/
   font-display: auto;
   font-family: "IBM Plex Mono";
   font-style: italic;
   font-weight: 300;
-  src: local("IBM Plex Mono Light Italic"), local("IBMPlexMono-LightItalic"), url(https://www.welt-weite-werbung.de/) 
+  src: local("IBM Plex Mono Light Italic"), local("IBMPlexMono-LightItalic"),
+    url(https://www.welt-weite-werbung.de/);
 }
 
 @font-face {
@@ -11,7 +13,8 @@
   font-family: "IBM Plex Mono";
   font-style: italic;
   font-weight: 400;
-  src: local("IBM Plex Mono Italic"), local("IBMPlexMono-Italic"), url(https://www.welt-weite-werbung.de/) 
+  src: local("IBM Plex Mono Italic"), local("IBMPlexMono-Italic"),
+    url(https://www.welt-weite-werbung.de/);
 }
 
 @font-face {
@@ -19,7 +22,8 @@
   font-family: "IBM Plex Mono";
   font-style: italic;
   font-weight: 600;
-  src: local("IBM Plex Mono SemiBold Italic"), local("IBMPlexMono-SemiBoldItalic"), url(https://www.welt-weite-werbung.de/) 
+  src: local("IBM Plex Mono SemiBold Italic"),
+    local("IBMPlexMono-SemiBoldItalic"), url(https://www.welt-weite-werbung.de/);
 }
 
 @font-face {
@@ -27,7 +31,8 @@
   font-family: "IBM Plex Mono";
   font-style: normal;
   font-weight: 300;
-  src: local("IBM Plex Mono Light"), local("IBMPlexMono-Light"), url(https://www.welt-weite-werbung.de/a.woff)
+  src: local("IBM Plex Mono Light"), local("IBMPlexMono-Light"),
+    url(https://www.welt-weite-werbung.de/a.woff);
 }
 
 @font-face {
@@ -35,7 +40,8 @@
   font-family: "IBM Plex Mono";
   font-style: normal;
   font-weight: 400;
-  src: local("IBM Plex Mono"), local("IBMPlexMono"), url(https://www.welt-weite-werbung.de/) 
+  src: local("IBM Plex Mono"), local("IBMPlexMono"),
+    url(https://www.welt-weite-werbung.de/);
 }
 
 @font-face {
@@ -43,7 +49,8 @@
   font-family: "IBM Plex Mono";
   font-style: normal;
   font-weight: 600;
-  src: local("IBM Plex Mono SemiBold"), local("IBMPlexMono-SemiBold"), url(https://www.welt-weite-werbung.de/) 
+  src: local("IBM Plex Mono SemiBold"), local("IBMPlexMono-SemiBold"),
+    url(https://www.welt-weite-werbung.de/);
 }
 
 @font-face {
@@ -51,8 +58,10 @@
   font-family: "IBM Plex Mono";
   font-style: italic;
   font-weight: 300;
-  src: local("IBM Plex Mono Light Italic"), local("IBMPlexMono-LightItalic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F
+  src: local("IBM Plex Mono Light Italic"), local("IBMPlexMono-LightItalic"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F,
+    U+FE2E-FE2F;
 }
 
 @font-face {
@@ -60,8 +69,9 @@
   font-family: "IBM Plex Mono";
   font-style: italic;
   font-weight: 300;
-  src: local("IBM Plex Mono Light Italic"), local("IBMPlexMono-LightItalic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116
+  src: local("IBM Plex Mono Light Italic"), local("IBMPlexMono-LightItalic"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
 }
 
 @font-face {
@@ -69,8 +79,9 @@
   font-family: "IBM Plex Mono";
   font-style: italic;
   font-weight: 300;
-  src: local("IBM Plex Mono Light Italic"), local("IBMPlexMono-LightItalic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB
+  src: local("IBM Plex Mono Light Italic"), local("IBMPlexMono-LightItalic"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
 }
 
 @font-face {
@@ -78,8 +89,10 @@
   font-family: "IBM Plex Mono";
   font-style: italic;
   font-weight: 300;
-  src: local("IBM Plex Mono Light Italic"), local("IBMPlexMono-LightItalic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF
+  src: local("IBM Plex Mono Light Italic"), local("IBMPlexMono-LightItalic"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 @font-face {
@@ -87,8 +100,11 @@
   font-family: "IBM Plex Mono";
   font-style: italic;
   font-weight: 300;
-  src: local("IBM Plex Mono Light Italic"), local("IBMPlexMono-LightItalic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD
+  src: local("IBM Plex Mono Light Italic"), local("IBMPlexMono-LightItalic"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -96,8 +112,10 @@
   font-family: "IBM Plex Mono";
   font-style: italic;
   font-weight: 400;
-  src: local("IBM Plex Mono Italic"), local("IBMPlexMono-Italic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F
+  src: local("IBM Plex Mono Italic"), local("IBMPlexMono-Italic"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F,
+    U+FE2E-FE2F;
 }
 
 @font-face {
@@ -105,8 +123,9 @@
   font-family: "IBM Plex Mono";
   font-style: italic;
   font-weight: 400;
-  src: local("IBM Plex Mono Italic"), local("IBMPlexMono-Italic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116
+  src: local("IBM Plex Mono Italic"), local("IBMPlexMono-Italic"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
 }
 
 @font-face {
@@ -114,8 +133,9 @@
   font-family: "IBM Plex Mono";
   font-style: italic;
   font-weight: 400;
-  src: local("IBM Plex Mono Italic"), local("IBMPlexMono-Italic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB
+  src: local("IBM Plex Mono Italic"), local("IBMPlexMono-Italic"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
 }
 
 @font-face {
@@ -123,8 +143,10 @@
   font-family: "IBM Plex Mono";
   font-style: italic;
   font-weight: 400;
-  src: local("IBM Plex Mono Italic"), local("IBMPlexMono-Italic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF
+  src: local("IBM Plex Mono Italic"), local("IBMPlexMono-Italic"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 @font-face {
@@ -132,8 +154,11 @@
   font-family: "IBM Plex Mono";
   font-style: italic;
   font-weight: 400;
-  src: local("IBM Plex Mono Italic"), local("IBMPlexMono-Italic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD
+  src: local("IBM Plex Mono Italic"), local("IBMPlexMono-Italic"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -141,8 +166,10 @@
   font-family: "IBM Plex Mono";
   font-style: italic;
   font-weight: 600;
-  src: local("IBM Plex Mono SemiBold Italic"), local("IBMPlexMono-SemiBoldItalic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F
+  src: local("IBM Plex Mono SemiBold Italic"),
+    local("IBMPlexMono-SemiBoldItalic"), url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F,
+    U+FE2E-FE2F;
 }
 
 @font-face {
@@ -150,8 +177,9 @@
   font-family: "IBM Plex Mono";
   font-style: italic;
   font-weight: 600;
-  src: local("IBM Plex Mono SemiBold Italic"), local("IBMPlexMono-SemiBoldItalic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116
+  src: local("IBM Plex Mono SemiBold Italic"),
+    local("IBMPlexMono-SemiBoldItalic"), url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
 }
 
 @font-face {
@@ -159,8 +187,9 @@
   font-family: "IBM Plex Mono";
   font-style: italic;
   font-weight: 600;
-  src: local("IBM Plex Mono SemiBold Italic"), local("IBMPlexMono-SemiBoldItalic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB
+  src: local("IBM Plex Mono SemiBold Italic"),
+    local("IBMPlexMono-SemiBoldItalic"), url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
 }
 
 @font-face {
@@ -168,8 +197,10 @@
   font-family: "IBM Plex Mono";
   font-style: italic;
   font-weight: 600;
-  src: local("IBM Plex Mono SemiBold Italic"), local("IBMPlexMono-SemiBoldItalic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF
+  src: local("IBM Plex Mono SemiBold Italic"),
+    local("IBMPlexMono-SemiBoldItalic"), url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 @font-face {
@@ -177,8 +208,11 @@
   font-family: "IBM Plex Mono";
   font-style: italic;
   font-weight: 600;
-  src: local("IBM Plex Mono SemiBold Italic"), local("IBMPlexMono-SemiBoldItalic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD
+  src: local("IBM Plex Mono SemiBold Italic"),
+    local("IBMPlexMono-SemiBoldItalic"), url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -186,8 +220,10 @@
   font-family: "IBM Plex Mono";
   font-style: normal;
   font-weight: 300;
-  src: local("IBM Plex Mono Light"), local("IBMPlexMono-Light"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F
+  src: local("IBM Plex Mono Light"), local("IBMPlexMono-Light"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F,
+    U+FE2E-FE2F;
 }
 
 @font-face {
@@ -195,8 +231,9 @@
   font-family: "IBM Plex Mono";
   font-style: normal;
   font-weight: 300;
-  src: local("IBM Plex Mono Light"), local("IBMPlexMono-Light"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116
+  src: local("IBM Plex Mono Light"), local("IBMPlexMono-Light"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
 }
 
 @font-face {
@@ -204,8 +241,9 @@
   font-family: "IBM Plex Mono";
   font-style: normal;
   font-weight: 300;
-  src: local("IBM Plex Mono Light"), local("IBMPlexMono-Light"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB
+  src: local("IBM Plex Mono Light"), local("IBMPlexMono-Light"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
 }
 
 @font-face {
@@ -213,8 +251,10 @@
   font-family: "IBM Plex Mono";
   font-style: normal;
   font-weight: 300;
-  src: local("IBM Plex Mono Light"), local("IBMPlexMono-Light"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF
+  src: local("IBM Plex Mono Light"), local("IBMPlexMono-Light"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 @font-face {
@@ -222,8 +262,11 @@
   font-family: "IBM Plex Mono";
   font-style: normal;
   font-weight: 300;
-  src: local("IBM Plex Mono Light"), local("IBMPlexMono-Light"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD
+  src: local("IBM Plex Mono Light"), local("IBMPlexMono-Light"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -231,8 +274,10 @@
   font-family: "IBM Plex Mono";
   font-style: normal;
   font-weight: 400;
-  src: local("IBM Plex Mono"), local("IBMPlexMono"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F
+  src: local("IBM Plex Mono"), local("IBMPlexMono"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F,
+    U+FE2E-FE2F;
 }
 
 @font-face {
@@ -240,8 +285,9 @@
   font-family: "IBM Plex Mono";
   font-style: normal;
   font-weight: 400;
-  src: local("IBM Plex Mono"), local("IBMPlexMono"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116
+  src: local("IBM Plex Mono"), local("IBMPlexMono"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
 }
 
 @font-face {
@@ -249,8 +295,9 @@
   font-family: "IBM Plex Mono";
   font-style: normal;
   font-weight: 400;
-  src: local("IBM Plex Mono"), local("IBMPlexMono"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB
+  src: local("IBM Plex Mono"), local("IBMPlexMono"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
 }
 
 @font-face {
@@ -258,8 +305,10 @@
   font-family: "IBM Plex Mono";
   font-style: normal;
   font-weight: 400;
-  src: local("IBM Plex Mono"), local("IBMPlexMono"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF
+  src: local("IBM Plex Mono"), local("IBMPlexMono"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 @font-face {
@@ -267,8 +316,11 @@
   font-family: "IBM Plex Mono";
   font-style: normal;
   font-weight: 400;
-  src: local("IBM Plex Mono"), local("IBMPlexMono"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD
+  src: local("IBM Plex Mono"), local("IBMPlexMono"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -276,8 +328,10 @@
   font-family: "IBM Plex Mono";
   font-style: normal;
   font-weight: 600;
-  src: local("IBM Plex Mono SemiBold"), local("IBMPlexMono-SemiBold"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F
+  src: local("IBM Plex Mono SemiBold"), local("IBMPlexMono-SemiBold"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F,
+    U+FE2E-FE2F;
 }
 
 @font-face {
@@ -285,8 +339,9 @@
   font-family: "IBM Plex Mono";
   font-style: normal;
   font-weight: 600;
-  src: local("IBM Plex Mono SemiBold"), local("IBMPlexMono-SemiBold"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116
+  src: local("IBM Plex Mono SemiBold"), local("IBMPlexMono-SemiBold"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
 }
 
 @font-face {
@@ -294,8 +349,9 @@
   font-family: "IBM Plex Mono";
   font-style: normal;
   font-weight: 600;
-  src: local("IBM Plex Mono SemiBold"), local("IBMPlexMono-SemiBold"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB
+  src: local("IBM Plex Mono SemiBold"), local("IBMPlexMono-SemiBold"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
 }
 
 @font-face {
@@ -303,8 +359,10 @@
   font-family: "IBM Plex Mono";
   font-style: normal;
   font-weight: 600;
-  src: local("IBM Plex Mono SemiBold"), local("IBMPlexMono-SemiBold"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF
+  src: local("IBM Plex Mono SemiBold"), local("IBMPlexMono-SemiBold"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 @font-face {
@@ -312,8 +370,11 @@
   font-family: "IBM Plex Mono";
   font-style: normal;
   font-weight: 600;
-  src: local("IBM Plex Mono SemiBold"), local("IBMPlexMono-SemiBold"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD
+  src: local("IBM Plex Mono SemiBold"), local("IBMPlexMono-SemiBold"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -321,7 +382,8 @@
   font-family: "IBM Plex Sans";
   font-style: italic;
   font-weight: 300;
-  src: local("IBM Plex Sans Light Italic"), local("IBMPlexSans-LightItalic"), url(https://www.welt-weite-werbung.de/) 
+  src: local("IBM Plex Sans Light Italic"), local("IBMPlexSans-LightItalic"),
+    url(https://www.welt-weite-werbung.de/);
 }
 
 @font-face {
@@ -329,7 +391,8 @@
   font-family: "IBM Plex Sans";
   font-style: italic;
   font-weight: 400;
-  src: local("IBM Plex Sans Italic"), local("IBMPlexSans-Italic"), url(https://www.welt-weite-werbung.de/) 
+  src: local("IBM Plex Sans Italic"), local("IBMPlexSans-Italic"),
+    url(https://www.welt-weite-werbung.de/);
 }
 
 @font-face {
@@ -337,7 +400,8 @@
   font-family: "IBM Plex Sans";
   font-style: italic;
   font-weight: 600;
-  src: local("IBM Plex Sans SemiBold Italic"), local("IBMPlexSans-SemiBoldItalic"), url(https://www.welt-weite-werbung.de/) 
+  src: local("IBM Plex Sans SemiBold Italic"),
+    local("IBMPlexSans-SemiBoldItalic"), url(https://www.welt-weite-werbung.de/);
 }
 
 @font-face {
@@ -345,7 +409,8 @@
   font-family: "IBM Plex Sans";
   font-style: normal;
   font-weight: 300;
-  src: local("IBM Plex Sans Light"), local("IBMPlexSans-Light"), url(https://www.welt-weite-werbung.de/) 
+  src: local("IBM Plex Sans Light"), local("IBMPlexSans-Light"),
+    url(https://www.welt-weite-werbung.de/);
 }
 
 @font-face {
@@ -353,7 +418,8 @@
   font-family: "IBM Plex Sans";
   font-style: normal;
   font-weight: 400;
-  src: local("IBM Plex Sans"), local("IBMPlexSans"), url(https://www.welt-weite-werbung.de/) 
+  src: local("IBM Plex Sans"), local("IBMPlexSans"),
+    url(https://www.welt-weite-werbung.de/);
 }
 
 @font-face {
@@ -361,7 +427,8 @@
   font-family: "IBM Plex Sans";
   font-style: normal;
   font-weight: 600;
-  src: local("IBM Plex Sans SemiBold"), local("IBMPlexSans-SemiBold"), url(https://www.welt-weite-werbung.de/) 
+  src: local("IBM Plex Sans SemiBold"), local("IBMPlexSans-SemiBold"),
+    url(https://www.welt-weite-werbung.de/);
 }
 
 @font-face {
@@ -369,8 +436,10 @@
   font-family: "IBM Plex Sans";
   font-style: italic;
   font-weight: 300;
-  src: local("IBM Plex Sans Light Italic"), local("IBMPlexSans-LightItalic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F
+  src: local("IBM Plex Sans Light Italic"), local("IBMPlexSans-LightItalic"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F,
+    U+FE2E-FE2F;
 }
 
 @font-face {
@@ -378,8 +447,9 @@
   font-family: "IBM Plex Sans";
   font-style: italic;
   font-weight: 300;
-  src: local("IBM Plex Sans Light Italic"), local("IBMPlexSans-LightItalic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116
+  src: local("IBM Plex Sans Light Italic"), local("IBMPlexSans-LightItalic"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
 }
 
 @font-face {
@@ -387,8 +457,9 @@
   font-family: "IBM Plex Sans";
   font-style: italic;
   font-weight: 300;
-  src: local("IBM Plex Sans Light Italic"), local("IBMPlexSans-LightItalic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0370-03FF
+  src: local("IBM Plex Sans Light Italic"), local("IBMPlexSans-LightItalic"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0370-03FF;
 }
 
 @font-face {
@@ -396,8 +467,9 @@
   font-family: "IBM Plex Sans";
   font-style: italic;
   font-weight: 300;
-  src: local("IBM Plex Sans Light Italic"), local("IBMPlexSans-LightItalic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB
+  src: local("IBM Plex Sans Light Italic"), local("IBMPlexSans-LightItalic"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
 }
 
 @font-face {
@@ -405,8 +477,10 @@
   font-family: "IBM Plex Sans";
   font-style: italic;
   font-weight: 300;
-  src: local("IBM Plex Sans Light Italic"), local("IBMPlexSans-LightItalic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF
+  src: local("IBM Plex Sans Light Italic"), local("IBMPlexSans-LightItalic"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 @font-face {
@@ -414,8 +488,11 @@
   font-family: "IBM Plex Sans";
   font-style: italic;
   font-weight: 300;
-  src: local("IBM Plex Sans Light Italic"), local("IBMPlexSans-LightItalic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD
+  src: local("IBM Plex Sans Light Italic"), local("IBMPlexSans-LightItalic"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -423,8 +500,10 @@
   font-family: "IBM Plex Sans";
   font-style: italic;
   font-weight: 400;
-  src: local("IBM Plex Sans Italic"), local("IBMPlexSans-Italic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F
+  src: local("IBM Plex Sans Italic"), local("IBMPlexSans-Italic"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F,
+    U+FE2E-FE2F;
 }
 
 @font-face {
@@ -432,8 +511,9 @@
   font-family: "IBM Plex Sans";
   font-style: italic;
   font-weight: 400;
-  src: local("IBM Plex Sans Italic"), local("IBMPlexSans-Italic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116
+  src: local("IBM Plex Sans Italic"), local("IBMPlexSans-Italic"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
 }
 
 @font-face {
@@ -441,8 +521,9 @@
   font-family: "IBM Plex Sans";
   font-style: italic;
   font-weight: 400;
-  src: local("IBM Plex Sans Italic"), local("IBMPlexSans-Italic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0370-03FF
+  src: local("IBM Plex Sans Italic"), local("IBMPlexSans-Italic"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0370-03FF;
 }
 
 @font-face {
@@ -450,8 +531,9 @@
   font-family: "IBM Plex Sans";
   font-style: italic;
   font-weight: 400;
-  src: local("IBM Plex Sans Italic"), local("IBMPlexSans-Italic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB
+  src: local("IBM Plex Sans Italic"), local("IBMPlexSans-Italic"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
 }
 
 @font-face {
@@ -459,8 +541,10 @@
   font-family: "IBM Plex Sans";
   font-style: italic;
   font-weight: 400;
-  src: local("IBM Plex Sans Italic"), local("IBMPlexSans-Italic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF
+  src: local("IBM Plex Sans Italic"), local("IBMPlexSans-Italic"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 @font-face {
@@ -468,8 +552,11 @@
   font-family: "IBM Plex Sans";
   font-style: italic;
   font-weight: 400;
-  src: local("IBM Plex Sans Italic"), local("IBMPlexSans-Italic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD
+  src: local("IBM Plex Sans Italic"), local("IBMPlexSans-Italic"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -477,8 +564,10 @@
   font-family: "IBM Plex Sans";
   font-style: italic;
   font-weight: 600;
-  src: local("IBM Plex Sans SemiBold Italic"), local("IBMPlexSans-SemiBoldItalic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F
+  src: local("IBM Plex Sans SemiBold Italic"),
+    local("IBMPlexSans-SemiBoldItalic"), url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F,
+    U+FE2E-FE2F;
 }
 
 @font-face {
@@ -486,8 +575,9 @@
   font-family: "IBM Plex Sans";
   font-style: italic;
   font-weight: 600;
-  src: local("IBM Plex Sans SemiBold Italic"), local("IBMPlexSans-SemiBoldItalic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116
+  src: local("IBM Plex Sans SemiBold Italic"),
+    local("IBMPlexSans-SemiBoldItalic"), url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
 }
 
 @font-face {
@@ -495,8 +585,9 @@
   font-family: "IBM Plex Sans";
   font-style: italic;
   font-weight: 600;
-  src: local("IBM Plex Sans SemiBold Italic"), local("IBMPlexSans-SemiBoldItalic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0370-03FF
+  src: local("IBM Plex Sans SemiBold Italic"),
+    local("IBMPlexSans-SemiBoldItalic"), url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0370-03FF;
 }
 
 @font-face {
@@ -504,8 +595,9 @@
   font-family: "IBM Plex Sans";
   font-style: italic;
   font-weight: 600;
-  src: local("IBM Plex Sans SemiBold Italic"), local("IBMPlexSans-SemiBoldItalic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB
+  src: local("IBM Plex Sans SemiBold Italic"),
+    local("IBMPlexSans-SemiBoldItalic"), url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
 }
 
 @font-face {
@@ -513,8 +605,10 @@
   font-family: "IBM Plex Sans";
   font-style: italic;
   font-weight: 600;
-  src: local("IBM Plex Sans SemiBold Italic"), local("IBMPlexSans-SemiBoldItalic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF
+  src: local("IBM Plex Sans SemiBold Italic"),
+    local("IBMPlexSans-SemiBoldItalic"), url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 @font-face {
@@ -522,8 +616,11 @@
   font-family: "IBM Plex Sans";
   font-style: italic;
   font-weight: 600;
-  src: local("IBM Plex Sans SemiBold Italic"), local("IBMPlexSans-SemiBoldItalic"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD
+  src: local("IBM Plex Sans SemiBold Italic"),
+    local("IBMPlexSans-SemiBoldItalic"), url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -531,8 +628,10 @@
   font-family: "IBM Plex Sans";
   font-style: normal;
   font-weight: 300;
-  src: local("IBM Plex Sans Light"), local("IBMPlexSans-Light"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F
+  src: local("IBM Plex Sans Light"), local("IBMPlexSans-Light"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F,
+    U+FE2E-FE2F;
 }
 
 @font-face {
@@ -540,8 +639,9 @@
   font-family: "IBM Plex Sans";
   font-style: normal;
   font-weight: 300;
-  src: local("IBM Plex Sans Light"), local("IBMPlexSans-Light"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116
+  src: local("IBM Plex Sans Light"), local("IBMPlexSans-Light"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
 }
 
 @font-face {
@@ -549,8 +649,9 @@
   font-family: "IBM Plex Sans";
   font-style: normal;
   font-weight: 300;
-  src: local("IBM Plex Sans Light"), local("IBMPlexSans-Light"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0370-03FF
+  src: local("IBM Plex Sans Light"), local("IBMPlexSans-Light"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0370-03FF;
 }
 
 @font-face {
@@ -558,8 +659,9 @@
   font-family: "IBM Plex Sans";
   font-style: normal;
   font-weight: 300;
-  src: local("IBM Plex Sans Light"), local("IBMPlexSans-Light"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB
+  src: local("IBM Plex Sans Light"), local("IBMPlexSans-Light"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
 }
 
 @font-face {
@@ -567,8 +669,10 @@
   font-family: "IBM Plex Sans";
   font-style: normal;
   font-weight: 300;
-  src: local("IBM Plex Sans Light"), local("IBMPlexSans-Light"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF
+  src: local("IBM Plex Sans Light"), local("IBMPlexSans-Light"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 @font-face {
@@ -576,8 +680,11 @@
   font-family: "IBM Plex Sans";
   font-style: normal;
   font-weight: 300;
-  src: local("IBM Plex Sans Light"), local("IBMPlexSans-Light"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD
+  src: local("IBM Plex Sans Light"), local("IBMPlexSans-Light"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -585,8 +692,10 @@
   font-family: "IBM Plex Sans";
   font-style: normal;
   font-weight: 400;
-  src: local("IBM Plex Sans"), local("IBMPlexSans"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F
+  src: local("IBM Plex Sans"), local("IBMPlexSans"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F,
+    U+FE2E-FE2F;
 }
 
 @font-face {
@@ -594,8 +703,9 @@
   font-family: "IBM Plex Sans";
   font-style: normal;
   font-weight: 400;
-  src: local("IBM Plex Sans"), local("IBMPlexSans"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116
+  src: local("IBM Plex Sans"), local("IBMPlexSans"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
 }
 
 @font-face {
@@ -603,8 +713,9 @@
   font-family: "IBM Plex Sans";
   font-style: normal;
   font-weight: 400;
-  src: local("IBM Plex Sans"), local("IBMPlexSans"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0370-03FF
+  src: local("IBM Plex Sans"), local("IBMPlexSans"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0370-03FF;
 }
 
 @font-face {
@@ -612,8 +723,9 @@
   font-family: "IBM Plex Sans";
   font-style: normal;
   font-weight: 400;
-  src: local("IBM Plex Sans"), local("IBMPlexSans"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB
+  src: local("IBM Plex Sans"), local("IBMPlexSans"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
 }
 
 @font-face {
@@ -621,8 +733,10 @@
   font-family: "IBM Plex Sans";
   font-style: normal;
   font-weight: 400;
-  src: local("IBM Plex Sans"), local("IBMPlexSans"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF
+  src: local("IBM Plex Sans"), local("IBMPlexSans"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 @font-face {
@@ -630,8 +744,11 @@
   font-family: "IBM Plex Sans";
   font-style: normal;
   font-weight: 400;
-  src: local("IBM Plex Sans"), local("IBMPlexSans"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD
+  src: local("IBM Plex Sans"), local("IBMPlexSans"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -639,8 +756,10 @@
   font-family: "IBM Plex Sans";
   font-style: normal;
   font-weight: 600;
-  src: local("IBM Plex Sans SemiBold"), local("IBMPlexSans-SemiBold"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F
+  src: local("IBM Plex Sans SemiBold"), local("IBMPlexSans-SemiBold"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F,
+    U+FE2E-FE2F;
 }
 
 @font-face {
@@ -648,8 +767,9 @@
   font-family: "IBM Plex Sans";
   font-style: normal;
   font-weight: 600;
-  src: local("IBM Plex Sans SemiBold"), local("IBMPlexSans-SemiBold"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116
+  src: local("IBM Plex Sans SemiBold"), local("IBMPlexSans-SemiBold"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
 }
 
 @font-face {
@@ -657,8 +777,9 @@
   font-family: "IBM Plex Sans";
   font-style: normal;
   font-weight: 600;
-  src: local("IBM Plex Sans SemiBold"), local("IBMPlexSans-SemiBold"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0370-03FF
+  src: local("IBM Plex Sans SemiBold"), local("IBMPlexSans-SemiBold"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0370-03FF;
 }
 
 @font-face {
@@ -666,8 +787,9 @@
   font-family: "IBM Plex Sans";
   font-style: normal;
   font-weight: 600;
-  src: local("IBM Plex Sans SemiBold"), local("IBMPlexSans-SemiBold"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB
+  src: local("IBM Plex Sans SemiBold"), local("IBMPlexSans-SemiBold"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
 }
 
 @font-face {
@@ -675,8 +797,10 @@
   font-family: "IBM Plex Sans";
   font-style: normal;
   font-weight: 600;
-  src: local("IBM Plex Sans SemiBold"), local("IBMPlexSans-SemiBold"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF
+  src: local("IBM Plex Sans SemiBold"), local("IBMPlexSans-SemiBold"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 @font-face {
@@ -684,6 +808,9 @@
   font-family: "IBM Plex Sans";
   font-style: normal;
   font-weight: 600;
-  src: local("IBM Plex Sans SemiBold"), local("IBMPlexSans-SemiBold"), url(https://www.welt-weite-werbung.de/) ;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD
+  src: local("IBM Plex Sans SemiBold"), local("IBMPlexSans-SemiBold"),
+    url(https://www.welt-weite-werbung.de/);
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
 }

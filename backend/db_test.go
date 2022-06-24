@@ -1,8 +1,9 @@
 package main_test
 
 import (
-	"github.com/schiller-sql/littSQL/config"
 	"testing"
+
+	"github.com/schiller-sql/littSQL/config"
 )
 
 func TestInitPostgresDB(t *testing.T) {
