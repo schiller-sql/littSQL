@@ -8,10 +8,13 @@
   export let onDelete: () => void;
 </script>
 
-<li class="bx--tree-node" style="border-left: 2px solid grey;">
+<li
+  class="bx--tree-node"
+  style="border-left: 2px solid grey; margin-left: 24px"
+>
   <span class="question-number">{questionNumber}.&nbsp</span>
-  {question.question}
-  {question.solution}
+  <div>{question.question}</div>
+  <div>{question.solution}</div>
   <div />
   <div class="icons">
     <div class="up-down-box">
@@ -34,6 +37,7 @@
     align-items: center;
     column-gap: 0.5rem;
     display: flex;
+    margin-right: 8px;
   }
 
   .up-down-box {

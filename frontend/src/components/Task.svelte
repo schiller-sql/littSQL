@@ -42,15 +42,22 @@
     </div>
   </div>
   <slot />
-  <Button
-    size="small"
-    kind="ghost"
-    on:click={onNewQuestion}
-    style="align-items:center; display:flex; padding-left: 0.66rem; border-left: 2px solid grey; line-height: 0;"
-  >
-    <Add20 />
-    <span style="font-size: smaller;">add new question</span>
-  </Button>
+  <div style="margin-left: 24px; display: grid; grid-template-colums: 1fr">
+    <Button
+      size="small"
+      kind="ghost"
+      on:click={onNewQuestion}
+      style="padding-left: 0.66rem; border-left: 2px solid grey; line-height: 0"
+    >
+      <Add20 />
+      <div style="display:grid grid-template-columns: auto 1fr">
+        <span style="font-size: smaller; float:left; text-align:left"
+          >add new question</span
+        >
+        <div />
+      </div>
+    </Button>
+  </div>
 </li>
 
 <style>
