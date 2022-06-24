@@ -3,7 +3,7 @@
   import { CaretDown16, CaretUp16, Delete16 } from "carbon-icons-svelte";
 
   export let question: Question;
-  export let questionNumber: number;
+  export let questionNumber: string;
   export let onMove: (up: boolean) => void;
   export let onDelete: () => void;
 </script>
@@ -12,9 +12,11 @@
   class="bx--tree-node"
   style="border-left: 2px solid grey; margin-left: 24px"
 >
-  <span class="question-number">{questionNumber}.&nbsp</span>
-  <div>{question.question}</div>
-  <div>{question.solution}</div>
+  <div style="padding-top: 10px; padding-bottom: 10px">
+    <span class="question-number">{questionNumber}.&nbsp</span>
+    {question.question}
+    {question.solution}
+  </div>
   <div />
   <div class="icons">
     <div class="up-down-box">
@@ -52,6 +54,6 @@
 
   li {
     display: grid;
-    grid-template-columns: auto auto 1fr auto auto auto;
+    grid-template-columns: auto 1fr auto;
   }
 </style>

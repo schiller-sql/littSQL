@@ -22,7 +22,7 @@
 
 <li class="bx--tree-node">
   <div class="task-content">
-    <div style="padding-top: 35%; padding-bottom: 35%;">
+    <div style="padding-top: 12px; padding-bottom: 10px;">
       <span class="task-number">{taskNumber}.&nbsp</span>
       {task.description}
     </div>
@@ -47,15 +47,17 @@
       size="small"
       kind="ghost"
       on:click={onNewQuestion}
-      style="padding-left: 0.66rem; border-left: 2px solid grey; line-height: 0"
+      style="padding-left: 0.66rem; border-left: 2px solid grey; line-height: 0; display: grid; grid-template-columns: auto 2px auto 1fr; width: 100%; max-width:none"
     >
-      <Add20 />
+      <Add20 style="display:block" />
+      <div />
       <div style="display:grid grid-template-columns: auto 1fr">
         <span style="font-size: smaller; float:left; text-align:left"
           >add new question</span
         >
         <div />
       </div>
+      <div />
     </Button>
   </div>
 </li>
