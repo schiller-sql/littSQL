@@ -12,6 +12,7 @@
   export let onMove: (up: boolean) => void;
   export let onDelete: () => void;
   export let onNewQuestion: () => void;
+  export let editable: boolean;
 </script>
 
 <!-- give a line next to each question on the level of the task -->
@@ -42,6 +43,7 @@
   <slot />
   <div style="margin-left: 28px; display: grid; grid-template-colums: 1fr">
     <Button
+      disabled={!editable}
       size="small"
       kind="ghost"
       on:click={onNewQuestion}

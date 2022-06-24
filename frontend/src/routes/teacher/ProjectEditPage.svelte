@@ -167,6 +167,7 @@
               onNewQuestion={() => {
                 newQuestion(taskNumber);
               }}
+              editable={projectIsPrivate}
             >
               <ul class:bx--tree={true} class:bx--tree--default={true}>
                 {#each task.questions as question, questionNumber (question)}
@@ -183,6 +184,7 @@
           {/each}
           <li class="bx--tree-node" style="padding-left: 0">
             <Button
+              disabled={!projectIsPrivate}
               size="small"
               kind="ghost"
               on:click={newTask}
