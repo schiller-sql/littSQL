@@ -7,18 +7,19 @@
   $: questionNumberDisplay = (questionNumber + 1).toString();
   export let onMove: (up: boolean) => void;
   export let onDelete: () => void;
+  export let selected: boolean;
 </script>
 
 <li
-  class="bx--tree-node"
+  class="bx--tree-node {selected ? 'selected-li' : ''}"
   style="border-left: 2px solid grey; margin-left: 28px"
 >
-  <div style="padding-top: 10px; padding-bottom: 10px">
+  <div style="padding-top: 10px; padding-bottom: 10px" on:click>
     <span class="question-number">{questionNumberDisplay}.&nbsp</span>
     {question.question}
     {question.solution}
   </div>
-  <div />
+  <div on:click />
   <div class="icons">
     <div class="up-down-box">
       <CaretUp16
@@ -40,7 +41,7 @@
     align-items: center;
     column-gap: 0.5rem;
     display: flex;
-    margin-right: 8px;
+    margin-right: 12px;
   }
 
   .up-down-box {
@@ -56,5 +57,21 @@
   li {
     display: grid;
     grid-template-columns: auto 1fr auto;
+  }
+
+  li:hover {
+    background-color: #353535;
+  }
+
+  li:active {
+    background-color: #525252;
+  }
+
+  .selected-li {
+    background-color: #525252;
+  }
+
+  .selected-li:hover {
+    background-color: #525252;
   }
 </style>

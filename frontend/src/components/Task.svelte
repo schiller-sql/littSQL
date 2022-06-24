@@ -29,11 +29,11 @@
       <div class="up-down-box">
         <CaretUp20
           on:click={() => onMove(true)}
-          style="position: relative; top: 6px;"
+          style="position: relative; top: 7px;"
         />
         <CaretDown20
           on:click={() => onMove(false)}
-          style="position: relative; top: -6px;"
+          style="position: relative; top: -7px;"
         />
       </div>
       <Delete20 on:click={onDelete} />
@@ -45,7 +45,7 @@
       size="small"
       kind="ghost"
       on:click={onNewQuestion}
-      style="padding-left: 0.66rem; border-left: 2px solid grey; line-height: 0; display: grid; grid-template-columns: auto 2px auto 1fr; width: 100%; max-width:none"
+      style="padding-left: 0.66rem; border-left: 2px solid grey; line-height: 0; display: grid; grid-template-columns: auto 2px auto 1fr; width: 100%; max-width:none; height: 36px"
     >
       <Add20 style="display:block" />
       <div />

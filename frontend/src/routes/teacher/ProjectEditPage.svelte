@@ -131,6 +131,7 @@
     project.tasks[taskNumber].questions.push(newQuestion);
     project = project;
     edited = true;
+    selectQuestion(taskNumber, project.tasks[taskNumber].questions.length - 1);
   }
 
   function newTask() {
@@ -142,6 +143,17 @@
     project.tasks.push(newTask);
     project = project;
   }
+
+  function selectQuestion(taskNumber: number, questionNumber: number) {
+    selectedQuestion = { taskNumber, questionNumber };
+  }
+
+  let selectedQuestion:
+    | {
+        taskNumber: number;
+        questionNumber: number;
+      }
+    | undefined;
 </script>
 
 <!-- TODO: edit history -->
@@ -176,6 +188,9 @@
                     onDelete={() => deleteQuestion(taskNumber, questionNumber)}
                     onMove={(up) =>
                       moveQuestion(taskNumber, questionNumber, up)}
+                    on:click={() => selectQuestion(taskNumber, questionNumber)}
+                    selected={selectedQuestion?.taskNumber === taskNumber &&
+                      selectedQuestion?.questionNumber === questionNumber}
                   />
                 {/each}
               </ul>
