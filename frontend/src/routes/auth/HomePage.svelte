@@ -1,5 +1,5 @@
 <script>
-  import { ButtonSet, Button } from 'carbon-components-svelte'
+  import { ButtonSet, Button } from "carbon-components-svelte";
 </script>
 
 <ButtonSet stacked>

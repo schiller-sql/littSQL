@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { ButtonSet, Button } from 'carbon-components-svelte'
-  import { authStore } from '../auth'
+  import { ButtonSet, Button } from "carbon-components-svelte";
+  import { authStore } from "../auth";
 </script>
 
 <p>You are already logged in</p>

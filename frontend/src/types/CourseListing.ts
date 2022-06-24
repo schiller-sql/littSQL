@@ -1,4 +1,4 @@
 export default interface CourseListing {
-    id: number
-    name: string
+  id: number;
+  name: string;
 }
