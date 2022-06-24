@@ -1,18 +1,14 @@
 <script lang="ts">
   import { Button } from "carbon-components-svelte";
 
-  import {
-    Add20,
-    Add24,
-    CaretDown16,
-    CaretUp16,
-    Delete16,
-  } from "carbon-icons-svelte";
+  import { Add20, CaretDown20, CaretUp20, Delete20 } from "carbon-icons-svelte";
 
   import type Task from "../types/Task";
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
   export let task: Task;
   export let taskNumber: number;
+  $: taskNumberDisplay = alphabet[taskNumber];
   export let onMove: (up: boolean) => void;
   export let onDelete: () => void;
   export let onNewQuestion: () => void;
@@ -20,29 +16,31 @@
 
 <!-- give a line next to each question on the level of the task -->
 
-<li class="bx--tree-node">
+<li class="bx--tree-node" style="padding-bottom: 12px; padding-top: 4">
   <div class="task-content">
-    <div style="padding-top: 12px; padding-bottom: 10px;">
-      <span class="task-number">{taskNumber}.&nbsp</span>
-      {task.description}
+    <div style="padding-top: 12px; padding-bottom: 12px;">
+      <div style="font-size: large">
+        <span class="task-number">{taskNumberDisplay}.&nbsp</span>
+        {task.description}
+      </div>
     </div>
     <div />
     <div class="icons">
       <div class="up-down-box">
-        <CaretUp16
+        <CaretUp20
           on:click={() => onMove(true)}
           style="position: relative; top: 6px;"
         />
-        <CaretDown16
+        <CaretDown20
           on:click={() => onMove(false)}
           style="position: relative; top: -6px;"
         />
       </div>
-      <Delete16 on:click={onDelete} />
+      <Delete20 on:click={onDelete} />
     </div>
   </div>
   <slot />
-  <div style="margin-left: 24px; display: grid; grid-template-colums: 1fr">
+  <div style="margin-left: 28px; display: grid; grid-template-colums: 1fr">
     <Button
       size="small"
       kind="ghost"
@@ -80,11 +78,6 @@
     font-weight: 700;
     font-size: 18px;
   }
-  /* li {
-    padding: 8px;
-    padding-right: 8px;
-    padding-top: 0;
-  } */
 
   .task-content {
     display: grid;

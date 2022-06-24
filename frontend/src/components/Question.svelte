@@ -3,17 +3,18 @@
   import { CaretDown16, CaretUp16, Delete16 } from "carbon-icons-svelte";
 
   export let question: Question;
-  export let questionNumber: string;
+  export let questionNumber: number;
+  $: questionNumberDisplay = (questionNumber + 1).toString();
   export let onMove: (up: boolean) => void;
   export let onDelete: () => void;
 </script>
 
 <li
   class="bx--tree-node"
-  style="border-left: 2px solid grey; margin-left: 24px"
+  style="border-left: 2px solid grey; margin-left: 28px"
 >
   <div style="padding-top: 10px; padding-bottom: 10px">
-    <span class="question-number">{questionNumber}.&nbsp</span>
+    <span class="question-number">{questionNumberDisplay}.&nbsp</span>
     {question.question}
     {question.solution}
   </div>

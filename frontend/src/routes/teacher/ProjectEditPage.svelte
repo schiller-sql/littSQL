@@ -7,6 +7,7 @@
     Add24,
     TaskSettings16,
     Add20,
+    Add32,
   } from "carbon-icons-svelte";
 
   import { onMount } from "svelte";
@@ -185,13 +186,18 @@
               size="small"
               kind="ghost"
               on:click={newTask}
-              style="display:flex; padding-left: 10px"
+              style="padding-left: 0.66rem; line-height: 0; display: grid; grid-template-columns: auto 2px auto 1fr auto; width: 100%; max-width:none; "
             >
-              <Add20 />
-              <div style="display:grid; grid-template-columns:auto 1fr">
-                <span style="font-size:smaller">add new task</span>
+              <Add24 style="display:block" />
+              <div />
+              <div style="display:grid grid-template-columns: auto 1fr">
+                <span style="float:left; text-align:left; font-size:15px"
+                  >add new task</span
+                >
                 <div />
               </div>
+              <div />
+              <div style="height: 38px" />
             </Button>
           </li>
         </ul>
