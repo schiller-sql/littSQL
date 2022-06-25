@@ -201,6 +201,7 @@
                 newQuestion(taskNumber);
               }}
               onDescriptionChange={onTaskDescriptionChange}
+              editable={projectIsPrivate}
             >
               <ul class:bx--tree={true} class:bx--tree--default={true}>
                 {#each task.questions as question, questionNumber (question)}
@@ -213,6 +214,7 @@
                     on:click={() => selectQuestion(taskNumber, questionNumber)}
                     selected={selectedQuestion?.taskNumber === taskNumber &&
                       selectedQuestion?.questionNumber === questionNumber}
+                    editable={projectIsPrivate}
                   />
                 {/each}
               </ul>
@@ -220,6 +222,7 @@
           {/each}
           <li class="bx--tree-node" style="padding-left: 0">
             <Button
+              disabled={!projectIsPrivate}
               size="small"
               kind="ghost"
               on:click={newTask}

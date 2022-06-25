@@ -5,7 +5,6 @@
   import { onMount } from "svelte";
 
   import type Task from "../types/Task";
-  import AlreadyLoggedIn from "./AlreadyLoggedIn.svelte";
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
   onMount(() => {
@@ -22,6 +21,7 @@
   export let onMove: (up: boolean) => void;
   export let onDelete: () => void;
   export let onNewQuestion: () => void;
+  export let editable: boolean;
 
   function onInput(event) {
     const value = event.srcElement.value;
@@ -60,23 +60,27 @@
         >
       {/if}
     </div>
-    <div class="icons" style=" background-color: #222222">
-      <div class="up-down-box">
-        <CaretUp20
-          on:click={() => onMove(true)}
-          style="position: relative; top: 7px;"
-        />
-        <CaretDown20
-          on:click={() => onMove(false)}
-          style="position: relative; top: -7px;"
-        />
-      </div>
-      <Delete20 on:click={onDelete} />
+
+    <div class="icons">
+      {#if editable}
+        <div class="up-down-box">
+          <CaretUp20
+            on:click={() => onMove(true)}
+            style="position: relative; top: 7px;"
+          />
+          <CaretDown20
+            on:click={() => onMove(false)}
+            style="position: relative; top: -7px;"
+          />
+        </div>
+        <Delete20 on:click={onDelete} />
+      {/if}
     </div>
   </div>
   <slot />
   <div style="margin-left: 28px; display: grid; grid-template-colums: 1fr">
     <Button
+      disabled={!editable}
       size="small"
       kind="ghost"
       on:click={onNewQuestion}
