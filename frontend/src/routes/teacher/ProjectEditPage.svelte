@@ -71,13 +71,13 @@
     if (
       (up && taskNumber === 0) ||
       (!up && taskNumber === project!.tasks.length - 1)
-    )
+    ) {
       return;
-    console.log(taskNumber, up);
+    }
     // move task
     const task = project.tasks[taskNumber];
     project.tasks.splice(taskNumber, 1);
-    project.tasks.splice(taskNumber + (up ? -1 : -1), 0, task);
+    project.tasks.splice(taskNumber + (up ? -1 : 1), 0, task);
     project = project;
     edited = true;
   }
