@@ -4,8 +4,9 @@ CREATE SCHEMA utils;
 
 CREATE OR REPLACE FUNCTION utils.random_string(length INTEGER) RETURNS CHAR AS
 $$
-    SELECT ARRAY_TO_STRING(
-        ARRAY(SELECT SUBSTR('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ', ((RANDOM() * (36 - 1) + 1)::INTEGER), 1) FROM GENERATE_SERIES(1, length)), '')
+SELECT ARRAY_TO_STRING(
+               ARRAY(SELECT SUBSTR('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ', ((RANDOM() * (36 - 1) + 1)::INTEGER), 1)
+                     FROM GENERATE_SERIES(1, length)), '')
 $$ LANGUAGE sql;
 
 
@@ -66,7 +67,7 @@ CREATE TABLE questions -- a question asked to the participant, is part of a task
     question    VARCHAR       NOT NULL,
     number      SMALLINT      NOT NULL CHECK ( number >= 0 ),
     type        question_type NOT NULL,
-    solution    VARCHAR       NOT NULL,
+    solution    VARCHAR,
     PRIMARY KEY (project_id, task_number, number),
     FOREIGN KEY (project_id, task_number) REFERENCES tasks (project_id, number) ON DELETE CASCADE
 );

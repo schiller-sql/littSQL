@@ -11,6 +11,6 @@ type Question struct {
 	Number int32 `gorm:"primary_key;column:number;type:INT2;" json:"number"`
 	//[ 4] type                                           USER_DEFINED         null: false  primary: false  isArray: false  auto: false  col: USER_DEFINED    len: -1      default: []
 	Type string `gorm:"column:type;type:VARCHAR;" json:"type"`
-	//[ 5] solution                                       VARCHAR              null: false  primary: false  isArray: false  auto: false  col: VARCHAR         len: -1      default: []
-	Solution string `gorm:"column:solution;type:VARCHAR;" json:"solution"`
+	//[ 5] solution                                       VARCHAR              null: true   primary: false  isArray: false  auto: false  col: VARCHAR         len: -1      default: []
+	Solution *string `gorm:"column:solution;type:VARCHAR;" json:"solution"`
 }

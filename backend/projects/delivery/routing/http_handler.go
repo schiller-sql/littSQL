@@ -195,5 +195,5 @@ type TaskForm struct {
 type QuestionForm struct {
 	Question string `json:"question" binding:"required"`
 	Type     string `json:"type" binding:"required"`
-	Solution string `json:"solution" binding:"required"`
+	Solution *string `json:"solution"`
 }
