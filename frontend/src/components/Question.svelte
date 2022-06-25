@@ -1,6 +1,7 @@
 <script lang="ts">
   import type Question from "../types/Question";
   import { CaretDown16, CaretUp16, Delete16 } from "carbon-icons-svelte";
+  import { Tag } from "carbon-components-svelte";
 
   export let question: Question;
   export let questionNumber: number;
@@ -12,14 +13,30 @@
 
 <li
   class="bx--tree-node {selected ? 'selected-li' : ''}"
-  style="border-left: 2px solid grey; margin-left: 28px"
+  style="border-left: 2px solid #393939; margin-left: 28px"
 >
   <div style="padding-top: 10px; padding-bottom: 10px" on:click>
-    <span class="question-number">{questionNumberDisplay}.&nbsp</span>
-    {question.question}
-    {question.solution}
+    <div style="display:inline-block">
+      <span class="question-number">{questionNumberDisplay}.&nbsp</span>
+      {question.question}
+    </div>
   </div>
-  <div on:click />
+  <div on:click>
+    <Tag
+      type={question.type === "sql" ? "green" : "cool-gray"}
+      size="sm"
+      style="float: right; margin-right: 16px; margin-top: 9px; margin-bottom: 9px"
+      >{question.type}</Tag
+    >
+    {#if question.solution !== null}
+      <Tag
+        type="blue"
+        size="sm"
+        style="float: right; margin-right: 8px; margin-top: 9px; margin-bottom: 9px"
+        >solution</Tag
+      >
+    {/if}
+  </div>
   <div class="icons">
     <div class="up-down-box">
       <CaretUp16

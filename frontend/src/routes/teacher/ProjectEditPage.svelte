@@ -1,16 +1,9 @@
 <script lang="ts">
   import { Button, InlineNotification } from "carbon-components-svelte";
 
-  import {
-    Save20,
-    Delete20,
-    Add24,
-    TaskSettings16,
-    Add20,
-    Add32,
-  } from "carbon-icons-svelte";
+  import { Save20, Delete20, Add24 } from "carbon-icons-svelte";
 
-  import { onMount } from "svelte";
+  import { afterUpdate, onMount } from "svelte";
   import TaskComponent from "../../components/Task.svelte";
   import QuestionComponent from "../../components/Question.svelte";
   import { authStore, fetchWithToken, requestWithToken } from "../../auth";
@@ -24,6 +17,15 @@
 
   window.onkeyup = function (e) {};
 
+  let shouldScrollOnNextTickDown = false;
+
+  afterUpdate(() => {
+    if (shouldScrollOnNextTickDown) {
+      questionsScrollNode.scrollTop = questionsScrollNode.scrollHeight;
+      shouldScrollOnNextTickDown = false;
+    }
+  });
+
   onMount(async () => {
     try {
       project = await fetchWithToken(
@@ -34,6 +36,7 @@
     } catch (e) {
       error = e.toString();
     } finally {
+      console.log(project);
       loading = false;
     }
   });
@@ -91,6 +94,12 @@
     _deleteQuestion(taskNumber, questionNumber);
     project = project;
     edited = true;
+    if (
+      selectedQuestion?.taskNumber === taskNumber &&
+      selectedQuestion?.questionNumber === questionNumber
+    ) {
+      selectedQuestion = undefined;
+    }
   }
 
   function moveQuestion(
@@ -142,18 +151,31 @@
     };
     project.tasks.push(newTask);
     project = project;
+    edited = true;
+    shouldScrollOnNextTickDown = true;
+  }
+
+  function onTaskDescriptionChange() {
+    edited = true;
   }
 
   function selectQuestion(taskNumber: number, questionNumber: number) {
-    selectedQuestion = { taskNumber, questionNumber };
+    selectedQuestion = {
+      taskNumber,
+      questionNumber,
+      question: project.tasks[taskNumber].questions[questionNumber],
+    };
   }
 
   let selectedQuestion:
     | {
         taskNumber: number;
         questionNumber: number;
+        question: Question;
       }
     | undefined;
+
+  let questionsScrollNode;
 </script>
 
 <!-- TODO: edit history -->
@@ -164,7 +186,7 @@
   {#if project !== undefined}
     <!-- svelte-ignore missing-declaration -->
     <div class="separator">
-      <div>
+      <div bind:this={questionsScrollNode} class="page-overflow-scroll">
         <ul class:bx--tree={true} class:bx--tree--default={true}>
           {#each project.tasks as task, taskNumber (task)}
             <TaskComponent
@@ -179,6 +201,7 @@
               onNewQuestion={() => {
                 newQuestion(taskNumber);
               }}
+              onDescriptionChange={onTaskDescriptionChange}
             >
               <ul class:bx--tree={true} class:bx--tree--default={true}>
                 {#each task.questions as question, questionNumber (question)}
@@ -218,7 +241,29 @@
         </ul>
       </div>
       <div />
-      <div style="background-color:brown" />
+      {#if selectedQuestion}
+        <div
+          style="background-color:#262626"
+          class="page-overflow-scroll info-text edit-question-box"
+        >
+          <center> asdlfj </center>
+        </div>
+      {:else}
+        <div
+          style="background-color:#262626; height: 500px"
+          class="page-overflow-scroll"
+        >
+          <div
+            class="info-text"
+            style="margin-top: calc(250px - 16px); margin-bottom: calc(250px - 16px);"
+          >
+            <center>
+              no question selected,<br />
+              click on a question to edit it
+            </center>
+          </div>
+        </div>
+      {/if}
     </div>
   {/if}
   <div style="height: 1em" />
@@ -240,8 +285,22 @@
 {/if}
 
 <style>
+  .edit-question-box {
+    padding: 16px;
+  }
+
   .separator {
     display: grid;
     grid-template-columns: 1fr 3px 1fr;
+  }
+
+  .page-overflow-scroll {
+    overflow-y: auto;
+    max-height: calc(100vh - 174px);
+  }
+
+  .info-text {
+    font-size: 16px;
+    color: #4c4c4c;
   }
 </style>
