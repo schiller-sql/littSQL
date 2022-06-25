@@ -36,7 +36,6 @@
     } catch (e) {
       error = e.toString();
     } finally {
-      console.log(project);
       loading = false;
     }
   });
@@ -146,7 +145,7 @@
   function newTask() {
     const newTask: Task = {
       description: "description",
-      isVoluntary: false,
+      is_voluntary: false,
       questions: [],
     };
     project.tasks.push(newTask);

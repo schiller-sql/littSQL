@@ -2,6 +2,6 @@ import type Question from "./Question";
 
 export default interface Task {
   description: string;
-  isVoluntary: boolean;
+  is_voluntary: boolean;
   questions: Question[];
 }

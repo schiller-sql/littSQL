@@ -51,12 +51,14 @@
       </div>
     </div>
     <div style=" background-color: #222222">
-      <Tag
-        type="purple"
-        size="sm"
-        style="float: right; margin-right: 16px; margin-top: 24px; margin-bottom: 24px"
-        >voluntary</Tag
-      >
+      {#if task.is_voluntary}
+        <Tag
+          type="purple"
+          size="sm"
+          style="float: right; margin-right: 16px; margin-top: 24px; margin-bottom: 24px"
+          >voluntary</Tag
+        >
+      {/if}
     </div>
     <div class="icons" style=" background-color: #222222">
       <div class="up-down-box">
