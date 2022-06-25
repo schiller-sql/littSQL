@@ -22,7 +22,25 @@ INSERT INTO projects(name, documentation_md, db_sql, owner_id)
 VALUES ('private project 1', '# docs', (SELECT sql FROM database_templates WHERE id = 1), 1),
        ('private project 2', '# other docs', (SELECT sql FROM database_templates WHERE id = 1), 2);
 
--- insert tasks and questions for 'project of main'
+-- insert tasks and questions for project 'public project 1'
+INSERT INTO tasks(project_id, number, description, is_voluntary)
+VALUES (1, 0, 'First task of project public project 1', FALSE),
+       (1, 1, 'Second (voluntary) task of project public project 1', TRUE),
+       (2, 0, 'First task of project public project 2', FALSE),
+       (2, 1, 'Second (voluntary) task of project public project 2', TRUE);
+
+INSERT INTO questions(project_id, task_number, question, number, type, solution)
+VALUES
+       (1, 0, 'Why is this the first question of the first task?', 0, 'text', 'I don''t know...'),
+       (1, 0, 'Why is this the second question of the first task?', 1, 'text', 'I don''t know...'),
+       (1, 1, 'Why is this the first question of the second task?', 0, 'text', 'I don''t know...'),
+       (1, 1, 'Why is this the second question of the second task?', 1, 'text', 'I don''t know...'),
+       (2, 0, 'Why is this the first question of the first task?', 0, 'text', 'I don''t know...'),
+       (2, 0, 'Why is this the second question of the first task?', 1, 'text', 'I don''t know...'),
+       (2, 1, 'Why is this the first question of the second task?', 0, 'text', 'I don''t know...'),
+       (2, 1, 'Why is this the second question of the second task?', 1, 'text', 'I don''t know...');
+
+-- insert tasks and questions for teacher 'main'
 INSERT INTO tasks(project_id, number, description, is_voluntary)
 VALUES (3, 0, 'First task of project of main', FALSE),
        (3, 1, 'Second (voluntary) task of project of main', TRUE);
