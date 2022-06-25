@@ -261,7 +261,7 @@
           >
             <center>
               no question selected,<br />
-              click on a question to edit it
+              click on a question to {projectIsPrivate ? "view" : "edit"} it
             </center>
           </div>
         </div>
