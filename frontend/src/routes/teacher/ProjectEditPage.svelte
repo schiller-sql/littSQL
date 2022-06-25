@@ -246,7 +246,7 @@
           style="background-color:#262626"
           class="page-overflow-scroll info-text edit-question-box"
         >
-          <center> asdlfj </center>
+          <center> {selectedQuestion.question.question}</center>
         </div>
       {:else}
         <div
