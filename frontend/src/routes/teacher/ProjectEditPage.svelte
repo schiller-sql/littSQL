@@ -8,6 +8,7 @@
     Close20,
     Close16,
     Close24,
+    Close32,
   } from "carbon-icons-svelte";
 
   import { afterUpdate, onMount } from "svelte";
@@ -17,6 +18,8 @@
   import type Project from "../../types/Project";
   import type Question from "../../types/Question";
   import type Task from "../../types/Task";
+  import QuestionEditor from "./QuestionEditor.svelte";
+  import { letterFromNumber } from "../../util/utli";
 
   export let params: {
     projectId: number;
@@ -40,6 +43,7 @@
         "get",
         $authStore.token
       );
+      console.log(project);
     } catch (e) {
       error = e.toString();
     } finally {
@@ -149,6 +153,11 @@
     selectQuestion(taskNumber, project.tasks[taskNumber].questions.length - 1);
   }
 
+  function hasEditedProject() {
+    project = project;
+    edited = true;
+  }
+
   function newTask() {
     const newTask: Task = {
       description: "description",
@@ -171,6 +180,10 @@
       questionNumber,
       question: project.tasks[taskNumber].questions[questionNumber],
     };
+  }
+
+  function unselectQuestion() {
+    selectedQuestion = undefined;
   }
 
   let selectedQuestion:
@@ -259,12 +272,21 @@
             tooltipPosition="left"
             tooltipAlignment="end"
             iconDescription="close"
-            size="small"
             kind="ghost"
+            size="small"
             icon={Close24}
             style="float:right"
+            on:click={unselectQuestion}
           />
-          <div style="background-color: red; width: 100%; height: 100%" />
+          <div style="width: 100%; height: 100%">
+            <QuestionEditor
+              editable={projectIsPrivate}
+              taskNumber={selectedQuestion.taskNumber}
+              questionNumber={selectedQuestion.questionNumber}
+              question={selectedQuestion.question}
+              onQuestionEdit={hasEditedProject}
+            />
+          </div>
         </div>
       {:else}
         <div

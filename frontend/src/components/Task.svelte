@@ -5,7 +5,7 @@
   import { onMount } from "svelte";
 
   import type Task from "../types/Task";
-  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  import { letterFromNumber } from "../util/utli";
 
   onMount(() => {
     taskDescription = task.description;
@@ -15,7 +15,7 @@
   export let taskNumber: number;
   let taskDescription: string;
 
-  $: taskNumberDisplay = alphabet[taskNumber];
+  $: taskNumberDisplay = letterFromNumber(taskNumber);
 
   export let onDescriptionChange: () => void;
   export let onMove: (up: boolean) => void;
