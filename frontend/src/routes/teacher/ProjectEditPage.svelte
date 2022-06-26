@@ -1,7 +1,14 @@
 <script lang="ts">
   import { Button, InlineNotification } from "carbon-components-svelte";
 
-  import { Save20, Delete20, Add24 } from "carbon-icons-svelte";
+  import {
+    Save20,
+    Delete20,
+    Add24,
+    Close20,
+    Close16,
+    Close24,
+  } from "carbon-icons-svelte";
 
   import { afterUpdate, onMount } from "svelte";
   import TaskComponent from "../../components/Task.svelte";
@@ -245,10 +252,19 @@
       <div />
       {#if selectedQuestion}
         <div
-          style="background-color:#262626"
+          style="background-color:#262626; display: absolute"
           class="page-overflow-scroll info-text edit-question-box"
         >
-          <center> {selectedQuestion.question.question}</center>
+          <Button
+            tooltipPosition="left"
+            tooltipAlignment="end"
+            iconDescription="close"
+            size="small"
+            kind="ghost"
+            icon={Close24}
+            style="float:right"
+          />
+          <div style="background-color: red; width: 100%; height: 100%" />
         </div>
       {:else}
         <div
