@@ -11,7 +11,6 @@
   import type Question from "../../types/Question";
   import type Task from "../../types/Task";
   import QuestionEditor from "./QuestionEditor.svelte";
-  import { letterFromNumber } from "../../util/utli";
 
   export let params: {
     projectId: number;
@@ -35,7 +34,6 @@
         "get",
         $authStore.token
       );
-      console.log(project);
     } catch (e) {
       error = e.toString();
     } finally {
