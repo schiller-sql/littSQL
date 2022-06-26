@@ -1,15 +1,7 @@
 <script lang="ts">
   import { Button, InlineNotification } from "carbon-components-svelte";
 
-  import {
-    Save20,
-    Delete20,
-    Add24,
-    Close20,
-    Close16,
-    Close24,
-    Close32,
-  } from "carbon-icons-svelte";
+  import { Save20, Delete20, Add24, Close24 } from "carbon-icons-svelte";
 
   import { afterUpdate, onMount } from "svelte";
   import TaskComponent from "../../components/Task.svelte";
