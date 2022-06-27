@@ -373,12 +373,12 @@
             </div>
           {:else}
             <div
-              style="background-color:#262626; height: 500px"
+              style="background-color:#262626; height: 250px"
               class="page-overflow-scroll"
             >
               <div
                 class="info-text"
-                style="margin-top: calc(250px - 16px); margin-bottom: calc(250px - 16px);"
+                style="margin-top: calc(125px - 16px); margin-bottom: calc(125px - 16px);"
               >
                 <center>
                   no question selected,<br />
