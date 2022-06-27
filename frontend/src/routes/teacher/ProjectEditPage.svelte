@@ -1,5 +1,18 @@
 <script lang="ts">
-  import { Button, InlineNotification } from "carbon-components-svelte";
+  import {
+    Button,
+    ButtonSkeleton,
+    InlineNotification,
+    SkeletonText,
+    Tab,
+    TabContent,
+    Tabs,
+    TabsSkeleton,
+    TextArea,
+    TextAreaSkeleton,
+    TextInput,
+    TextInputSkeleton,
+  } from "carbon-components-svelte";
 
   import { Save20, Delete20, Add24, Close24 } from "carbon-icons-svelte";
 
@@ -11,6 +24,8 @@
   import type Question from "../../types/Question";
   import type Task from "../../types/Task";
   import QuestionEditor from "./QuestionEditor.svelte";
+  import { pop } from "svelte-spa-router";
+  import DeleteProjectModal from "../../components/DeleteProjectModal.svelte";
 
   export let params: {
     projectId: number;
@@ -131,6 +146,22 @@
     edited = true;
   }
 
+  let openDeleteProjectModal = false;
+
+  async function deleteProject() {
+    try {
+      await requestWithToken(
+        `projects/${project.id}`,
+        "DELETE",
+        $authStore.token
+      );
+      pop();
+    } catch (e) {
+      console.log(e);
+      error = "could not delete project";
+    }
+  }
+
   function newQuestion(taskNumber: number) {
     const newQuestion: Question = {
       question: "new question",
@@ -176,6 +207,16 @@
     selectedQuestion = undefined;
   }
 
+  function editName(event) {
+    project.name = event.detail;
+    hasEditedProject();
+  }
+
+  function editDocumentation(event) {
+    project.documentation_md = event.srcElement.value;
+    hasEditedProject();
+  }
+
   let selectedQuestion:
     | {
         taskNumber: number;
@@ -191,117 +232,178 @@
 
 {#if error !== undefined}
   <p style="color: red">{error.toString()}</p>
+{:else if loading}
+  <SkeletonText heading />
+  <div class="spacer" />
+  <div class="spacer" />
+  <TabsSkeleton count={3} type="container" />
+  <div class="spacer" />
+  <TextAreaSkeleton rows={12} />
+  <div class="spacer" />
+  <TextInputSkeleton />
+  <div class="spacer" />
+  <ButtonSkeleton />
+  <ButtonSkeleton />
 {:else}
-  {#if project !== undefined}
-    <!-- svelte-ignore missing-declaration -->
-    <div class="separator">
-      <div bind:this={questionsScrollNode} class="page-overflow-scroll">
-        <ul class:bx--tree={true} class:bx--tree--default={true}>
-          {#each project.tasks as task, taskNumber (task)}
-            <TaskComponent
-              {task}
-              {taskNumber}
-              onMove={(up) => {
-                moveTask(taskNumber, up);
-              }}
-              onDelete={() => {
-                deleteTask(taskNumber);
-              }}
-              onNewQuestion={() => {
-                newQuestion(taskNumber);
-              }}
-              onDescriptionChange={onTaskDescriptionChange}
-              editable={projectIsPrivate}
-            >
-              <ul class:bx--tree={true} class:bx--tree--default={true}>
-                {#each task.questions as question, questionNumber (question)}
-                  <QuestionComponent
-                    {question}
-                    {questionNumber}
-                    onDelete={() => deleteQuestion(taskNumber, questionNumber)}
-                    onMove={(up) =>
-                      moveQuestion(taskNumber, questionNumber, up)}
-                    on:click={() => selectQuestion(taskNumber, questionNumber)}
-                    selected={selectedQuestion?.taskNumber === taskNumber &&
-                      selectedQuestion?.questionNumber === questionNumber}
-                    editable={projectIsPrivate}
-                  />
-                {/each}
-              </ul>
-            </TaskComponent>
-          {/each}
-          <li class="bx--tree-node" style="padding-left: 0">
-            <Button
-              disabled={!projectIsPrivate}
-              size="small"
-              kind="ghost"
-              on:click={newTask}
-              style="padding-left: 0.66rem; line-height: 0; display: grid; grid-template-columns: auto 2px auto 1fr auto; width: 100%; max-width:none; "
-            >
-              <Add24 style="display:block" />
-              <div />
-              <div style="display:grid grid-template-columns: auto 1fr">
-                <span style="float:left; text-align:left; font-size:15px"
-                  >add new task</span
-                >
-                <div />
-              </div>
-              <div />
-              <div style="height: 38px" />
-            </Button>
-          </li>
-        </ul>
-      </div>
-      <div />
-      {#if selectedQuestion}
+  <h2>
+    {project.name}
+  </h2>
+  <div class="spacer" />
+  <div class="spacer" />
+  <Tabs type="container">
+    <Tab>details</Tab>
+    <Tab>database (optional)</Tab>
+    <Tab>tasks</Tab>
+    <svelte:fragment slot="content">
+      <!-- add validators to svelte -->
+      <TabContent style="padding: 0">
         <div
-          style="background-color:#262626; display: absolute"
-          class="page-overflow-scroll info-text edit-question-box"
-        >
-          <Button
-            tooltipPosition="left"
-            tooltipAlignment="end"
-            iconDescription="close"
-            kind="ghost"
-            size="small"
-            icon={Close24}
-            style="float:right"
-            on:click={unselectQuestion}
-          />
-          <div style="width: 100%; height: 100%">
-            <QuestionEditor
-              editable={projectIsPrivate}
-              taskNumber={selectedQuestion.taskNumber}
-              questionNumber={selectedQuestion.questionNumber}
-              question={selectedQuestion.question}
-              onQuestionEdit={hasEditedProject}
-            />
-          </div>
-        </div>
-      {:else}
-        <div
-          style="background-color:#262626; height: 500px"
           class="page-overflow-scroll"
+          style="background-color:#262626; padding: 12px; margin: 0"
         >
-          <div
-            class="info-text"
-            style="margin-top: calc(250px - 16px); margin-bottom: calc(250px - 16px);"
-          >
-            <center>
-              no question selected,<br />
-              click on a question to {projectIsPrivate ? "edit" : "view"} it
-            </center>
-          </div>
+          <TextInput
+            value={project.name}
+            light
+            labelText="project title (max 50 characters)"
+            placeholder="project title..."
+            invalid={project.name.length === 0}
+            invalidText="do not let the project name empty"
+            maxlength={50}
+            on:input={editName}
+          />
+          <div class="spacer" />
+          <TextArea
+            light
+            value={project.documentation_md}
+            labelText="project documentation"
+            placeholder="project documentation..."
+            rows={16}
+            maxCount={10000}
+            on:input={editDocumentation}
+          />
         </div>
-      {/if}
-    </div>
-  {/if}
+      </TabContent>
+      <TabContent />
+      <TabContent>
+        <div class="separator">
+          <div bind:this={questionsScrollNode} class="page-overflow-scroll">
+            <ul class:bx--tree={true} class:bx--tree--default={true}>
+              {#each project.tasks as task, taskNumber (task)}
+                <TaskComponent
+                  {task}
+                  {taskNumber}
+                  onMove={(up) => {
+                    moveTask(taskNumber, up);
+                  }}
+                  onDelete={() => {
+                    deleteTask(taskNumber);
+                  }}
+                  onNewQuestion={() => {
+                    newQuestion(taskNumber);
+                  }}
+                  onDescriptionChange={onTaskDescriptionChange}
+                  editable={projectIsPrivate}
+                >
+                  <ul class:bx--tree={true} class:bx--tree--default={true}>
+                    {#each task.questions as question, questionNumber (question)}
+                      <QuestionComponent
+                        {question}
+                        {questionNumber}
+                        onDelete={() =>
+                          deleteQuestion(taskNumber, questionNumber)}
+                        onMove={(up) =>
+                          moveQuestion(taskNumber, questionNumber, up)}
+                        on:click={() =>
+                          selectQuestion(taskNumber, questionNumber)}
+                        selected={selectedQuestion?.taskNumber === taskNumber &&
+                          selectedQuestion?.questionNumber === questionNumber}
+                        editable={projectIsPrivate}
+                      />
+                    {/each}
+                  </ul>
+                </TaskComponent>
+              {/each}
+              <li class="bx--tree-node" style="padding-left: 0">
+                <Button
+                  disabled={!projectIsPrivate}
+                  size="small"
+                  kind="ghost"
+                  on:click={newTask}
+                  style="padding-left: 0.66rem; line-height: 0; display: grid; grid-template-columns: auto 2px auto 1fr auto; width: 100%; max-width:none; "
+                >
+                  <Add24 style="display:block" />
+                  <div />
+                  <div style="display:grid grid-template-columns: auto 1fr">
+                    <span style="float:left; text-align:left; font-size:15px"
+                      >add new task</span
+                    >
+                    <div />
+                  </div>
+                  <div />
+                  <div style="height: 38px" />
+                </Button>
+              </li>
+            </ul>
+          </div>
+          <div />
+          {#if selectedQuestion}
+            <div
+              style="background-color:#262626; display: absolute"
+              class="page-overflow-scroll info-text edit-question-box"
+            >
+              <Button
+                tooltipPosition="left"
+                tooltipAlignment="end"
+                iconDescription="close"
+                kind="ghost"
+                size="small"
+                icon={Close24}
+                style="float:right"
+                on:click={unselectQuestion}
+              />
+              <div style="width: 100%; height: 100%">
+                <QuestionEditor
+                  editable={projectIsPrivate}
+                  taskNumber={selectedQuestion.taskNumber}
+                  questionNumber={selectedQuestion.questionNumber}
+                  question={selectedQuestion.question}
+                  onQuestionEdit={hasEditedProject}
+                />
+              </div>
+            </div>
+          {:else}
+            <div
+              style="background-color:#262626; height: 500px"
+              class="page-overflow-scroll"
+            >
+              <div
+                class="info-text"
+                style="margin-top: calc(250px - 16px); margin-bottom: calc(250px - 16px);"
+              >
+                <center>
+                  no question selected,<br />
+                  click on a question to {projectIsPrivate ? "edit" : "view"} it
+                </center>
+              </div>
+            </div>
+          {/if}
+        </div>
+      </TabContent>
+    </svelte:fragment>
+  </Tabs>
+  <DeleteProjectModal
+    bind:open={openDeleteProjectModal}
+    projectName={project.name}
+    on:submit={deleteProject}
+  />
   <div style="height: 1em" />
   {#if projectIsPrivate}
-    <Button skeleton={loading} disabled={!edited} on:click={save} icon={Save20}>
-      Save
-    </Button>
-    <Button kind="danger" skeleton={loading} icon={Delete20}>Delete</Button>
+    <Button disabled={!edited} on:click={save} icon={Save20}>Save</Button>
+    <Button
+      kind="danger"
+      icon={Delete20}
+      on:click={() => (openDeleteProjectModal = true)}>Delete</Button
+    >
   {:else}
     <!--TODO: Clone projects-->
     <InlineNotification
@@ -315,6 +417,10 @@
 {/if}
 
 <style>
+  .spacer {
+    height: 16px;
+  }
+
   .edit-question-box {
     padding: 16px;
   }
@@ -326,7 +432,7 @@
 
   .page-overflow-scroll {
     overflow-y: auto;
-    max-height: calc(100vh - 174px);
+    max-height: calc(100vh - 326px);
   }
 
   .info-text {
