@@ -271,12 +271,11 @@
 </script>
 
 {#if error !== undefined}
-  <p style="color: red">{error.toString()}</p>
+  <p class="error">{error.toString()}</p>
 {:else if loading}
   <!-- show first tab as loading -->
   <SkeletonText heading />
-  <div class="spacer" />
-  <div class="spacer" />
+  <div class="spacer double" />
   <TabsSkeleton count={3} type="container" />
   <div class="spacer" />
   <TextAreaSkeleton rows={12} />
@@ -300,7 +299,6 @@
     {project.name}
   </h2>
   <div class="spacer" />
-  <div class="spacer" />
   <Tabs type="container">
     <Tab>details</Tab>
     <Tab>database (optional)</Tab>
@@ -308,10 +306,7 @@
     <svelte:fragment slot="content">
       <!-- first tab: editing name and documentation -->
       <TabContent style="padding: 0">
-        <div
-          class="page-overflow-scroll"
-          style="background-color:#262626; padding: 12px; margin: 0"
-        >
+        <div class="page-overflow-scroll, dark-padded-tab-content">
           <TextInput
             value={project.name}
             light
@@ -339,7 +334,7 @@
       <TabContent />
       <!-- third tab: editing tasks -->
       <TabContent>
-        <div class="separator">
+        <div id="question-edit-seperator">
           <div bind:this={tasksScrollNode} class="page-overflow-scroll">
             <!-- show all tasks in an ul -->
             <ul class:bx--tree={true} class:bx--tree--default={true}>
@@ -386,16 +381,11 @@
                   size="small"
                   kind="ghost"
                   on:click={newTask}
-                  style="padding-left: 0.66rem; line-height: 0; display: grid; grid-template-columns: auto 2px auto 1fr auto; width: 100%; max-width:none; "
+                  style="width: 100%; max-width: none; line-height:0; padding-left: 0.66rem; display: grid; grid-template-columns: auto 2px auto 1fr auto;"
                 >
                   <Add24 style="display:block" />
                   <div />
-                  <div style="display:grid grid-template-columns: auto 1fr">
-                    <span style="float:left; text-align:left; font-size:15px"
-                      >add new task</span
-                    >
-                    <div />
-                  </div>
+                  <span id="add-task-button-label">add new task</span>
                   <div />
                   <div style="height: 38px" />
                 </Button>
@@ -405,10 +395,7 @@
           <div />
           <!-- the right view to see the question currently being edited -->
           {#if selectedQuestion}
-            <div
-              style="background-color:#262626; display: absolute"
-              class="page-overflow-scroll info-text edit-question-box"
-            >
+            <div class="page-overflow-scroll selected-question-box">
               <!-- close button to not view the current question (to unselect it) -->
               <Button
                 tooltipPosition="left"
@@ -417,34 +404,26 @@
                 kind="ghost"
                 size="small"
                 icon={Close24}
-                style="float:right"
+                style="float: right"
                 on:click={unselectQuestion}
               />
-              <div style="width: 100%; height: 100%">
-                <QuestionEditor
-                  editable={projectIsPrivate}
-                  taskNumber={selectedQuestion.taskNumber}
-                  questionNumber={selectedQuestion.questionNumber}
-                  question={selectedQuestion.question}
-                  onQuestionEdit={hasEditedProject}
-                />
-              </div>
+              <QuestionEditor
+                editable={projectIsPrivate}
+                taskNumber={selectedQuestion.taskNumber}
+                questionNumber={selectedQuestion.questionNumber}
+                question={selectedQuestion.question}
+                onQuestionEdit={hasEditedProject}
+              />
             </div>
           {:else}
             <!-- show if no question is currently being edited -->
             <div
-              style="background-color:#262626; height: 250px"
-              class="page-overflow-scroll"
+              class="page-overflow-scroll, selected-question-box placeholder"
             >
-              <div
-                class="info-text"
-                style="margin-top: calc(125px - 16px); margin-bottom: calc(125px - 16px);"
-              >
-                <center>
-                  no question selected,<br />
-                  click on a question to {projectIsPrivate ? "edit" : "view"} it
-                </center>
-              </div>
+              <center>
+                no question selected,<br />
+                click on a question to {projectIsPrivate ? "edit" : "view"} it
+              </center>
             </div>
           {/if}
         </div>
@@ -457,7 +436,6 @@
     projectName={project.name}
     on:submit={deleteProject}
   />
-  <div style="height: 1em" />
   <!-- show a buttons to save and delete or info, depending on if the project is private (and therefore editable) -->
   {#if projectIsPrivate}
     <Button disabled={!edited} on:click={save} icon={Save20}>Save</Button>
@@ -477,26 +455,50 @@
 {/if}
 
 <style>
-  .spacer {
-    height: 16px;
+  p.error {
+    color: red;
   }
 
-  .edit-question-box {
+  .dark-padded-tab-content {
+    background-color: #262626;
     padding: 16px;
   }
 
-  .separator {
+  div.spacer {
+    height: 16px;
+  }
+
+  div.spacer.double {
+    height: 32px;
+  }
+
+  #add-task-button-label {
+    float: left;
+    text-align: left;
+    font-size: 15px;
+  }
+
+  .selected-question-box {
+    padding: 16px;
+    background-color: #262626;
+  }
+
+  .selected-question-box.placeholder {
+    height: 250px;
+    padding: calc(125px - 16px);
+    padding-left: 0;
+    padding-right: 0;
+    font-size: 16px;
+    color: #4c4c4c;
+  }
+
+  #question-edit-seperator {
     display: grid;
     grid-template-columns: 1fr 3px 1fr;
   }
 
   .page-overflow-scroll {
     overflow-y: auto;
-    max-height: calc(100vh - 326px);
-  }
-
-  .info-text {
-    font-size: 16px;
-    color: #4c4c4c;
+    max-height: calc(100vh - 296px);
   }
 </style>
