@@ -61,6 +61,7 @@
 <TextArea
   invalid={question.question.length === 0}
   invalidText="do not let the question empty"
+  rows={2}
   light
   value={question.question}
   placeholder="ask a question..."
@@ -101,8 +102,12 @@
 {#if hasSolution}
   <MonoTextArea
     invalid={question.solution.length === 0}
-    invalidText="do not let the solution empty"
-    placeholder="enter a solution..."
+    invalidText={question.type === "sql"
+      ? "do no let the query solution empty"
+      : "do not let the solution empty"}
+    placeholder={question.type === "sql"
+      ? "enter a query solution..."
+      : "enter a solution..."}
     labelText="solution"
     light
     mono={question.type === "sql"}
