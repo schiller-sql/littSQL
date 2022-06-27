@@ -1,7 +1,12 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { authStore, fetchWithToken, requestWithToken } from "../../auth";
-  import { Button, Loading, Modal, TextInput } from "carbon-components-svelte";
+  import {
+    Button,
+    Modal,
+    SkeletonPlaceholder,
+    TextInput,
+  } from "carbon-components-svelte";
   import ProjectTile from "../../components/ProjectTile.svelte";
   import type ProjectListing from "../../types/ProjectListing";
   import Add from "carbon-icons-svelte/lib/Add16/Add16.svelte";
@@ -82,7 +87,9 @@
 
 <body>
   {#if loading}
-    <Loading description="Active loading indicator" withOverlay={false} />
+    <SkeletonPlaceholder style="" />
+    <SkeletonPlaceholder style="" />
+    <SkeletonPlaceholder style="" />
   {:else if error}
     <p style="color: red">{error.toString()}</p>
   {:else}
