@@ -6,6 +6,7 @@
   import type ProjectListing from "../../types/ProjectListing";
   import Add from "carbon-icons-svelte/lib/Add16/Add16.svelte";
   import { push } from "svelte-spa-router";
+  import DeleteProjectModal from "../../components/DeleteProjectModal.svelte";
 
   onMount(async () => {
     try {
@@ -16,21 +17,35 @@
       console.log(e);
     }
   });
-  let open = false;
+  let openCreateNewProjectModal = false;
+  let pendingDeletionProject: ProjectListing | undefined;
+  let openDeleteProjectModal = false;
   let newProjectName: string;
 
   let loading = true;
   let error: string;
   let projects: ProjectListing[] = [];
 
-  async function deleteProject(event) {
-    const id = event.detail.id;
+  function pendingDeletingProject(project: ProjectListing) {
+    openDeleteProjectModal = true;
+    pendingDeletionProject = project;
+  }
+
+  async function deleteProject() {
     try {
-      await requestWithToken(`projects/${id}`, "DELETE", $authStore.token);
-      projects = projects.filter((project) => project.id != id);
+      await requestWithToken(
+        `projects/${pendingDeletionProject.id}`,
+        "DELETE",
+        $authStore.token
+      );
+      projects = projects.filter(
+        (project) => project.id != pendingDeletionProject.id
+      );
     } catch (e) {
       console.log(e);
       error = "could not delete project";
+    } finally {
+      openDeleteProjectModal = false;
     }
   }
 
@@ -72,21 +87,27 @@
     <p style="color: red">{error.toString()}</p>
   {:else}
     {#each projects as project (project.id)}
-      <ProjectTile {project} on:open={openProject} on:delete={deleteProject} />
+      <ProjectTile
+        {project}
+        on:open={openProject}
+        on:delete={() => pendingDeletingProject(project)}
+      />
     {/each}
-    <Button on:click={() => (open = true)} icon={Add}>Create project</Button>
+    <Button on:click={() => (openCreateNewProjectModal = true)} icon={Add}
+      >Create project</Button
+    >
     <Modal
-      bind:open
+      bind:open={openCreateNewProjectModal}
       modalHeading="Create new project"
       primaryButtonText="Confirm"
       primaryButtonDisabled={!newProjectName}
       secondaryButtonText="Cancel"
       on:click:button--secondary={({ detail: { text } }) => {
-        if (text === "Cancel") open = false;
+        if (text === "Cancel") openCreateNewProjectModal = false;
       }}
       on:open={() => (newProjectName = "")}
       on:submit={() => {
-        open = false;
+        openCreateNewProjectModal = false;
         addProject();
       }}
     >
@@ -97,5 +118,10 @@
         placeholder="Enter project name..."
       />
     </Modal>
+    <DeleteProjectModal
+      projectName={pendingDeletionProject?.name ?? ""}
+      bind:open={openDeleteProjectModal}
+      on:submit={deleteProject}
+    />
   {/if}
 </body>
