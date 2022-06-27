@@ -14,7 +14,15 @@
     TextInputSkeleton,
   } from "carbon-components-svelte";
 
-  import { Save20, Delete20, Add24, Close24 } from "carbon-icons-svelte";
+  import {
+    Save20,
+    Delete20,
+    Add24,
+    Close24,
+    Json16,
+    Undo20,
+    Undo24,
+  } from "carbon-icons-svelte";
 
   import { afterUpdate, onMount } from "svelte";
   import TaskComponent from "../../components/Task.svelte";
@@ -49,6 +57,7 @@
         "get",
         $authStore.token
       );
+      addCurrentProjectToHistory();
     } catch (e) {
       error = e.toString();
     } finally {
@@ -169,14 +178,28 @@
       solution: null,
     };
     project.tasks[taskNumber].questions.push(newQuestion);
-    project = project;
-    edited = true;
+    hasEditedProject();
     selectQuestion(taskNumber, project.tasks[taskNumber].questions.length - 1);
+  }
+
+  let history: string[] = [];
+  $: canGoBackInHistory = history.length > 1;
+
+  function addCurrentProjectToHistory() {
+    history = [...history, JSON.stringify(project)];
+  }
+
+  function goBackInHistory() {
+    history.splice(history.length - 1, 1);
+    history = history;
+    project = JSON.parse(history[history.length - 1]);
+    edited = true;
   }
 
   function hasEditedProject() {
     project = project;
     edited = true;
+    addCurrentProjectToHistory();
   }
 
   function newTask() {
@@ -186,8 +209,7 @@
       questions: [],
     };
     project.tasks.push(newTask);
-    project = project;
-    edited = true;
+    hasEditedProject();
     shouldScrollOnNextTickDown = true;
   }
 
@@ -245,6 +267,15 @@
   <ButtonSkeleton />
   <ButtonSkeleton />
 {:else}
+  <Button
+    style="float: right"
+    icon={Undo20}
+    size="small"
+    kind="secondary"
+    iconDescription="undo"
+    disabled={!canGoBackInHistory}
+    on:click={goBackInHistory}
+  />
   <h2>
     {project.name}
   </h2>
