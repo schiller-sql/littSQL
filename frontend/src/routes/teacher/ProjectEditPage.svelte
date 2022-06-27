@@ -19,9 +19,7 @@
     Delete20,
     Add24,
     Close24,
-    Json16,
     Undo20,
-    Undo24,
   } from "carbon-icons-svelte";
 
   import { afterUpdate, onMount } from "svelte";
@@ -35,22 +33,40 @@
   import { pop } from "svelte-spa-router";
   import DeleteProjectModal from "../../components/DeleteProjectModal.svelte";
 
+  // -- initially fetch project using id provided by params --
   export let params: {
     projectId: number;
   };
 
-  window.onkeyup = function (e) {};
+  onMount(initialProjectFetch);
 
+  // -- scrolling down if new task was added --
   let shouldScrollOnNextTickDown = false;
+  let tasksScrollNode; // the DOM-node to scroll down when adding new tasks
+
+  function shouldScrollDown() {
+    shouldScrollOnNextTickDown = true;
+  }
 
   afterUpdate(() => {
     if (shouldScrollOnNextTickDown) {
-      questionsScrollNode.scrollTop = questionsScrollNode.scrollHeight;
+      tasksScrollNode.scrollTop = tasksScrollNode.scrollHeight;
       shouldScrollOnNextTickDown = false;
     }
   });
 
-  onMount(async () => {
+  // -- fetching and saving project,
+  // initialProjectFetch is called on mount
+  // and save when pressed on save button --
+  let loading = true;
+  let error: string | undefined;
+  let project: Project | undefined;
+  let edited = false; // if the project has been edited,
+  // the save button is only showed if this is true
+  $: projectIsPrivate = !project?.is_public; // if this is false, everything should not be editable
+
+  /// called on mount
+  async function initialProjectFetch() {
     try {
       project = await fetchWithToken(
         `projects/${params.projectId}`,
@@ -63,13 +79,7 @@
     } finally {
       loading = false;
     }
-  });
-
-  let loading = true;
-  let error: string | undefined;
-  let project: Project | undefined;
-  let edited = false;
-  $: projectIsPrivate = !project?.is_public;
+  }
 
   async function save() {
     try {
@@ -86,10 +96,79 @@
     edited = false;
   }
 
-  function deleteTask(taskNumber: number) {
-    project.tasks.splice(taskNumber, 1);
+  // -- deleting project by first calling pendingDeletingProject,
+  // which opens a modal, which calls deleteProject on confirmation --
+  let openDeleteProjectModal = false;
+
+  function pendingDeletingProject() {
+    openDeleteProjectModal = true;
+  }
+
+  async function deleteProject() {
+    try {
+      await requestWithToken(
+        `projects/${project.id}`,
+        "DELETE",
+        $authStore.token
+      );
+      pop();
+    } catch (e) {
+      console.log(e);
+      error = "could not delete project";
+    }
+  }
+
+  // -- editing history and updating on project change --
+  let history: string[] = []; // the 'undo' history (as stringified jsons)
+  $: canGoBackInHistory = history.length > 1; // if this is false the undo button is disabled
+
+  function addCurrentProjectToHistory() {
+    history = [...history, JSON.stringify(project)];
+  }
+
+  function goBackInHistory() {
+    history.splice(history.length - 1, 1);
+    history = history;
+    project = JSON.parse(history[history.length - 1]);
+    edited = true;
+  }
+  /// called if something has edited the project,
+  /// to add to history and mark project as edited
+  function hasEditedProject() {
     project = project;
     edited = true;
+    addCurrentProjectToHistory();
+  }
+
+  // -- generell editing --
+  function unselectQuestion() {
+    selectedQuestion = undefined;
+  }
+
+  function editName(event) {
+    project.name = event.detail;
+    hasEditedProject();
+  }
+
+  function editDocumentation(event) {
+    project.documentation_md = event.srcElement.value;
+    hasEditedProject();
+  }
+
+  // -- task editing --
+  function newTask() {
+    const newTask: Task = {
+      description: "description",
+      is_voluntary: false,
+      questions: [],
+    };
+    project.tasks.push(newTask);
+    hasEditedProject();
+    shouldScrollDown();
+  }
+
+  function onTaskDescriptionChange() {
+    hasEditedProject();
   }
 
   function moveTask(taskNumber: number, up: boolean) {
@@ -107,11 +186,22 @@
     edited = true;
   }
 
-  function _deleteQuestion(
-    taskNumber: number,
-    questionNumber: number
-  ): Question {
-    return project.tasks[taskNumber].questions.splice(questionNumber, 1)[0];
+  function deleteTask(taskNumber: number) {
+    project.tasks.splice(taskNumber, 1);
+    project = project;
+    edited = true;
+  }
+
+  // -- question editing --
+  function newQuestion(taskNumber: number) {
+    const newQuestion: Question = {
+      question: "new question",
+      type: "sql",
+      solution: null,
+    };
+    project.tasks[taskNumber].questions.push(newQuestion);
+    hasEditedProject();
+    selectQuestion(taskNumber, project.tasks[taskNumber].questions.length - 1);
   }
 
   function deleteQuestion(taskNumber: number, questionNumber: number) {
@@ -124,6 +214,13 @@
     ) {
       selectedQuestion = undefined;
     }
+  }
+
+  function _deleteQuestion(
+    taskNumber: number,
+    questionNumber: number
+  ): Question {
+    return project.tasks[taskNumber].questions.splice(questionNumber, 1)[0];
   }
 
   function moveQuestion(
@@ -155,90 +252,7 @@
     edited = true;
   }
 
-  let openDeleteProjectModal = false;
-
-  async function deleteProject() {
-    try {
-      await requestWithToken(
-        `projects/${project.id}`,
-        "DELETE",
-        $authStore.token
-      );
-      pop();
-    } catch (e) {
-      console.log(e);
-      error = "could not delete project";
-    }
-  }
-
-  function newQuestion(taskNumber: number) {
-    const newQuestion: Question = {
-      question: "new question",
-      type: "sql",
-      solution: null,
-    };
-    project.tasks[taskNumber].questions.push(newQuestion);
-    hasEditedProject();
-    selectQuestion(taskNumber, project.tasks[taskNumber].questions.length - 1);
-  }
-
-  let history: string[] = [];
-  $: canGoBackInHistory = history.length > 1;
-
-  function addCurrentProjectToHistory() {
-    history = [...history, JSON.stringify(project)];
-  }
-
-  function goBackInHistory() {
-    history.splice(history.length - 1, 1);
-    history = history;
-    project = JSON.parse(history[history.length - 1]);
-    edited = true;
-  }
-
-  function hasEditedProject() {
-    project = project;
-    edited = true;
-    addCurrentProjectToHistory();
-  }
-
-  function newTask() {
-    const newTask: Task = {
-      description: "description",
-      is_voluntary: false,
-      questions: [],
-    };
-    project.tasks.push(newTask);
-    hasEditedProject();
-    shouldScrollOnNextTickDown = true;
-  }
-
-  function onTaskDescriptionChange() {
-    edited = true;
-  }
-
-  function selectQuestion(taskNumber: number, questionNumber: number) {
-    selectedQuestion = {
-      taskNumber,
-      questionNumber,
-      question: project.tasks[taskNumber].questions[questionNumber],
-    };
-  }
-
-  function unselectQuestion() {
-    selectedQuestion = undefined;
-  }
-
-  function editName(event) {
-    project.name = event.detail;
-    hasEditedProject();
-  }
-
-  function editDocumentation(event) {
-    project.documentation_md = event.srcElement.value;
-    hasEditedProject();
-  }
-
+  // -- selecting a question to be edited --
   let selectedQuestion:
     | {
         taskNumber: number;
@@ -247,14 +261,19 @@
       }
     | undefined;
 
-  let questionsScrollNode;
+  function selectQuestion(taskNumber: number, questionNumber: number) {
+    selectedQuestion = {
+      taskNumber,
+      questionNumber,
+      question: project.tasks[taskNumber].questions[questionNumber],
+    };
+  }
 </script>
-
-<!-- TODO: edit history -->
 
 {#if error !== undefined}
   <p style="color: red">{error.toString()}</p>
 {:else if loading}
+  <!-- show first tab as loading -->
   <SkeletonText heading />
   <div class="spacer" />
   <div class="spacer" />
@@ -267,6 +286,7 @@
   <ButtonSkeleton />
   <ButtonSkeleton />
 {:else}
+  <!-- undo button -->
   <Button
     style="float: right"
     icon={Undo20}
@@ -286,7 +306,7 @@
     <Tab>database (optional)</Tab>
     <Tab>tasks</Tab>
     <svelte:fragment slot="content">
-      <!-- add validators to svelte -->
+      <!-- first tab: editing name and documentation -->
       <TabContent style="padding: 0">
         <div
           class="page-overflow-scroll"
@@ -314,10 +334,14 @@
           />
         </div>
       </TabContent>
+      <!-- TODO: implement -->
+      <!-- second tab: editing and testing database/or no database (it is optional) -->
       <TabContent />
+      <!-- third tab: editing tasks -->
       <TabContent>
         <div class="separator">
-          <div bind:this={questionsScrollNode} class="page-overflow-scroll">
+          <div bind:this={tasksScrollNode} class="page-overflow-scroll">
+            <!-- show all tasks in an ul -->
             <ul class:bx--tree={true} class:bx--tree--default={true}>
               {#each project.tasks as task, taskNumber (task)}
                 <TaskComponent
@@ -335,6 +359,7 @@
                   onDescriptionChange={onTaskDescriptionChange}
                   editable={projectIsPrivate}
                 >
+                  <!-- show all questions in each task, also in an ul -->
                   <ul class:bx--tree={true} class:bx--tree--default={true}>
                     {#each task.questions as question, questionNumber (question)}
                       <QuestionComponent
@@ -354,6 +379,7 @@
                   </ul>
                 </TaskComponent>
               {/each}
+              <!-- button to add new tasks located under all tasks -->
               <li class="bx--tree-node" style="padding-left: 0">
                 <Button
                   disabled={!projectIsPrivate}
@@ -377,11 +403,13 @@
             </ul>
           </div>
           <div />
+          <!-- the right view to see the question currently being edited -->
           {#if selectedQuestion}
             <div
               style="background-color:#262626; display: absolute"
               class="page-overflow-scroll info-text edit-question-box"
             >
+              <!-- close button to not view the current question (to unselect it) -->
               <Button
                 tooltipPosition="left"
                 tooltipAlignment="end"
@@ -403,6 +431,7 @@
               </div>
             </div>
           {:else}
+            <!-- show if no question is currently being edited -->
             <div
               style="background-color:#262626; height: 250px"
               class="page-overflow-scroll"
@@ -422,18 +451,18 @@
       </TabContent>
     </svelte:fragment>
   </Tabs>
+  <!-- modal to confirm deleting project -->
   <DeleteProjectModal
     bind:open={openDeleteProjectModal}
     projectName={project.name}
     on:submit={deleteProject}
   />
   <div style="height: 1em" />
+  <!-- show a buttons to save and delete or info, depending on if the project is private (and therefore editable) -->
   {#if projectIsPrivate}
     <Button disabled={!edited} on:click={save} icon={Save20}>Save</Button>
-    <Button
-      kind="danger"
-      icon={Delete20}
-      on:click={() => (openDeleteProjectModal = true)}>Delete</Button
+    <Button kind="danger" icon={Delete20} on:click={pendingDeletingProject}
+      >Delete</Button
     >
   {:else}
     <!--TODO: Clone projects-->
