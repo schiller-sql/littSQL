@@ -49,11 +49,11 @@
   }
 </script>
 
-<h3>
+<h4>
   <span id="task-number">{letterFromNumber(taskNumber) + ") "}</span>
   <span id="question-number">{questionNumber + 1 + ". "}</span>
   {question.question}
-</h3>
+</h4>
 
 <div class="spacer" />
 <div class="spacer" />
@@ -123,11 +123,12 @@
   }
 
   span#task-number {
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 700;
   }
 
   span#question-number {
+    font-size: 24px;
     font-weight: 600;
   }
 </style>
