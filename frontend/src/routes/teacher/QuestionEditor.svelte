@@ -5,6 +5,7 @@
     TextArea,
     Toggle,
   } from "carbon-components-svelte";
+  import { onMount } from "svelte";
   import SqlTextArea from "../../components/SqlTextArea.svelte";
   import MonoTextArea from "../../components/SqlTextArea.svelte";
 
@@ -17,7 +18,14 @@
   export let question: Question;
   export let onQuestionEdit: () => void;
 
-  $: hasSolution = question.solution !== null;
+  onMount(() => {
+    solution = question.solution;
+    console.log(question.solution);
+    toggled = question.solution !== null;
+  });
+
+  let solution: string | undefined;
+  let toggled: boolean;
 
   function editedQuestion() {
     onQuestionEdit();
@@ -36,17 +44,26 @@
   }
 
   function toggleHasSolution() {
-    const hasSolution = question.solution !== null;
-    if (hasSolution) {
-      question.solution = null;
+    console.log(solution);
+    if (solution !== null) {
+      solution = null;
+      toggled = false;
     } else {
-      question.solution = "";
+      solution = "";
+      toggled = true;
     }
+    question.solution = solution;
+    console.log(solution);
     editedQuestion();
   }
 
   function editSolution(event) {
     question.solution = event.srcElement.value;
+    editedQuestion();
+  }
+
+  function editSqlSolution(event) {
+    question.solution = event.detail;
     editedQuestion();
   }
 </script>
@@ -89,21 +106,22 @@
 
   <Toggle
     size="sm"
-    value={hasSolution ? "on" : "off"}
+    value={solution !== null ? "on" : "off"}
     labelText="with solution"
     disabled={!editable}
     labelA="no solution"
     labelB="solution"
     on:change={toggleHasSolution}
-    bind:toggled={hasSolution}
+    bind:toggled
   />
 {/if}
 
 <div class="spacer" />
 
-{#if hasSolution}
+{#if solution !== null}
   {#if question.type === "sql"}
-    <SqlTextArea value={question.solution} />
+    {"solution: " + solution}
+    <SqlTextArea value={solution} on:change={editSqlSolution} />
   {:else}
     <TextArea
       invalid={question.solution.length === 0}

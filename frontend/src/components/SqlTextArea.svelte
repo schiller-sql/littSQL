@@ -1,7 +1,7 @@
 <script context="module">
   import { CodeJar } from "codejar";
   import { withLineNumbers } from "codejar/linenumbers";
-  import { onMount } from "svelte";
+
   const Prism = window.Prism;
   export function codedit(
     node,
@@ -44,10 +44,6 @@
   export let autofocus = false;
   export let loc = false;
   const style = "";
-
-  onMount(() => {
-    console.log("mount");
-  });
 </script>
 
 <pre
