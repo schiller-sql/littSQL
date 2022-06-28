@@ -6,4 +6,4 @@ Per default, the library (sql.js) is not compatible
 with the current rollup configuration (rollup.config.js).
 
 As the sql-wasm.js requires a hosted webassembly file,
-this is hosted from the folder static/wasm.
+this is hosted from the folder static/sql.js.

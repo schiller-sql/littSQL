@@ -5,7 +5,8 @@
     TextArea,
     Toggle,
   } from "carbon-components-svelte";
-  import MonoTextArea from "../../components/MonoTextArea.svelte";
+  import SqlTextArea from "../../components/SqlTextArea.svelte";
+  import MonoTextArea from "../../components/SqlTextArea.svelte";
 
   import type Question from "../../types/Question";
   import { letterFromNumber } from "../../util/utli";
@@ -24,6 +25,7 @@
   }
 
   function editQuestion(event) {
+    console.log(event);
     question.question = event.srcElement.value;
     editedQuestion();
   }
@@ -100,21 +102,20 @@
 <div class="spacer" />
 
 {#if hasSolution}
-  <MonoTextArea
-    invalid={question.solution.length === 0}
-    invalidText={question.type === "sql"
-      ? "do no let the query solution empty"
-      : "do not let the solution empty"}
-    placeholder={question.type === "sql"
-      ? "enter a query solution..."
-      : "enter a solution..."}
-    labelText="solution"
-    light
-    mono={question.type === "sql"}
-    value={question.solution}
-    disabled={!editable}
-    on:input={editSolution}
-  />
+  {#if question.type === "sql"}
+    <SqlTextArea value={question.solution} />
+  {:else}
+    <TextArea
+      invalid={question.solution.length === 0}
+      invalidText={"do not let the solution empty"}
+      placeholder={"enter a solution..."}
+      labelText="solution"
+      light
+      value={question.solution}
+      disabled={!editable}
+      on:input={editSolution}
+    />
+  {/if}
 {/if}
 
 <style>
