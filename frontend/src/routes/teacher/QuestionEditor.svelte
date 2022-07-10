@@ -6,7 +6,6 @@
     Toggle,
   } from "carbon-components-svelte";
   import SqlTextArea from "../../components/SqlTextArea.svelte";
-  import MonoTextArea from "../../components/SqlTextArea.svelte";
 
   import type Question from "../../types/Question";
   import { letterFromNumber } from "../../util/utli";
@@ -48,6 +47,12 @@
   function editSolution(event) {
     question.solution = event.srcElement.value;
     editedQuestion();
+  }
+
+  function editSqlSolution(event) {
+    let q = question;
+    q.solution = event.detail;
+    onQuestionEdit();
   }
 </script>
 
@@ -103,7 +108,7 @@
 
 {#if hasSolution}
   {#if question.type === "sql"}
-    <SqlTextArea value={question.solution} />
+    <SqlTextArea code={question.solution} on:change={editSqlSolution} />
   {:else}
     <TextArea
       invalid={question.solution.length === 0}
