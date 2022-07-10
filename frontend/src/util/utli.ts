@@ -5,7 +5,7 @@ function basicLetterFromNumber(n) {
 }
 
 export function letterFromNumber(n) {
-  if (n === 0) return "a";
+  if (n === 0) return "A";
   let name = "";
   while (n >= 0) {
     if (n >= alphabet.length) {
