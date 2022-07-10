@@ -3,6 +3,7 @@
     Button,
     ButtonSkeleton,
     InlineNotification,
+    LocalStorage,
     SkeletonText,
     Tab,
     TabContent,
@@ -32,6 +33,7 @@
   import QuestionEditor from "./QuestionEditor.svelte";
   import { pop } from "svelte-spa-router";
   import DeleteProjectModal from "../../components/DeleteProjectModal.svelte";
+  import { writable, type Writable } from "svelte/store";
 
   // -- initially fetch project using id provided by params --
   export let params: {
@@ -268,6 +270,29 @@
       question: project.tasks[taskNumber].questions[questionNumber],
     };
   }
+
+  // -- tab index saved in localstorage
+  let tabIndex: number;
+  let tabIndexKey: string;
+
+  $: if (project !== undefined) {
+    initTabIndex();
+  }
+
+  // called after project is loaded
+  function initTabIndex() {
+    tabIndexKey = `project:${project.id}:tab_index`;
+    const rawLocalStorageTabIndex = localStorage.getItem(tabIndexKey);
+    let localStorageTabIndex: number;
+    if (rawLocalStorageTabIndex !== null) {
+      localStorageTabIndex = Number.parseInt(rawLocalStorageTabIndex);
+    }
+    tabIndex = localStorageTabIndex ?? 0;
+  }
+
+  $: if (tabIndex !== undefined) {
+    localStorage.setItem(tabIndexKey, tabIndex.toString());
+  }
 </script>
 
 {#if error !== undefined}
@@ -299,7 +324,7 @@
     {project.name}
   </h2>
   <div class="spacer" />
-  <Tabs type="container">
+  <Tabs type="container" bind:selected={tabIndex}>
     <Tab>details</Tab>
     <Tab>database (optional)</Tab>
     <Tab>tasks</Tab>
