@@ -2,7 +2,6 @@
   //import { onMount } from "svelte";
   import { authStore, fetchWithToken, requestWithToken } from "../../auth";
   import { Button, Loading, Modal, TextInput } from "carbon-components-svelte";
-  import ProjectTile from "../../components/ProjectTile.svelte";
   import Add from "carbon-icons-svelte/lib/Add16/Add16.svelte";
   import { push } from "svelte-spa-router";
   import type CourseListing from "../../types/CourseListing";

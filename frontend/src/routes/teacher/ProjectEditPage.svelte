@@ -3,7 +3,6 @@
     Button,
     ButtonSkeleton,
     InlineNotification,
-    LocalStorage,
     SkeletonText,
     Tab,
     TabContent,

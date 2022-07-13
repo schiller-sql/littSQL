@@ -19,8 +19,8 @@ func ConfigureHandler(r *gin.RouterGroup, authMiddleware *authM.AuthMiddleware, 
 
 	group := r.Group("/projects", authMiddleware.JwtHandler, authMiddleware.IsTeacherValidator)
 
-	group.GET("/", handler.getProjectsOfTeacher)
-	group.POST("/", handler.newProject)
+	group.GET("", handler.getProjectsOfTeacher)
+	group.POST("", handler.newProject)
 	group.GET("/:id", handler.getProject)
 	group.PUT("/:id", handler.editProject)
 	group.DELETE("/:id", handler.deleteProject)
@@ -193,7 +193,7 @@ type TaskForm struct {
 }
 
 type QuestionForm struct {
-	Question string `json:"question" binding:"required"`
-	Type     string `json:"type" binding:"required"`
+	Question string  `json:"question" binding:"required"`
+	Type     string  `json:"type" binding:"required"`
 	Solution *string `json:"solution"`
 }
