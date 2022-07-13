@@ -44,10 +44,6 @@
   export let autofocus = false;
   export let loc = false;
   const style = "";
-
-  onMount(() => {
-    console.log("mount");
-  });
 </script>
 
 <pre

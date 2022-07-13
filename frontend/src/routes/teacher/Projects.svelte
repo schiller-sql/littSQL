@@ -19,7 +19,7 @@
       loading = false;
     } catch (e) {
       error = e.toString();
-      console.log(e);
+      console.error(e);
     }
   });
   let openCreateNewProjectModal = false;
@@ -47,7 +47,7 @@
         (project) => project.id != pendingDeletionProject.id
       );
     } catch (e) {
-      console.log(e);
+      console.error(e);
       error = "could not delete project";
     } finally {
       openDeleteProjectModal = false;
@@ -68,7 +68,6 @@
         $authStore.token,
         { name: newProjectName }
       );
-      console.log(newProject);
       // sort new project into projects
       projects = [...projects, newProject].sort((a, b) => {
         if (a.is_public != b.is_public) {
@@ -79,7 +78,7 @@
         return 0;
       });
     } catch (e) {
-      console.log(e);
+      console.error(e);
       error = "could not add project";
     }
   }
@@ -105,6 +104,7 @@
     >
     <Modal
       bind:open={openCreateNewProjectModal}
+      selectorPrimaryFocus="#new-project-name"
       modalHeading="Create new project"
       primaryButtonText="Confirm"
       primaryButtonDisabled={!newProjectName}
@@ -119,6 +119,7 @@
       }}
     >
       <TextInput
+        id="new-project-name"
         bind:value={newProjectName}
         labelText="Project name"
         helperText="The project name required"

@@ -13,7 +13,7 @@
             loading = false;
         } catch (e) {
             error = e.toString();
-            console.log(e);
+            console.error(e);
         }
     });
     */
@@ -34,7 +34,7 @@
       await requestWithToken(`courses/${id}`, "DELETE", $authStore.token);
       courses = courses.filter((project) => project.id != id);
     } catch (e) {
-      console.log(e);
+      console.error(e);
       error = "could not delete project";
     }
   }
@@ -61,7 +61,7 @@
         return 0;
       });
     } catch (e) {
-      console.log(e);
+      console.error(e);
       error = "could not add project";
     }
   }

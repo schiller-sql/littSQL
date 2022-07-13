@@ -24,7 +24,6 @@
   }
 
   function editQuestion(event) {
-    console.log(event);
     question.question = event.srcElement.value;
     editedQuestion();
   }
