@@ -12,6 +12,7 @@
     TextAreaSkeleton,
     TextInput,
     TextInputSkeleton,
+    Toggle,
   } from "carbon-components-svelte";
 
   import {
@@ -22,7 +23,7 @@
     Undo20,
   } from "carbon-icons-svelte";
 
-  import { afterUpdate, onMount } from "svelte";
+  import { afterUpdate, onDestroy, onMount } from "svelte";
   import TaskComponent from "../../components/Task.svelte";
   import QuestionComponent from "../../components/Question.svelte";
   import { authStore, fetchWithToken, requestWithToken } from "../../auth";
@@ -32,7 +33,10 @@
   import QuestionEditor from "./QuestionEditor.svelte";
   import { pop } from "svelte-spa-router";
   import DeleteProjectModal from "../../components/DeleteProjectModal.svelte";
-  import { writable, type Writable } from "svelte/store";
+  import SqlTextArea from "../../components/SqlTextArea.svelte";
+  import DatabaseTemplatesModal from "./DatabaseTemplatePickerModal.svelte";
+  import DatabaseTemplatePickerModal from "./DatabaseTemplatePickerModal.svelte";
+  import UnsavedNavigateBackModal from "../../components/UnsavedNavigateBackModal.svelte";
 
   // -- initially fetch project using id provided by params --
   export let params: {
@@ -329,6 +333,14 @@
   $: if (tabIndex !== undefined) {
     localStorage.setItem(tabIndexKey, tabIndex.toString());
   }
+
+  // -- database templates --
+  let databaseTemplatePickerModalOpen = false;
+
+  function databaseTemplateSelected(databaseTemplateSql: string) {
+    project.sql = databaseTemplateSql;
+    hasEditedProject();
+  }
 </script>
 
 {#if error !== undefined}
@@ -392,7 +404,47 @@
       </TabContent>
       <!-- TODO: implement -->
       <!-- second tab: editing and testing database/or no database (it is optional) -->
-      <TabContent />
+      <TabContent>
+        <Toggle
+          size="sm"
+          toggled={project.sql !== null}
+          on:toggle={() => {
+            console.log("asdf");
+            if (project.sql === null) {
+              project.sql = "";
+            } else {
+              project.sql = null;
+            }
+            project = project;
+            edited = true;
+            addCurrentProjectToHistory();
+          }}
+          labelText="project should have a database"
+          labelA="no database"
+          labelB="database"
+        />
+        <div class="spacer" />
+        {#if project.sql !== null}
+          <SqlTextArea
+            code={project.sql}
+            on:change={(event) => {
+              project.sql = event["detail"];
+              edited = true;
+              addCurrentProjectToHistory();
+            }}
+          />
+          <Button
+            size="small"
+            on:click={() => (databaseTemplatePickerModalOpen = true)}
+          >
+            choose a database template
+          </Button>
+          <DatabaseTemplatePickerModal
+            bind:open={databaseTemplatePickerModalOpen}
+            onSelectTemplateSql={databaseTemplateSelected}
+          />
+        {/if}
+      </TabContent>
       <!-- third tab: editing tasks -->
       <TabContent>
         <div id="question-edit-seperator">
