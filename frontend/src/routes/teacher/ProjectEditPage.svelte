@@ -91,7 +91,7 @@
         project
       );
     } catch (e) {
-      console.log(e);
+      console.error(e);
       error = e;
     }
     edited = false;
@@ -114,7 +114,7 @@
       );
       pop();
     } catch (e) {
-      console.log(e);
+      console.error(e);
       error = "could not delete project";
     }
   }
@@ -133,6 +133,43 @@
     project = JSON.parse(history[history.length - 1]);
     edited = true;
   }
+
+  // make sure to not be able to leave page when project is edited
+  let unsavedNavigateBackModalOn = false;
+
+  let popConfirm = false;
+  let onPopStateHasAlreadyBeenCalled = false;
+  function onpopstateStay(e) {
+    if (popConfirm) return;
+    e.preventDefault();
+    window.history.go(1);
+    if (onPopStateHasAlreadyBeenCalled) {
+      onPopStateHasAlreadyBeenCalled = false;
+    } else {
+      unsavedNavigateBackModalOn = true;
+      onPopStateHasAlreadyBeenCalled = true;
+    }
+  }
+  function leaveConfirm() {
+    popConfirm = true;
+    window.history.go(-1);
+  }
+
+  $: {
+    if (edited) {
+      window.onbeforeunload = () => true;
+      window.onpopstate = onpopstateStay;
+    } else {
+      window.onbeforeunload = null;
+      window.onpopstate = null;
+    }
+  }
+
+  onDestroy(() => {
+    window.onbeforeunload = null;
+    window.onpopstate = null;
+  });
+
   /// called if something has edited the project,
   /// to add to history and mark project as edited
   function hasEditedProject() {
@@ -459,6 +496,11 @@
     bind:open={openDeleteProjectModal}
     projectName={project.name}
     on:submit={deleteProject}
+  />
+  <!-- modal to confirm leaving page, if the project is edited -->
+  <UnsavedNavigateBackModal
+    bind:open={unsavedNavigateBackModalOn}
+    onLeave={leaveConfirm}
   />
   <!-- show a buttons to save and delete or info, depending on if the project is private (and therefore editable) -->
   {#if projectIsPrivate}
