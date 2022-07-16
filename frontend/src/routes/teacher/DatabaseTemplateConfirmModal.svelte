@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Loading, Modal } from "carbon-components-svelte";
   import { authStore, fetchWithToken } from "../../auth";
+  import SqlTextArea from "../../components/SqlTextArea.svelte";
   import type DatabaseTemplate from "../../types/DatabaseTemplate";
 
   export let selectedId: number | undefined;
@@ -59,22 +60,6 @@
       {error}
     </p>
   {:else}
-    <code id="sql-preview">
-      {databaseTemplate.sql}
-    </code>
+    <SqlTextArea popover code={databaseTemplate.sql} />
   {/if}
 </Modal>
-
-<style>
-  code {
-    font-family: IBM Plex Mono;
-    background-color: #39393a;
-    display: block;
-    padding: 10px;
-  }
-
-  #sql-preview {
-    position: relative;
-    z-index: 1;
-  }
-</style>
