@@ -16,7 +16,7 @@
   let loading: boolean = true;
   let databaseTemplates: DatabaseTemplateListing[] | undefined;
 
-  let selectedId: number | undefined;
+  let selectedId: number | null = null;
 
   $: if (open && databaseTemplates === undefined) {
     fetchWithToken("database-templates", "get", $authStore.token)

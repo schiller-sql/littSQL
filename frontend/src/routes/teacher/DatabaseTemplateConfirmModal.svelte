@@ -4,12 +4,12 @@
   import SqlTextArea from "../../components/SqlTextArea.svelte";
   import type DatabaseTemplate from "../../types/DatabaseTemplate";
 
-  export let selectedId: number | undefined;
+  export let selectedId: number | null;
   export let onSelectTemplateSql: (sql: string) => void;
 
   function _onSelectTemplateSql() {
     if (databaseTemplate === undefined) return;
-    selectedId = undefined;
+    selectedId = null;
     onSelectTemplateSql(databaseTemplate.sql);
   }
 
@@ -18,7 +18,7 @@
   let error: string | undefined;
   let databaseTemplate: DatabaseTemplate;
 
-  $: if (selectedId !== undefined) {
+  $: if (selectedId !== null) {
     loadDatabaseTemplate();
   }
 
@@ -44,13 +44,13 @@
 </script>
 
 <Modal
-  open={selectedId !== undefined}
+  open={selectedId !== null}
   modalHeading={databaseTemplate?.description}
   modalLabel={databaseTemplate?.name}
   hasScrollingContent
   primaryButtonText="Use as database sql"
   secondaryButtonText="Cancel"
-  on:click:button--secondary={() => (selectedId = undefined)}
+  on:click:button--secondary={() => (selectedId = null)}
   on:click:button--primary={_onSelectTemplateSql}
 >
   {#if loading}
