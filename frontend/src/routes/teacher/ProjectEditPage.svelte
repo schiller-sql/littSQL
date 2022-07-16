@@ -34,9 +34,12 @@
   import { pop } from "svelte-spa-router";
   import DeleteProjectModal from "../../components/DeleteProjectModal.svelte";
   import SqlTextArea from "../../components/SqlTextArea.svelte";
-  import DatabaseTemplatesModal from "./DatabaseTemplatePickerModal.svelte";
   import DatabaseTemplatePickerModal from "./DatabaseTemplatePickerModal.svelte";
   import UnsavedNavigateBackModal from "../../components/UnsavedNavigateBackModal.svelte";
+
+  // if ProjectEditPage is called init sqlite
+  import { initSqlite } from "../../database";
+  onMount(initSqlite);
 
   // -- initially fetch project using id provided by params --
   export let params: {

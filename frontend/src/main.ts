@@ -6,9 +6,6 @@ import "./styles/font.scss";
 import "./styles/colors.scss";
 import "./styles/containers.scss";
 import "./database";
-import { initSqlite } from "./database";
-
-initSqlite();
 
 const app = new LoggedInRouter({
   target: document.body,

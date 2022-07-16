@@ -1,6 +1,8 @@
-import { writable, type Writable } from "svelte/store";
+import { get, writable, type Writable } from "svelte/store";
 import initSqlJs from "./sql-js/sql-wasm";
 import type { SqlJsStatic, Database } from "./sql-js/sql-wasm";
+
+let databaseInitCalled = false;
 
 export const databaseIsReadyStore: Writable<boolean> = writable(false);
 
@@ -19,6 +21,8 @@ export function newDatabase(data?: ArrayLike<number> | Buffer): Database {
 }
 
 export async function initSqlite() {
+  if (databaseInitCalled) return;
+  databaseInitCalled = true;
   console.log("sqlite: loading...");
   sql = await initSqlJs({
     locateFile: (file) => {
