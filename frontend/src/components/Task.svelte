@@ -43,6 +43,7 @@
       <div style="font-size: large; display:inline-block">
         <span class="task-number">{taskNumberDisplay}.&nbsp</span>
         <input
+          readonly={!editable}
           spellcheck={false}
           class="description"
           value={taskDescription}

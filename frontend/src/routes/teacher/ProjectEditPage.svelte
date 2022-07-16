@@ -382,6 +382,7 @@
         <div class="page-overflow-scroll, dark-padded-tab-content">
           <TextInput
             value={project.name}
+            disabled={!projectIsPrivate}
             light
             labelText="project title (max 50 characters)"
             placeholder="project title..."
@@ -392,6 +393,7 @@
           />
           <div class="spacer" />
           <TextArea
+            disabled={!projectIsPrivate}
             light
             value={project.documentation_md}
             labelText="project documentation"
@@ -405,44 +407,52 @@
       <!-- TODO: implement -->
       <!-- second tab: editing and testing database/or no database (it is optional) -->
       <TabContent>
-        <Toggle
-          size="sm"
-          toggled={project.sql !== null}
-          on:toggle={() => {
-            console.log("asdf");
-            if (project.sql === null) {
-              project.sql = "";
-            } else {
-              project.sql = null;
-            }
-            project = project;
-            edited = true;
-            addCurrentProjectToHistory();
-          }}
-          labelText="project should have a database"
-          labelA="no database"
-          labelB="database"
-        />
-        <div class="spacer" />
+        {#if projectIsPrivate}
+          <Toggle
+            size="sm"
+            toggled={project.sql !== null}
+            on:toggle={() => {
+              console.log("asdf");
+              if (project.sql === null) {
+                project.sql = "";
+              } else {
+                project.sql = null;
+              }
+              project = project;
+              edited = true;
+              addCurrentProjectToHistory();
+            }}
+            labelText="project should have a database"
+            labelA="no database"
+            labelB="database"
+          />
+          <div class="spacer" />
+        {/if}
+        {#if !projectIsPrivate && project.sql === null}
+          <p>project has no database</p>
+        {/if}
         {#if project.sql !== null}
           <SqlTextArea
             code={project.sql}
+            disabled={!projectIsPrivate}
             on:change={(event) => {
               project.sql = event["detail"];
               edited = true;
               addCurrentProjectToHistory();
             }}
           />
-          <Button
-            size="small"
-            on:click={() => (databaseTemplatePickerModalOpen = true)}
-          >
-            choose a database template
-          </Button>
-          <DatabaseTemplatePickerModal
-            bind:open={databaseTemplatePickerModalOpen}
-            onSelectTemplateSql={databaseTemplateSelected}
-          />
+          {#if projectIsPrivate}
+            <Button
+              size="small"
+              on:click={() => (databaseTemplatePickerModalOpen = true)}
+            >
+              choose a database template
+            </Button>
+            <DatabaseTemplatePickerModal
+              bind:open={databaseTemplatePickerModalOpen}
+              onSelectTemplateSql={databaseTemplateSelected}
+            />
+          {/if}
         {/if}
       </TabContent>
       <!-- third tab: editing tasks -->
