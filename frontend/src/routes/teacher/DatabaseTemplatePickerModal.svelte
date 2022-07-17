@@ -57,17 +57,3 @@
   bind:selectedId
   onSelectTemplateSql={_onSelectTemplateSql}
 />
-
-<style>
-  p.error {
-    color: red;
-  }
-
-  div.spacer {
-    height: 8;
-  }
-
-  div.spacer.double {
-    height: 16;
-  }
-</style>

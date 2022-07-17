@@ -2,16 +2,24 @@
   import { Button } from "carbon-components-svelte";
 
   import { getContext } from "svelte";
+  import SqlResults from "../../components/SqlResults.svelte";
   import SqlTextArea from "../../components/SqlTextArea.svelte";
   import type { QueryExecResult } from "../../sql-js/sql-wasm";
+  import { execStatementOnDatabase } from "../../util/db_util";
 
-  const { projectId, databaseSql } = getContext("project-data");
+  export let projectSqlHasError: boolean;
 
-  const localStorageTestQueryKey = `project:${projectId}:test_query`;
-  let testQuery = localStorage.getItem(localStorageTestQueryKey);
+  const projectData: { id: number; sql: string } = getContext("project-data");
+
+  const localStorageTestQueryKey = `project:${projectData.id}:test_query`;
+  let testQuery = localStorage.getItem(localStorageTestQueryKey) ?? "";
   $: localStorage.setItem(localStorageTestQueryKey, testQuery);
 
-  let result: QueryExecResult[] | undefined;
+  let result: QueryExecResult[] | string | undefined;
+
+  function executeTestSql() {
+    result = execStatementOnDatabase(projectData.sql, testQuery);
+  }
 </script>
 
 <label
@@ -19,15 +27,23 @@
   for="project-database"
   class:bx--toggle-input__label={true}
 >
-  test query on project database
+  test query on project database (will only be saved in local browser)
 </label>
 <SqlTextArea
   id="project-database"
   code={testQuery}
   on:change={(e) => (testQuery = e["detail"])}
 />
-<Button>Test</Button>
-<Button kind="secondary">Show all tables</Button>
+<Button disabled={projectSqlHasError} size="small" on:click={executeTestSql}
+  >Test</Button
+>
+<Button disabled={projectSqlHasError} size="small" kind="secondary"
+  >Show all tables</Button
+>
+
+{#if result !== undefined}
+  <SqlResults {result} />
+{/if}
 
 <style>
   #project-database-label {

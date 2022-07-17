@@ -21,6 +21,7 @@ export function newDatabase(data?: ArrayLike<number> | Buffer): Database {
 }
 
 export async function initSqlite() {
+  // await new Promise((r) => setTimeout(r, 2000));
   if (databaseInitCalled) return;
   databaseInitCalled = true;
   console.log("sqlite: loading...");

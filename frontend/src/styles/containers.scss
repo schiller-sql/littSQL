@@ -17,3 +17,11 @@ $global-row-gap: 16px;
   @extend .grid-container__tile;
   //...
 }*/
+
+div.spacer {
+  height: 16px;
+}
+
+div.spacer.double {
+  height: 32px;
+}

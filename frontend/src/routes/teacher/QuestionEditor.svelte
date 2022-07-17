@@ -123,10 +123,6 @@
 {/if}
 
 <style>
-  .spacer {
-    height: 16px;
-  }
-
   span#task-number {
     font-size: 28px;
     font-weight: 700;

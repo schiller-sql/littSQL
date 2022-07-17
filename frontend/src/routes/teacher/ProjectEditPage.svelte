@@ -2,6 +2,7 @@
   import {
     Button,
     ButtonSkeleton,
+    InlineLoading,
     InlineNotification,
     SkeletonText,
     Tab,
@@ -39,17 +40,18 @@
 
   // set context so other sub-components can retrieve project data
   setContext("project-data", {
-    get databaseSql(): string {
+    get sql(): string {
       return project.sql;
     },
-    get projectId(): number {
+    get id(): number {
       return project.id;
     },
   });
 
   // if ProjectEditPage is called init sqlite
-  import { initSqlite } from "../../database";
+  import { databaseIsReadyStore, initSqlite } from "../../database";
   import ProjectDatabaseTester from "./ProjectDatabaseTester.svelte";
+  import { checkForError } from "../../util/db_util";
   onMount(initSqlite);
 
   // -- initially fetch project using id provided by params --
@@ -355,6 +357,13 @@
     project.sql = databaseTemplateSql;
     hasEditedProject();
   }
+
+  // -- database error checking --
+  // TODO: check performance
+  $: sqlError =
+    project?.sql && $databaseIsReadyStore
+      ? checkForError(project?.sql)
+      : undefined;
 </script>
 
 {#if error !== undefined}
@@ -388,7 +397,7 @@
   <div class="spacer" />
   <Tabs type="container" bind:selected={tabIndex}>
     <Tab>details</Tab>
-    <Tab>database (optional)</Tab>
+    <Tab>database</Tab>
     <Tab>tasks</Tab>
     <svelte:fragment slot="content">
       <!-- first tab: editing name and documentation -->
@@ -426,7 +435,7 @@
             size="sm"
             toggled={project.sql !== null}
             on:toggle={() => {
-              console.log("asdf");
+              // TODO: fix toggling not being able to reversed
               if (project.sql === null) {
                 project.sql = "";
               } else {
@@ -457,6 +466,7 @@
           />
           {#if projectIsPrivate}
             <Button
+              style="display: inline-block"
               size="small"
               on:click={() => (databaseTemplatePickerModalOpen = true)}
             >
@@ -467,8 +477,19 @@
               onSelectTemplateSql={databaseTemplateSelected}
             />
           {/if}
+          {#if sqlError !== undefined}
+            <div style="display: inline-block; float: right" class="error">
+              {sqlError}
+            </div>
+          {/if}
           <div class="spacer double" />
-          <ProjectDatabaseTester />
+          {#if $databaseIsReadyStore}
+            <ProjectDatabaseTester
+              projectSqlHasError={sqlError !== undefined}
+            />
+          {:else}
+            <InlineLoading description="loading sql engine..." />
+          {/if}
         {/if}
       </TabContent>
       <!-- third tab: editing tasks -->
@@ -606,14 +627,6 @@
   .dark-padded-tab-content {
     background-color: #262626;
     padding: 16px;
-  }
-
-  div.spacer {
-    height: 16px;
-  }
-
-  div.spacer.double {
-    height: 32px;
   }
 
   #add-task-button-label {
