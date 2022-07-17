@@ -23,7 +23,7 @@
     Undo20,
   } from "carbon-icons-svelte";
 
-  import { afterUpdate, onDestroy, onMount } from "svelte";
+  import { afterUpdate, onDestroy, onMount, setContext } from "svelte";
   import TaskComponent from "../../components/Task.svelte";
   import QuestionComponent from "../../components/Question.svelte";
   import { authStore, fetchWithToken, requestWithToken } from "../../auth";
@@ -37,8 +37,19 @@
   import DatabaseTemplatePickerModal from "./DatabaseTemplatePickerModal.svelte";
   import UnsavedNavigateBackModal from "../../components/UnsavedNavigateBackModal.svelte";
 
+  // set context so other sub-components can retrieve project data
+  setContext("project-data", {
+    get databaseSql(): string {
+      return project.sql;
+    },
+    get projectId(): number {
+      return project.id;
+    },
+  });
+
   // if ProjectEditPage is called init sqlite
   import { initSqlite } from "../../database";
+  import ProjectDatabaseTester from "./ProjectDatabaseTester.svelte";
   onMount(initSqlite);
 
   // -- initially fetch project using id provided by params --
@@ -425,7 +436,7 @@
               edited = true;
               addCurrentProjectToHistory();
             }}
-            labelText="project should have a database"
+            labelText="project should, but does not have to, have a database"
             labelA="no database"
             labelB="database"
           />
@@ -456,6 +467,8 @@
               onSelectTemplateSql={databaseTemplateSelected}
             />
           {/if}
+          <div class="spacer double" />
+          <ProjectDatabaseTester />
         {/if}
       </TabContent>
       <!-- third tab: editing tasks -->
