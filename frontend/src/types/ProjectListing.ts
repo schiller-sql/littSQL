@@ -1,5 +1,5 @@
 export default interface ProjectListing {
-  id: string;
+  id: number;
   name: string;
   is_public: boolean;
 }
