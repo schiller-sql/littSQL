@@ -51,6 +51,7 @@
 </script>
 
 <script>
+  export let id = undefined;
   export let code = "";
   export let autofocus = false;
   export let loc = false;
@@ -59,6 +60,7 @@
 </script>
 
 <pre
+  {id}
   use:codedit={{ code, autofocus, loc, disabled, ...$$restProps }}
   readonly={disabled}
   class="language-sql"
