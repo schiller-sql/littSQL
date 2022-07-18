@@ -4,6 +4,7 @@
 
   import type { QueryExecResult } from "../sql-js/sql-wasm";
 
+  export let title: string = "";
   export let result: QueryExecResult;
 
   const replacementKeyForId = "%"; // "id" cannot be used as a key in the DataTable
@@ -24,14 +25,17 @@
 </script>
 
 <!-- zebra -->
-<DataTable
-  size="medium"
-  stickyHeader
-  headers={result.columns.map((column) => {
-    return {
-      key: column === "id" ? replacementKeyForId : column,
-      value: column,
-    };
-  })}
-  rows={rows()}
-/>
+<div style="overflow-x: scroll; max-height:250px">
+  <DataTable
+    useStaticWidth
+    title={title || undefined}
+    size="medium"
+    headers={result.columns.map((column) => {
+      return {
+        key: column === "id" ? replacementKeyForId : column,
+        value: column,
+      };
+    })}
+    rows={rows()}
+  />
+</div>

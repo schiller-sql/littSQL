@@ -31,14 +31,12 @@
 </label>
 <SqlTextArea
   id="project-database"
+  maxHeight
   code={testQuery}
   on:change={(e) => (testQuery = e["detail"])}
 />
 <Button disabled={projectSqlHasError} size="small" on:click={executeTestSql}
   >Test</Button
->
-<Button disabled={projectSqlHasError} size="small" kind="secondary"
-  >Show all tables</Button
 >
 
 {#if result !== undefined}

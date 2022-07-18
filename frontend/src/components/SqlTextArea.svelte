@@ -57,6 +57,7 @@
   export let loc = false;
   export let disabled = false;
   export let popover = false;
+  export let maxHeight = false;
 </script>
 
 <pre
@@ -65,6 +66,7 @@
   readonly={disabled}
   class="language-sql"
   class:popover
+  class:max-height={maxHeight}
   on:change
 />
 
@@ -72,5 +74,10 @@
   .popover {
     z-index: 1;
     position: relative;
+  }
+
+  .max-height {
+    max-height: 500px;
+    overflow-y: scroll;
   }
 </style>

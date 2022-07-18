@@ -10,7 +10,7 @@
   <div class="error">{result}</div>
 {:else if result.length === 0}
   <div class="spacer" />
-  <div>no result</div>
+  <div style="color: grey">no result</div>
 {:else}
   {#each result as resultSet ({})}
     <div class="spacer" />

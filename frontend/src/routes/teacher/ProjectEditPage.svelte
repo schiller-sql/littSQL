@@ -52,6 +52,7 @@
   import { databaseIsReadyStore, initSqlite } from "../../database";
   import ProjectDatabaseTester from "./ProjectDatabaseTester.svelte";
   import { checkForError } from "../../util/db_util";
+  import ShowAllTablesModal from "../../components/ShowAllTablesModal.svelte";
   onMount(initSqlite);
 
   // -- initially fetch project using id provided by params --
@@ -364,6 +365,9 @@
     project?.sql && $databaseIsReadyStore
       ? checkForError(project?.sql)
       : undefined;
+
+  // -- database overview --
+  let showDatabaseOverviewModal = false;
 </script>
 
 {#if error !== undefined}
@@ -456,6 +460,7 @@
         {/if}
         {#if project.sql !== null}
           <SqlTextArea
+            maxHeight
             code={project.sql}
             disabled={!projectIsPrivate}
             on:change={(event) => {
@@ -472,6 +477,18 @@
             >
               choose a database template
             </Button>
+            <Button
+              size="small"
+              kind="secondary"
+              disabled={sqlError !== undefined}
+              on:click={() => (showDatabaseOverviewModal = true)}
+              >Show all tables</Button
+            >
+            <ShowAllTablesModal
+              title={`overview of the database from the project '${project.name}'`}
+              bind:open={showDatabaseOverviewModal}
+              sql={project.sql}
+            />
             <DatabaseTemplatePickerModal
               bind:open={databaseTemplatePickerModalOpen}
               onSelectTemplateSql={databaseTemplateSelected}
