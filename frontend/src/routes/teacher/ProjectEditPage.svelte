@@ -682,11 +682,11 @@
 
   .two-panel-seperator {
     display: grid;
-    grid-template-columns: 1fr 3px 1fr;
+    grid-template-columns: calc(50% - 1.5px) 3px calc(50% - 1.5px);
   }
 
   .two-panel-seperator.more-seperated {
-    grid-template-columns: 1fr 12px 1fr;
+    grid-template-columns: calc(50% - 6px) 12px calc(50% - 6px);
   }
 
   .page-overflow-scroll {
