@@ -459,59 +459,73 @@
           <p>project has no database</p>
         {/if}
         {#if project.sql !== null}
-          <SqlTextArea
-            maxHeight
-            code={project.sql}
-            disabled={!projectIsPrivate}
-            on:change={(event) => {
-              project.sql = event["detail"];
-              edited = true;
-              addCurrentProjectToHistory();
-            }}
-          />
-          {#if projectIsPrivate}
-            <Button
-              style="display: inline-block"
-              size="small"
-              on:click={() => (databaseTemplatePickerModalOpen = true)}
-            >
-              choose a database template
-            </Button>
-            <Button
-              size="small"
-              kind="secondary"
-              disabled={sqlError !== undefined}
-              on:click={() => (showDatabaseOverviewModal = true)}
-              >Show all tables</Button
-            >
-            <ShowAllTablesModal
-              title={`overview of the database from the project '${project.name}'`}
-              bind:open={showDatabaseOverviewModal}
-              sql={project.sql}
-            />
-            <DatabaseTemplatePickerModal
-              bind:open={databaseTemplatePickerModalOpen}
-              onSelectTemplateSql={databaseTemplateSelected}
-            />
-          {/if}
-          {#if sqlError !== undefined}
-            <div style="display: inline-block; float: right" class="error">
-              {sqlError}
+          <div class="two-panel-seperator more-seperated">
+            <div>
+              <label
+                for="project-database"
+                class:bx--toggle-input__label={true}
+              >
+                project database
+              </label>
+              <div class="spacer smaller" />
+              <SqlTextArea
+                id="project-database"
+                maxHeight
+                code={project.sql}
+                disabled={!projectIsPrivate}
+                on:change={(event) => {
+                  project.sql = event["detail"];
+                  edited = true;
+                  addCurrentProjectToHistory();
+                }}
+              />
+              {#if projectIsPrivate}
+                <Button
+                  style="display: inline-block"
+                  size="small"
+                  on:click={() => (databaseTemplatePickerModalOpen = true)}
+                >
+                  choose a database template
+                </Button>
+                <Button
+                  size="small"
+                  kind="secondary"
+                  disabled={sqlError !== undefined}
+                  on:click={() => (showDatabaseOverviewModal = true)}
+                  >Show all tables</Button
+                >
+                <ShowAllTablesModal
+                  title={`overview of the database from the project '${project.name}'`}
+                  bind:open={showDatabaseOverviewModal}
+                  sql={project.sql}
+                />
+                <DatabaseTemplatePickerModal
+                  bind:open={databaseTemplatePickerModalOpen}
+                  onSelectTemplateSql={databaseTemplateSelected}
+                />
+              {/if}
+              {#if sqlError !== undefined}
+                <div style="display: inline-block; float: right" class="error">
+                  {sqlError}
+                </div>
+              {/if}
             </div>
-          {/if}
-          <div class="spacer double" />
-          {#if $databaseIsReadyStore}
-            <ProjectDatabaseTester
-              projectSqlHasError={sqlError !== undefined}
-            />
-          {:else}
-            <InlineLoading description="loading sql engine..." />
-          {/if}
+            <div />
+            <div>
+              {#if $databaseIsReadyStore}
+                <ProjectDatabaseTester
+                  projectSqlHasError={sqlError !== undefined}
+                />
+              {:else}
+                <InlineLoading description="loading sql engine..." />
+              {/if}
+            </div>
+          </div>
         {/if}
       </TabContent>
       <!-- third tab: editing tasks -->
       <TabContent>
-        <div id="question-edit-seperator">
+        <div class="two-panel-seperator">
           <div bind:this={tasksScrollNode} class="page-overflow-scroll">
             <!-- show all tasks in an ul -->
             <ul class:bx--tree={true} class:bx--tree--default={true}>
@@ -666,9 +680,13 @@
     color: #4c4c4c;
   }
 
-  #question-edit-seperator {
+  .two-panel-seperator {
     display: grid;
     grid-template-columns: 1fr 3px 1fr;
+  }
+
+  .two-panel-seperator.more-seperated {
+    grid-template-columns: 1fr 12px 1fr;
   }
 
   .page-overflow-scroll {

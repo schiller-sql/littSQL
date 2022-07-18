@@ -23,12 +23,13 @@
 </script>
 
 <label
-  id="project-database-label"
-  for="project-database"
+  id="project-database-tester-label"
+  for="project-database-tester"
   class:bx--toggle-input__label={true}
 >
   test query on project database (will only be saved in local browser)
 </label>
+<div class="spacer smaller" />
 <SqlTextArea
   id="project-database"
   maxHeight
@@ -44,7 +45,7 @@
 {/if}
 
 <style>
-  #project-database-label {
+  #project-database-tester-label {
     display: block;
   }
 </style>
