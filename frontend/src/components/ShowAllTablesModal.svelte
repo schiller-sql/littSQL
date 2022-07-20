@@ -20,6 +20,10 @@
 <Modal modalHeading={title} hasScrollingContent passiveModal bind:open>
   {#if lastRenderedTables !== undefined}
     {#key lastRenderedTables}
+      {#if lastRenderedTables.size === 0}
+        no tables in project '{title}'
+        <div class="spacer" />
+      {/if}
       {#each [...lastRenderedTables] as [table, tableContent]}
         <div class="spacer" />
         <h4 style="padding: 16px; padding-bottom: 24;">
