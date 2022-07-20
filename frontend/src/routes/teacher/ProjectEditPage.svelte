@@ -399,7 +399,7 @@
     {project.name}
   </h2>
   <div class="spacer" />
-  <Tabs type="container" bind:selected={tabIndex}>
+  <Tabs bind:selected={tabIndex}>
     <Tab>details</Tab>
     <Tab>database</Tab>
     <Tab>tasks</Tab>
@@ -431,7 +431,6 @@
           />
         </div>
       </TabContent>
-      <!-- TODO: implement -->
       <!-- second tab: editing and testing database/or no database (it is optional) -->
       <TabContent>
         {#if projectIsPrivate}
@@ -450,15 +449,16 @@
               addCurrentProjectToHistory();
             }}
             labelText="project should, but does not have to, have a database"
-            labelA="no database"
-            labelB="database"
+            labelA="without database"
+            labelB="with database"
           />
-          <div class="spacer" />
+          <div class="spacer smaller" />
         {/if}
         {#if !projectIsPrivate && project.sql === null}
           <p>project has no database</p>
         {/if}
         {#if project.sql !== null}
+          <div class="spacer" />
           <div class="two-panel-seperator more-seperated">
             <div>
               <label
@@ -703,6 +703,6 @@
 
   .page-overflow-scroll {
     overflow-y: auto;
-    max-height: calc(100vh - 296px);
+    max-height: calc(100vh - 288px);
   }
 </style>
