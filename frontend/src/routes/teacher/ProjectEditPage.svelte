@@ -51,7 +51,7 @@
   // if ProjectEditPage is called init sqlite
   import { databaseIsReadyStore, initSqlite } from "../../database";
   import ProjectDatabaseTester from "./ProjectDatabaseTester.svelte";
-  import { checkForError } from "../../util/db_util";
+  import { checkForError, createSqlStatusStore } from "../../util/db_util";
   import ShowAllTablesModal from "../../components/ShowAllTablesModal.svelte";
   onMount(initSqlite);
 
@@ -360,11 +360,11 @@
   }
 
   // -- database error checking --
-  // TODO: check performance
-  $: sqlError =
-    project?.sql && $databaseIsReadyStore
-      ? checkForError(project?.sql)
-      : undefined;
+  let sqlStatusStore = createSqlStatusStore(500);
+
+  $: if (project?.sql != null) {
+    sqlStatusStore.sqlUpdate(project.sql);
+  }
 
   // -- database overview --
   let showDatabaseOverviewModal = false;
@@ -490,7 +490,8 @@
                 <Button
                   size="small"
                   kind="secondary"
-                  disabled={sqlError !== undefined}
+                  disabled={!$databaseIsReadyStore ||
+                    $sqlStatusStore.status !== "ok"}
                   on:click={() => (showDatabaseOverviewModal = true)}
                   >Show all tables</Button
                 >
@@ -504,17 +505,28 @@
                   onSelectTemplateSql={databaseTemplateSelected}
                 />
               {/if}
-              {#if sqlError !== undefined}
-                <div style="display: inline-block; float: right" class="error">
-                  {sqlError}
-                </div>
+              {#if !$databaseIsReadyStore}
+                <InlineLoading
+                  status="inactive"
+                  description="loading sql engine..."
+                />
+              {:else if $sqlStatusStore.status === "loading"}
+                <InlineLoading status="active" description="checking" />
+              {:else if $sqlStatusStore.status === "error"}
+                <InlineLoading
+                  status="error"
+                  description={$sqlStatusStore.error}
+                />
+              {:else}
+                <InlineLoading status="finished" description="no errors" />
               {/if}
             </div>
             <div />
             <div>
               {#if $databaseIsReadyStore}
                 <ProjectDatabaseTester
-                  projectSqlHasError={sqlError !== undefined}
+                  projectSqlValid={$databaseIsReadyStore &&
+                    $sqlStatusStore.status === "ok"}
                 />
               {:else}
                 <InlineLoading description="loading sql engine..." />

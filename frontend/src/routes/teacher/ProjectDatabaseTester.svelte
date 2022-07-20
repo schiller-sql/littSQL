@@ -7,7 +7,7 @@
   import type { QueryExecResult } from "../../sql-js/sql-wasm";
   import { execStatementOnDatabase } from "../../util/db_util";
 
-  export let projectSqlHasError: boolean;
+  export let projectSqlValid: boolean;
 
   const projectData: { id: number; sql: string } = getContext("project-data");
 
@@ -36,7 +36,7 @@
   code={testQuery}
   on:change={(e) => (testQuery = e["detail"])}
 />
-<Button disabled={projectSqlHasError} size="small" on:click={executeTestSql}
+<Button disabled={!projectSqlValid} size="small" on:click={executeTestSql}
   >Test</Button
 >
 
