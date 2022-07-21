@@ -172,7 +172,10 @@
     const p = JSON.parse(history[history.length - 1]);
     projectHasSql = p.sql !== null;
     project = p;
-    edited = true;
+    if (history.length === 1) {
+      edited = false;
+    }
+    selectedQuestion = undefined;
   }
 
   // make sure to not be able to leave page when project is edited
