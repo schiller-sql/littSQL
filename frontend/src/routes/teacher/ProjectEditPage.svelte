@@ -51,7 +51,7 @@
   // if ProjectEditPage is called init sqlite
   import { databaseIsReadyStore, initSqlite } from "../../database";
   import ProjectDatabaseTester from "./ProjectDatabaseTester.svelte";
-  import { checkForError, createSqlStatusStore } from "../../util/db_util";
+  import { createSqlStatusStore } from "../../util/db_util";
   import ShowAllTablesModal from "../../components/ShowAllTablesModal.svelte";
   onMount(initSqlite);
 
@@ -83,6 +83,22 @@
   let loading = true;
   let error: string | undefined;
   let project: Project | undefined;
+
+  let projectHasSql: boolean | undefined;
+  $: if (project !== undefined && projectHasSql !== (project.sql !== null)) {
+    a();
+  }
+  function a() {
+    console.log(projectHasSql);
+    console.log(project);
+    if (projectHasSql) {
+      project.sql = "";
+    } else {
+      project.sql = null;
+    }
+    console.log(project);
+    hasEditedProject();
+  }
   let edited = false; // if the project has been edited,
   // the save button is only showed if this is true
   $: projectIsPrivate = !project?.is_public; // if this is false, everything should not be editable
@@ -90,11 +106,13 @@
   /// called on mount
   async function initialProjectFetch() {
     try {
-      project = await fetchWithToken(
+      const p = await fetchWithToken(
         `projects/${params.projectId}`,
         "get",
         $authStore.token
       );
+      projectHasSql = p.sql !== null;
+      project = p;
       addCurrentProjectToHistory();
     } catch (e) {
       error = e.toString();
@@ -151,7 +169,9 @@
   function goBackInHistory() {
     history.splice(history.length - 1, 1);
     history = history;
-    project = JSON.parse(history[history.length - 1]);
+    const p = JSON.parse(history[history.length - 1]);
+    projectHasSql = p.sql !== null;
+    project = p;
     edited = true;
   }
 
@@ -436,18 +456,7 @@
         {#if projectIsPrivate}
           <Toggle
             size="sm"
-            toggled={project.sql !== null}
-            on:toggle={() => {
-              // TODO: fix toggling not being able to reversed
-              if (project.sql === null) {
-                project.sql = "";
-              } else {
-                project.sql = null;
-              }
-              project = project;
-              edited = true;
-              addCurrentProjectToHistory();
-            }}
+            bind:toggled={projectHasSql}
             labelText="project should, but does not have to, have a database"
             labelA="without database"
             labelB="with database"
