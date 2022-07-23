@@ -41,7 +41,31 @@
   >
     <!-- TODO: performant mode, without this behaviour -->
     <svelte:fragment slot="cell" let:cell>
-      <SqlCell cellData={cell.value} />
+      <span
+        class:number={typeof cell.value === "number"}
+        class:null={typeof cell.value === "object"}
+        class:string={typeof cell.value === "string"}
+      >
+        {#if typeof cell.value === "string"}
+          "{cell.value}"
+        {:else}
+          {cell.value}
+        {/if}
+      </span>
     </svelte:fragment>
   </DataTable>
 </div>
+
+<style>
+  span.number {
+    color: #a7f0ba;
+  }
+
+  span.null {
+    color: #bb8eff;
+  }
+
+  span.string {
+    color: #fa75a6;
+  }
+</style>
