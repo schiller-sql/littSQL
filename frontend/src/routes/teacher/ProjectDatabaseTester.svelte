@@ -14,6 +14,10 @@
   const localStorageTestQueryKey = `project:${projectData.id}:test_query`;
   let testQuery = localStorage.getItem(localStorageTestQueryKey) ?? "";
   $: localStorage.setItem(localStorageTestQueryKey, testQuery);
+  $: {
+    testQuery;
+    result = undefined;
+  }
 
   let result: QueryExecResult[] | string | undefined;
 
