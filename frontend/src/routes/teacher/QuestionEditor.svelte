@@ -1,13 +1,23 @@
 <script lang="ts">
   import {
+    Button,
     RadioButton,
     RadioButtonGroup,
     TextArea,
+    ToastNotification,
     Toggle,
   } from "carbon-components-svelte";
+  import { getContext, onMount } from "svelte";
+  import SqlResults from "../../components/SqlResults.svelte";
+  import SqlStatus from "../../components/SqlStatus.svelte";
   import SqlTextArea from "../../components/SqlTextArea.svelte";
+  import type { QueryExecResult } from "../../sql-js/sql-wasm";
 
   import type Question from "../../types/Question";
+  import {
+    createSqlStatusStore,
+    execStatementOnDatabase,
+  } from "../../util/db_util";
   import { letterFromNumber } from "../../util/utli";
 
   export let taskNumber: number;
@@ -15,6 +25,16 @@
   export let editable: boolean;
   export let question: Question;
   export let onQuestionEdit: () => void;
+  export let databaseError: string | undefined;
+
+  let projectData: { id: number; sql: string } = getContext("project-data");
+
+  let sqlStatusStore = createSqlStatusStore(500);
+  onMount(() => {
+    if (question.type === "sql" && question.solution !== null) {
+      sqlStatusStore.sqlUpdate(question.solution, projectData.sql);
+    }
+  });
 
   $: hasSolution = question.solution !== null;
 
@@ -39,6 +59,7 @@
       question.solution = null;
     } else {
       question.solution = "";
+      sqlStatusStore.sqlUpdate("");
     }
     editedQuestion();
   }
@@ -52,6 +73,22 @@
     let q = question;
     q.solution = event.detail;
     onQuestionEdit();
+    sqlStatusStore.sqlUpdate(event.detail, projectData.sql);
+    solutionResult = undefined;
+  }
+
+  let solutionResult: QueryExecResult[] | string | undefined;
+
+  // $: if (databaseError !== undefined) {
+  // solutionResult = undefined;
+  // }
+
+  function testSqlSoution() {
+    solutionResult = execStatementOnDatabase(
+      projectData.sql,
+      question.solution
+    );
+    console.log(solutionResult);
   }
 </script>
 
@@ -108,6 +145,26 @@
 {#if hasSolution}
   {#if question.type === "sql"}
     <SqlTextArea code={question.solution} on:change={editSqlSolution} />
+    <Button
+      size="small"
+      on:click={testSqlSoution}
+      disabled={databaseError !== undefined}>test solution</Button
+    >
+    {#if databaseError !== undefined}
+      <div class="spacer" />
+      <ToastNotification
+        lowContrast
+        kind="error"
+        title="Error in database, solution not testable"
+        subtitle={databaseError}
+        hideCloseButton
+      />
+    {:else}
+      <SqlStatus sqlStatus={$sqlStatusStore} />
+      {#if solutionResult !== undefined}
+        <SqlResults result={solutionResult} />
+      {/if}
+    {/if}
   {:else}
     <TextArea
       invalid={question.solution.length === 0}

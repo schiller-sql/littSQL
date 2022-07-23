@@ -53,6 +53,7 @@
   import ProjectDatabaseTester from "./ProjectDatabaseTester.svelte";
   import { createSqlStatusStore } from "../../util/db_util";
   import ShowAllTablesModal from "../../components/ShowAllTablesModal.svelte";
+  import SqlStatus from "../../components/SqlStatus.svelte";
   onMount(initSqlite);
 
   // -- initially fetch project using id provided by params --
@@ -517,21 +518,7 @@
                   onSelectTemplateSql={databaseTemplateSelected}
                 />
               {/if}
-              {#if !$databaseIsReadyStore}
-                <InlineLoading
-                  status="inactive"
-                  description="loading sql engine..."
-                />
-              {:else if $sqlStatusStore.status === "loading"}
-                <InlineLoading status="active" description="checking" />
-              {:else if $sqlStatusStore.status === "error"}
-                <InlineLoading
-                  status="error"
-                  description={$sqlStatusStore.error}
-                />
-              {:else}
-                <InlineLoading status="finished" description="no errors" />
-              {/if}
+              <SqlStatus sqlStatus={$sqlStatusStore} />
             </div>
             <div />
             <div>
@@ -628,6 +615,9 @@
                 questionNumber={selectedQuestion.questionNumber}
                 question={selectedQuestion.question}
                 onQuestionEdit={hasEditedProject}
+                databaseError={$sqlStatusStore.status === "error"
+                  ? $sqlStatusStore.error
+                  : undefined}
               />
             </div>
           {:else}

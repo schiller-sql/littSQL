@@ -44,16 +44,22 @@ export function getAllTables(
   return allTables;
 }
 
-export function checkForError(sql: string): string | undefined {
+export function checkForError(
+  sql: string,
+  databaseSql?: string
+): string | undefined {
   const db = newDatabase();
   try {
+    if (databaseSql) {
+      db.run(databaseSql);
+    }
     db.run(sql);
   } catch (e) {
     return e;
   }
 }
 
-type SqlStatus =
+export type SqlStatus =
   | {
       status: "loading";
     }
@@ -61,7 +67,7 @@ type SqlStatus =
   | { status: "error"; error: string };
 
 interface SqlStatusStore extends Readable<SqlStatus> {
-  sqlUpdate(sql: string): void;
+  sqlUpdate(sql: string, databaseSql?: string): void;
 }
 
 export function createSqlStatusStore(
@@ -69,18 +75,23 @@ export function createSqlStatusStore(
 ): SqlStatusStore {
   const w = writable<SqlStatus>({ status: "loading" });
   let lastTimeoutId;
-  function checkSqlStatusStore(sql: string) {
-    const error = checkForError(sql);
+  function checkSqlStatusStore(sql: string, databaseSql?: string) {
+    const error = checkForError(sql, databaseSql);
     if (error !== undefined) {
       w.set({ status: "error", error });
     } else {
       w.set({ status: "ok" });
     }
   }
-  function sqlUpdate(sql: string) {
+  function sqlUpdate(sql: string, databaseSql?: string) {
     w.set({ status: "loading" });
     clearTimeout(lastTimeoutId);
-    lastTimeoutId = setTimeout(checkSqlStatusStore, millisecondsTillCheck, sql);
+    lastTimeoutId = setTimeout(
+      checkSqlStatusStore,
+      millisecondsTillCheck,
+      sql,
+      databaseSql
+    );
   }
   return {
     sqlUpdate,
