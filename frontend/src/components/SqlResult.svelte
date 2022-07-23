@@ -3,6 +3,7 @@
   import type { DataTableRow } from "carbon-components-svelte/types/DataTable/DataTable.svelte";
 
   import type { QueryExecResult } from "../sql-js/sql-wasm";
+  import SqlCell from "./SqlCell.svelte";
 
   export let title: string = "";
   export let result: QueryExecResult;
@@ -37,5 +38,10 @@
       };
     })}
     rows={rows()}
-  />
+  >
+    <!-- TODO: performant mode, without this behaviour -->
+    <svelte:fragment slot="cell" let:cell>
+      <SqlCell cellData={cell.value} />
+    </svelte:fragment>
+  </DataTable>
 </div>
