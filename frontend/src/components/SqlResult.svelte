@@ -29,7 +29,7 @@
   <DataTable
     useStaticWidth
     title={title || undefined}
-    size="medium"
+    size="short"
     headers={result.columns.map((column) => {
       return {
         key: column === "id" ? replacementKeyForId : column,

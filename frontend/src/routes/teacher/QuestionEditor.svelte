@@ -79,16 +79,12 @@
 
   let solutionResult: QueryExecResult[] | string | undefined;
 
-  // $: if (databaseError !== undefined) {
-  // solutionResult = undefined;
-  // }
-
   function testSqlSoution() {
     solutionResult = execStatementOnDatabase(
       projectData.sql,
       question.solution
     );
-    console.log(solutionResult);
+    // TODO: Scroll down
   }
 </script>
 
@@ -148,7 +144,8 @@
     <Button
       size="small"
       on:click={testSqlSoution}
-      disabled={databaseError !== undefined}>test solution</Button
+      disabled={databaseError !== undefined || $sqlStatusStore.status !== "ok"}
+      >test solution</Button
     >
     {#if databaseError !== undefined}
       <div class="spacer" />
