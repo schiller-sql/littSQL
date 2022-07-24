@@ -3,7 +3,6 @@
   import type { DataTableRow } from "carbon-components-svelte/types/DataTable/DataTable.svelte";
 
   import type { QueryExecResult } from "../sql-js/sql-wasm";
-  import SqlCell from "./SqlCell.svelte";
 
   export let title: string = "";
   export let result: QueryExecResult;
@@ -58,14 +57,14 @@
 
 <style>
   span.number {
-    color: #a7f0ba;
+    color: #f08d49;
   }
 
   span.null {
-    color: #bb8eff;
+    color: #cc99cd;
   }
 
   span.string {
-    color: #fa75a6;
+    color: #7ec699;
   }
 </style>
