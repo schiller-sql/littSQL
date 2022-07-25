@@ -1,9 +1,10 @@
 <script lang="ts">
+  import { performanceModeStore } from "./performance";
   import { authStore, UserType, userTypeToString } from "./auth";
   import AuthRouter from "./routes/auth/Router.svelte";
   import TeacherRouter from "./routes/teacher/Router.svelte";
   import ParticipantRouter from "./routes/participant/Router.svelte";
-  import { UserAvatarFilledAlt20 } from "carbon-icons-svelte";
+  import { UserAvatarFilledAlt20, SettingsAdjust20 } from "carbon-icons-svelte";
   import { onDestroy } from "svelte";
   import {
     Header,
@@ -13,6 +14,7 @@
     HeaderPanelLink,
     Content,
     HeaderPanelDivider,
+    Toggle,
   } from "carbon-components-svelte";
 
   let firstVal = true;
@@ -35,10 +37,26 @@
 <Header company="littSQL" href="#/">
   {#if $authStore != null}
     <HeaderUtilities>
-      <HeaderAction
-        icon={UserAvatarFilledAlt20}
-        closeIcon={UserAvatarFilledAlt20}
-      >
+      <HeaderAction icon={SettingsAdjust20}>
+        <HeaderPanelLinks>
+          <HeaderPanelDivider>
+            High performance mode, turn on to save battery or if device cpu is
+            too slow, comes with user experience penalty. Will be saved in
+            browser.</HeaderPanelDivider
+          >
+          <Toggle
+            toggled={$performanceModeStore === "high"}
+            on:toggle={(e) =>
+              ($performanceModeStore = e.detail.toggled ? "high" : "low")}
+            style="margin-left: 24px"
+            labelText="performance mode (refresh to take effect)"
+            size="sm"
+            labelA="default performance"
+            labelB="high performance mode"
+          />
+        </HeaderPanelLinks>
+      </HeaderAction>
+      <HeaderAction icon={UserAvatarFilledAlt20}>
         <HeaderPanelLinks>
           <HeaderPanelDivider
             >logged in as a {userTypeToString(

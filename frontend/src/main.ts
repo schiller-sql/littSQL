@@ -6,6 +6,7 @@ import "./styles/font.scss";
 import "./styles/colors.scss";
 import "./styles/containers.scss";
 import "./database";
+import "./performance";
 
 const app = new LoggedInRouter({
   target: document.body,
