@@ -4,6 +4,7 @@
     ButtonSkeleton,
     InlineLoading,
     InlineNotification,
+    Link,
     SkeletonText,
     Tab,
     TabContent,
@@ -446,12 +447,21 @@
               disabled={!projectIsPrivate}
               light
               value={project.documentation_md}
-              labelText="project documentation"
               placeholder="project documentation..."
               rows={16}
               maxCount={10000}
               on:input={editDocumentation}
-            />
+            >
+              <svelte:fragment slot="labelText">
+                project documentation
+                <Link
+                  target="_blank"
+                  style="font-size: 0.75rem"
+                  href="https://datatracker.ietf.org/doc/html/rfc7763"
+                  >(in markdown)</Link
+                >
+              </svelte:fragment>
+            </TextArea>
             <div />
             <div class="markdown-render-container">
               <MarkdownRenderComponent
