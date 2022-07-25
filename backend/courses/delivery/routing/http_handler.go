@@ -20,10 +20,10 @@ func ConfigureHandler(
 	handler := coursesHandler{usecase}
 
 	coursesGroup := r.Group("/courses", authMiddleware.JwtHandler, authMiddleware.IsTeacherValidator)
-	courseGroup := coursesGroup.Group("/:id")
-
 	coursesGroup.GET("", handler.getCoursesOfTeacher)
 	coursesGroup.POST("", handler.newCourse)
+
+	courseGroup := coursesGroup.Group("/:id")
 	courseGroup.GET("", handler.getCourse)
 	courseGroup.PUT("", handler.editCourse)
 	courseGroup.DELETE("", handler.deleteCourse)

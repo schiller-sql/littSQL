@@ -1,41 +1,48 @@
 <script lang="ts">
-  //import { onMount } from "svelte";
   import { authStore, fetchWithToken, requestWithToken } from "../../auth";
   import { Button, Loading, Modal, TextInput } from "carbon-components-svelte";
   import Add from "carbon-icons-svelte/lib/Add16/Add16.svelte";
   import { push } from "svelte-spa-router";
   import type CourseListing from "../../types/CourseListing";
   import CourseTile from "../../components/CourseTile.svelte";
-  /*
-    onMount(async () => {
-        try {
-            courses = await fetchWithToken("projects", "GET", $authStore.token);
-            loading = false;
-        } catch (e) {
-            error = e.toString();
-            console.error(e);
-        }
-    });
-    */
+  import { onMount } from "svelte";
+  import DeleteCourseModal from "../../components/DeleteCourseModal.svelte";
+
+  onMount(async () => {
+    try {
+      courses = await fetchWithToken("courses", "GET", $authStore.token);
+      loading = false;
+    } catch (e) {
+      error = e.toString();
+      console.error(e);
+    }
+  });
+
   let open = false;
   let newCourseName: string;
 
-  let loading = false;
+  let loading = true;
   let error: string;
-  let courses: CourseListing[] = [
-    { id: 0, name: "test1" },
-    { id: 1, name: "test2" },
-    { id: 2, name: "test3" },
-  ];
+  let courses: CourseListing[];
 
-  async function deleteCourse(event) {
-    const id = event.detail.id;
+  let openDeleteCourseModal = false;
+  let pendingDeletionCourse: CourseListing | undefined;
+
+  async function deleteCourse() {
     try {
-      await requestWithToken(`courses/${id}`, "DELETE", $authStore.token);
-      courses = courses.filter((project) => project.id != id);
+      await requestWithToken(
+        `courses/${pendingDeletionCourse.id}`,
+        "DELETE",
+        $authStore.token
+      );
+      courses = courses.filter(
+        (course) => course.id != pendingDeletionCourse.id
+      );
     } catch (e) {
       console.error(e);
-      error = "could not delete project";
+      error = "could not delete course";
+    } finally {
+      openDeleteCourseModal = false;
     }
   }
 
@@ -53,7 +60,6 @@
         $authStore.token,
         { name: newCourseName }
       );
-      console.log(newCourse);
       // sort new course into courses
       courses = [...courses, newCourse].sort((a, b) => {
         if (a.name < b.name) return -1;
@@ -62,7 +68,7 @@
       });
     } catch (e) {
       console.error(e);
-      error = "could not add project";
+      error = e;
     }
   }
 </script>
@@ -74,12 +80,19 @@
     <p style="color: red">{error.toString()}</p>
   {:else}
     {#each courses as course (course.id)}
-      <CourseTile {course} on:open={openCourse} on:delete={deleteCourse} />
+      <CourseTile
+        {course}
+        on:open={openCourse}
+        on:delete={() => {
+          openDeleteCourseModal = true;
+          pendingDeletionCourse = course;
+        }}
+      />
     {/each}
-    <Button on:click={() => (open = true)} icon={Add}>Create project</Button>
+    <Button on:click={() => (open = true)} icon={Add}>Create course</Button>
     <Modal
       bind:open
-      modalHeading="Create new project"
+      modalHeading="Create new course"
       primaryButtonText="Confirm"
       primaryButtonDisabled={!newCourseName}
       secondaryButtonText="Cancel"
@@ -99,5 +112,10 @@
         placeholder="Enter course name..."
       />
     </Modal>
+    <DeleteCourseModal
+      courseName={pendingDeletionCourse?.name ?? ""}
+      bind:open={openDeleteCourseModal}
+      on:submit={deleteCourse}
+    />
   {/if}
 </body>

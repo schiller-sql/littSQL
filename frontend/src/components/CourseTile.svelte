@@ -19,12 +19,11 @@
 </script>
 
 <ClickableTile
-  style="display: grid; grid-template-columns: 1fr auto auto; padding: 0; padding-right: 16px"
+  style="display: grid; grid-template-columns: 1fr auto; padding: 0; padding-right: 16px"
 >
   <div on:click={openCourse} style="padding: 16px">
     {course.name}
   </div>
-  <TooltipIcon tooltipText="edit course" icon={Edit16} />
   <TooltipIcon
     tooltipText="delete course"
     icon={TrashCan16}
