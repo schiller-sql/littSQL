@@ -54,6 +54,7 @@
   import { createSqlStatusStore } from "../../util/db_util";
   import ShowAllTablesModal from "../../components/ShowAllTablesModal.svelte";
   import SqlStatus from "../../components/SqlStatus.svelte";
+  import MarkdownRenderComponent from "../../components/MarkdownRenderComponent.svelte";
   onMount(initSqlite);
 
   // -- initially fetch project using id provided by params --
@@ -87,17 +88,14 @@
 
   let projectHasSql: boolean | undefined;
   $: if (project !== undefined && projectHasSql !== (project.sql !== null)) {
-    a();
+    toggle();
   }
-  function a() {
-    console.log(projectHasSql);
-    console.log(project);
+  function toggle() {
     if (projectHasSql) {
       project.sql = "";
     } else {
       project.sql = null;
     }
-    console.log(project);
     hasEditedProject();
   }
   let edited = false; // if the project has been edited,
@@ -443,16 +441,25 @@
             on:input={editName}
           />
           <div class="spacer" />
-          <TextArea
-            disabled={!projectIsPrivate}
-            light
-            value={project.documentation_md}
-            labelText="project documentation"
-            placeholder="project documentation..."
-            rows={16}
-            maxCount={10000}
-            on:input={editDocumentation}
-          />
+          <div class="two-panel-seperator more-seperated">
+            <TextArea
+              disabled={!projectIsPrivate}
+              light
+              value={project.documentation_md}
+              labelText="project documentation"
+              placeholder="project documentation..."
+              rows={16}
+              maxCount={10000}
+              on:input={editDocumentation}
+            />
+            <div />
+            <div class="markdown-render-container">
+              <MarkdownRenderComponent
+                light
+                rawMarkdown={project.documentation_md}
+              />
+            </div>
+          </div>
         </div>
       </TabContent>
       <!-- second tab: editing and testing database/or no database (it is optional) -->
@@ -706,5 +713,10 @@
   .page-overflow-scroll {
     overflow-y: auto;
     max-height: calc(100vh - 288px);
+  }
+
+  .markdown-render-container {
+    margin-top: 24px;
+    height: 344px;
   }
 </style>

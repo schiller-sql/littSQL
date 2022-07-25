@@ -73,6 +73,7 @@ interface SqlStatusStore extends Readable<SqlStatus> {
 export function createSqlStatusStore(
   millisecondsTillCheck: number
 ): SqlStatusStore {
+  let lastSql: string | undefined;
   const w = writable<SqlStatus>({ status: "loading" });
   let lastTimeoutId;
   function checkSqlStatusStore(sql: string, databaseSql?: string) {
@@ -84,6 +85,8 @@ export function createSqlStatusStore(
     }
   }
   function sqlUpdate(sql: string, databaseSql?: string) {
+    if (sql === lastSql) return;
+    lastSql = sql;
     w.set({ status: "loading" });
     clearTimeout(lastTimeoutId);
     lastTimeoutId = setTimeout(
