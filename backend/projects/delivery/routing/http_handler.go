@@ -38,7 +38,7 @@ func (h *projectsHandler) getProjectsOfTeacher(c *gin.Context) {
 
 func (h *projectsHandler) editProject(c *gin.Context) {
 	teacherID := helpers.GetJwtID(c)
-	projectID, err := helpers.GetParamID(c)
+	projectID, err := helpers.GetParamIDInt32(c)
 	if err != nil {
 		return
 	}
@@ -63,7 +63,7 @@ func (h *projectsHandler) editProject(c *gin.Context) {
 
 func (h *projectsHandler) getProject(c *gin.Context) {
 	teacherID := helpers.GetJwtID(c)
-	projectID, err := helpers.GetParamID(c)
+	projectID, err := helpers.GetParamIDInt32(c)
 	if err != nil {
 		return
 	}
@@ -78,7 +78,7 @@ func (h *projectsHandler) getProject(c *gin.Context) {
 
 func (h *projectsHandler) deleteProject(c *gin.Context) {
 	teacherID := helpers.GetJwtID(c)
-	projectID, err := helpers.GetParamID(c)
+	projectID, err := helpers.GetParamIDInt32(c)
 	if err != nil {
 		return
 	}
