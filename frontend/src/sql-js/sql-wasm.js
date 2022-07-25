@@ -1,5 +1,6 @@
 // copied and modified from https://github.com/rollup/rollup
 
+// TODO: use different version of sql.js with web workers
 var initSqlJsPromise = undefined;
 
 var initSqlJs = function (moduleConfig) {

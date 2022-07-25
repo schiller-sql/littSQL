@@ -17,7 +17,9 @@ databaseIsReadyStore.subscribe((value) => {
 let sql: SqlJsStatic | undefined;
 
 export function newDatabase(data?: ArrayLike<number> | Buffer): Database {
-  return new sql!.Database(data);
+  const db = new sql!.Database(data);
+  db.run("PRAGMA foreign_keys = ON");
+  return db;
 }
 
 export async function initSqlite() {
