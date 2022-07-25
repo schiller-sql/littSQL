@@ -6,10 +6,9 @@ export type PerformanceMode = "low" | "high";
 const localStorageKey = "performance_mode";
 
 function getPerformanceModeFromLocalStorage(): PerformanceMode {
-  const s =
-    (localStorage.getItem(localStorageKey) as PerformanceMode | null) ?? "low";
-  console.log(s);
-  return s;
+  return (
+    (localStorage.getItem(localStorageKey) as PerformanceMode | null) ?? "low"
+  );
 }
 
 export let performanceMode = getPerformanceModeFromLocalStorage();
