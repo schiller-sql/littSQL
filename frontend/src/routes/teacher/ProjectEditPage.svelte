@@ -56,6 +56,7 @@
   import ShowAllTablesModal from "../../components/ShowAllTablesModal.svelte";
   import SqlStatus from "../../components/SqlStatus.svelte";
   import MarkdownRenderComponent from "../../components/MarkdownRenderComponent.svelte";
+  import { performanceMode } from "../../performance";
   onMount(initSqlite);
 
   // -- initially fetch project using id provided by params --
@@ -383,7 +384,9 @@
   }
 
   // -- database error checking --
-  let sqlStatusStore = createSqlStatusStore(500);
+  let sqlStatusStore = createSqlStatusStore(
+    performanceMode === "high" ? 800 : 500
+  );
 
   $: if (project?.sql != null) {
     sqlStatusStore.sqlUpdate(project.sql);

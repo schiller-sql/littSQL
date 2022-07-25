@@ -11,6 +11,7 @@
   import SqlResults from "../../components/SqlResults.svelte";
   import SqlStatus from "../../components/SqlStatus.svelte";
   import SqlTextArea from "../../components/SqlTextArea.svelte";
+  import { performanceMode } from "../../performance";
   import type { QueryExecResult } from "../../sql-js/sql-wasm";
 
   import type Question from "../../types/Question";
@@ -29,7 +30,9 @@
 
   let projectData: { id: number; sql: string } = getContext("project-data");
 
-  let sqlStatusStore = createSqlStatusStore(500);
+  let sqlStatusStore = createSqlStatusStore(
+    performanceMode === "high" ? 800 : 500
+  );
   onMount(() => {
     if (question.type === "sql" && question.solution !== null) {
       sqlStatusStore.sqlUpdate(question.solution, projectData.sql);

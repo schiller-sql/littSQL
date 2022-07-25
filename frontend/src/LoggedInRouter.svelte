@@ -49,7 +49,7 @@
             on:toggle={(e) =>
               ($performanceModeStore = e.detail.toggled ? "high" : "low")}
             style="margin-left: 24px"
-            labelText="performance mode (refresh to take effect)"
+            labelText="performance mode (refresh to fully take effect)"
             size="sm"
             labelA="default performance"
             labelB="high performance mode"

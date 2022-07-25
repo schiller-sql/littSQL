@@ -19,7 +19,7 @@ const domPurifyConfig = {
 };
 
 export function createMarkdownRenderStore(
-  millisecondsTillCheck: number
+  millisecondsTillCheck: number | undefined
 ): MarkdownRenderStore {
   let lastRawMarkdown: string | undefined;
   const w = writable<MarkdownRenderStatus>({ status: "loading" });
@@ -35,13 +35,17 @@ export function createMarkdownRenderStore(
   function rawMarkdownUpdate(rawMarkdown: string) {
     if (lastRawMarkdown === rawMarkdown) return;
     lastRawMarkdown = rawMarkdown;
-    w.set({ status: "loading" });
-    clearTimeout(lastTimeoutId);
-    lastTimeoutId = setTimeout(
-      renderRawMarkdown,
-      millisecondsTillCheck,
-      rawMarkdown
-    );
+    if (millisecondsTillCheck !== undefined) {
+      w.set({ status: "loading" });
+      clearTimeout(lastTimeoutId);
+      lastTimeoutId = setTimeout(
+        renderRawMarkdown,
+        millisecondsTillCheck,
+        rawMarkdown
+      );
+    } else {
+      renderRawMarkdown(rawMarkdown);
+    }
   }
   return {
     rawMarkdownUpdate,
