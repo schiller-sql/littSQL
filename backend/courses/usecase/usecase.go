@@ -20,6 +20,9 @@ func (u eUsecase) GetCoursesOfTeacher(teacherID int32) (*[]model.CourseListing, 
 }
 
 func (u eUsecase) NewCourse(teacherID int32, name string) (*model.Course, error) {
+	if len(name) <= 2 {
+		return nil, errors.New("name is too short for a course")
+	}
 	return u.coursesRepo.NewCourse(teacherID, name)
 }
 

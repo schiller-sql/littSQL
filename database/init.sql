@@ -31,7 +31,7 @@ CREATE TABLE database_templates -- represents a sample database that can be used
 CREATE TABLE projects -- represents a template for a project a teacher can use as an assignment
 (
     id               INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    name             VARCHAR NOT NULL,
+    name             VARCHAR NOT NULL check (LENGTH(name) > 0),
     documentation_md TEXT    NOT NULL DEFAULT '',
     db_sql           TEXT,
     owner_id         INTEGER REFERENCES teachers
@@ -78,7 +78,7 @@ CREATE TABLE courses -- a course with participants, belongs to a teacher
 (
     id         INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     teacher_id INTEGER NOT NULL REFERENCES teachers ON DELETE CASCADE,
-    name       VARCHAR NOT NULL CHECK ( LENGTH(name) > 2 )
+    name       VARCHAR NOT NULL CHECK ( LENGTH(name) > 0 )
 );
 
 -- TODO: allow participants to join multiple courses

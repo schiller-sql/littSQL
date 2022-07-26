@@ -58,9 +58,9 @@ func (u eUsecase) EditProject(
 	return u.projectsRepo.SaveEditedProject(
 		&model.Project{
 			ProjectSuperficial: model.ProjectSuperficial{
-				ID:              projectID,
-				OwnerID:         &teacherID,
-				Name:            name,
+				ID:      projectID,
+				OwnerID: &teacherID,
+				Name:    name,
 			},
 			DbSQL:           sql,
 			DocumentationMd: documentationMd,
