@@ -1,6 +1,6 @@
 <script lang="ts">
   import { performanceModeStore } from "./performance";
-  import { UserType, userTypeToString } from "./auth";
+  import { UserType, userTypeToString, type AuthState } from "./auth";
   import { authStore } from "./stores";
   import AuthRouter from "./routes/auth/Router.svelte";
   import TeacherRouter from "./routes/teacher/Router.svelte";
@@ -19,13 +19,12 @@
     Loading,
   } from "carbon-components-svelte";
 
-  let firstVal = true;
-  const unsubscribe = authStore.subscribe((_) => {
-    if (firstVal) {
-      firstVal = false;
-    } else {
+  let lastAuthState: AuthState | undefined;
+  const unsubscribe = authStore.subscribe((currentAuthState) => {
+    if (lastAuthState && lastAuthState.status !== "autologin_loading") {
       window.location.hash = "";
     }
+    lastAuthState = currentAuthState;
   });
 
   onDestroy(unsubscribe);
