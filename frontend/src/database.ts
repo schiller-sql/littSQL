@@ -29,7 +29,6 @@ export async function initSqlite() {
   console.log("sqlite: loading...");
   sql = await initSqlJs({
     locateFile: (file) => {
-      fetch("./static/sql.js/sql-wasm.wasm");
       console.log(`sqlite: loading '${file}'...`);
       return `static/sql.js/${file}`;
     },
