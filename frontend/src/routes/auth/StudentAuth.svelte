@@ -5,7 +5,9 @@
     Button,
     InlineNotification,
   } from "carbon-components-svelte";
-  import { authStore, DEFAULT_URL, UserType } from "../../auth";
+  import { UserType } from "../../auth";
+  import { apiUrl } from "../../config";
+  import { authStore } from "../../stores";
 
   let accessCode = "";
   $: disabled = accessCode.length != 6;
@@ -16,7 +18,7 @@
   async function submit() {
     requestError = undefined;
 
-    const url = DEFAULT_URL + "auth/login";
+    const url = apiUrl + "/auth/login";
     const data = { access_code: accessCode };
     const res = await fetch(url, {
       method: "POST",
@@ -33,7 +35,7 @@
       }
     } else {
       const json = await res.json();
-      authStore.set({ token: json["token"], type: UserType.student });
+      authStore.logIn(json["token"], UserType.student);
     }
   }
 </script>

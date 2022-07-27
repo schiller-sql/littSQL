@@ -31,6 +31,7 @@ func getRouter() *gin.Engine {
 	router := gin.Default()
 
 	// setup static files for svelte
+	// TODO: use gzip
 	router.NoRoute(gin.WrapH(http.FileServer(gin.Dir("../frontend/public", false))))
 
 	err := router.SetTrustedProxies(nil)

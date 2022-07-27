@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { authStore, fetchWithToken, requestWithToken } from "../../auth";
   import { Button, Loading, Modal, TextInput } from "carbon-components-svelte";
   import Add from "carbon-icons-svelte/lib/Add16/Add16.svelte";
   import { push } from "svelte-spa-router";
@@ -7,10 +6,14 @@
   import CourseTile from "../../components/CourseTile.svelte";
   import { onMount } from "svelte";
   import DeleteCourseModal from "../../components/DeleteCourseModal.svelte";
+  import {
+    fetchWithAuthorization,
+    requestWithAuthorization,
+  } from "../../util/auth_http_util";
 
   onMount(async () => {
     try {
-      courses = await fetchWithToken("courses", "GET", $authStore.token);
+      courses = await fetchWithAuthorization("courses", "GET");
       loading = false;
     } catch (e) {
       error = e.toString();
@@ -30,10 +33,9 @@
 
   async function deleteCourse() {
     try {
-      await requestWithToken(
+      await requestWithAuthorization(
         `courses/${pendingDeletionCourse.id}`,
-        "DELETE",
-        $authStore.token
+        "DELETE"
       );
       courses = courses.filter(
         (course) => course.id != pendingDeletionCourse.id
@@ -54,12 +56,9 @@
 
   async function addCourse() {
     try {
-      const newCourse = await fetchWithToken(
-        `courses`,
-        "POST",
-        $authStore.token,
-        { name: newCourseName }
-      );
+      const newCourse = await fetchWithAuthorization(`courses`, "POST", {
+        name: newCourseName,
+      });
       // sort new course into courses
       courses = [...courses, newCourse].sort((a, b) => {
         if (a.name < b.name) return -1;

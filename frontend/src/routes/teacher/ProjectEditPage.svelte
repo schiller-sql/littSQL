@@ -28,7 +28,6 @@
   import { afterUpdate, onDestroy, onMount, setContext } from "svelte";
   import TaskComponent from "../../components/Task.svelte";
   import QuestionComponent from "../../components/Question.svelte";
-  import { authStore, fetchWithToken, requestWithToken } from "../../auth";
   import type Project from "../../types/Project";
   import type Question from "../../types/Question";
   import type Task from "../../types/Task";
@@ -57,6 +56,10 @@
   import SqlStatus from "../../components/SqlStatus.svelte";
   import MarkdownRenderComponent from "../../components/MarkdownRenderComponent.svelte";
   import { performanceMode } from "../../performance";
+  import {
+    fetchWithAuthorization,
+    requestWithAuthorization,
+  } from "../../util/auth_http_util";
   onMount(initSqlite);
 
   // -- initially fetch project using id provided by params --
@@ -107,10 +110,9 @@
   /// called on mount
   async function initialProjectFetch() {
     try {
-      const p = await fetchWithToken(
+      const p = await fetchWithAuthorization(
         `projects/${params.projectId}`,
-        "get",
-        $authStore.token
+        "get"
       );
       projectHasSql = p.sql !== null;
       project = p;
@@ -124,10 +126,9 @@
 
   async function save() {
     try {
-      await requestWithToken(
+      await fetchWithAuthorization(
         `projects/${params.projectId}`,
         "put",
-        $authStore.token,
         project
       );
     } catch (e) {
@@ -147,11 +148,7 @@
 
   async function deleteProject() {
     try {
-      await requestWithToken(
-        `projects/${project.id}`,
-        "DELETE",
-        $authStore.token
-      );
+      await requestWithAuthorization(`projects/${project.id}`, "DELETE");
       pop();
     } catch (e) {
       console.error(e);
@@ -395,6 +392,8 @@
   // -- database overview --
   let showDatabaseOverviewModal = false;
 </script>
+
+<!-- TODO: add breadcrumbs, like: homepage / projects / [project-name] (homepage can be left away) -->
 
 {#if error !== undefined}
   <p class="error">{error.toString()}</p>

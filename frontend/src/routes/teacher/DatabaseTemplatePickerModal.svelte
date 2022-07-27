@@ -1,7 +1,7 @@
 <script lang="ts">
   import { ClickableTile, Loading, Modal } from "carbon-components-svelte";
-  import { authStore, fetchWithToken } from "../../auth";
   import type DatabaseTemplateListing from "../../types/DatabaseTemplateListing";
+  import { fetchWithAuthorization } from "../../util/auth_http_util";
   import DatabaseTemplateConfirmModal from "./DatabaseTemplateConfirmModal.svelte";
 
   export let open: boolean;
@@ -19,7 +19,7 @@
   let selectedId: number | null = null;
 
   $: if (open && databaseTemplates === undefined) {
-    fetchWithToken("database-templates", "get", $authStore.token)
+    fetchWithAuthorization("database-templates", "get")
       .then((data) => (databaseTemplates = data))
       .catch((e) => {
         console.error(e);

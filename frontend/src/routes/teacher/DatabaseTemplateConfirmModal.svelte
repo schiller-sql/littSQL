@@ -1,8 +1,8 @@
 <script lang="ts">
   import { Loading, Modal } from "carbon-components-svelte";
-  import { authStore, fetchWithToken } from "../../auth";
   import SqlTextArea from "../../components/SqlTextArea.svelte";
   import type DatabaseTemplate from "../../types/DatabaseTemplate";
+  import { fetchWithAuthorization } from "../../util/auth_http_util";
 
   export let selectedId: number | null;
   export let onSelectTemplateSql: (sql: string) => void;
@@ -28,10 +28,9 @@
     } else {
       loading = true;
       try {
-        databaseTemplate = await fetchWithToken(
+        databaseTemplate = await fetchWithAuthorization(
           `database-templates/${selectedId}`,
-          "get",
-          $authStore.token
+          "get"
         );
         cachedDatabaseTemplates.set(selectedId, databaseTemplate);
       } catch (e) {

@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { authStore, fetchWithToken, requestWithToken } from "../../auth";
   import {
     Button,
     Modal,
@@ -12,10 +11,14 @@
   import Add from "carbon-icons-svelte/lib/Add16/Add16.svelte";
   import { push } from "svelte-spa-router";
   import DeleteProjectModal from "../../components/DeleteProjectModal.svelte";
+  import {
+    fetchWithAuthorization,
+    requestWithAuthorization,
+  } from "../../util/auth_http_util";
 
   onMount(async () => {
     try {
-      projects = await fetchWithToken("projects", "GET", $authStore.token);
+      projects = await fetchWithAuthorization("projects", "GET");
       loading = false;
     } catch (e) {
       error = e.toString();
@@ -38,10 +41,9 @@
 
   async function deleteProject() {
     try {
-      await requestWithToken(
+      await requestWithAuthorization(
         `projects/${pendingDeletionProject.id}`,
-        "DELETE",
-        $authStore.token
+        "DELETE"
       );
       projects = projects.filter(
         (project) => project.id != pendingDeletionProject.id
@@ -62,12 +64,9 @@
 
   async function addProject() {
     try {
-      const newProject = await fetchWithToken(
-        `projects`,
-        "POST",
-        $authStore.token,
-        { name: newProjectName }
-      );
+      const newProject = await fetchWithAuthorization(`projects`, "POST", {
+        name: newProjectName,
+      });
       // sort new project into projects
       projects = [...projects, newProject].sort((a, b) => {
         if (a.is_public != b.is_public) {

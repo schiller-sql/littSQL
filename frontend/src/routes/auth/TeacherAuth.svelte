@@ -8,7 +8,9 @@
     InlineNotification,
   } from "carbon-components-svelte";
   import { replace } from "svelte-spa-router";
-  import { authStore, DEFAULT_URL, UserType } from "../../auth";
+  import { UserType } from "../../auth";
+  import { apiUrl } from "../../config";
+  import { authStore } from "../../stores";
   export let isLogin;
   let email = "";
   let password = "";
@@ -33,7 +35,7 @@
       confirmedPasswordInvalid = true;
       return;
     }
-    const url = `${DEFAULT_URL}auth/${isLogin ? "login" : "signup"}`;
+    const url = `${apiUrl}/auth/${isLogin ? "login" : "signup"}`;
     const data = { email, password };
     const res = await fetch(url, {
       method: "POST",
@@ -51,7 +53,7 @@
     } else {
       if (isLogin) {
         const json = await res.json();
-        authStore.set({ token: json["token"], type: UserType.teacher });
+        authStore.logIn(json["token"], UserType.teacher);
       } else {
         replace("/teacher-login");
       }

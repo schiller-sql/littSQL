@@ -56,6 +56,7 @@ export default {
     }),
     // we'll extract any component CSS out into
     // a separate file - better for performance
+    // TODO: funktioniert nicht?, muss css sein für seperate file mit component css (maybe????)
     scss({
       output: "./public/build/bundle.css",
       failOnError: true,

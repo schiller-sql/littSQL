@@ -1,14 +1,20 @@
-import { writable, type Writable } from "svelte/store";
+import { writable, type Readable, type Writable } from "svelte/store";
+import { request } from "./util/http_util";
 
 export enum UserType {
   teacher,
   student,
 }
 
-export interface User {
+interface User {
   token: string;
   type: UserType;
 }
+
+export type AuthState =
+  | ({ status: "logged_in" } & User)
+  | { status: "autologin_loading" }
+  | { status: "logged_out" };
 
 function userTypeFromString(rawUserType: string | null): UserType | null {
   switch (rawUserType) {
@@ -29,21 +35,28 @@ export function userTypeToString(userType: UserType): string {
   }
 }
 
-export const DEFAULT_URL = "api/";
-
 const localStorageTokenKey = "token";
 const localStorageUserTypeKey = "user_type";
 
-// TODO: token should first be refreshed before being used
-function getUserFromLocalStorage(): User | null {
+function deleteUserFromLocalStorage() {
+  localStorage.removeItem(localStorageTokenKey);
+  localStorage.removeItem(localStorageUserTypeKey);
+}
+
+function writeUserToLocalStorage(user: User) {
+  localStorage.setItem(localStorageTokenKey, user.token);
+  localStorage.setItem(localStorageUserTypeKey, userTypeToString(user.type));
+}
+
+function getUserFromLocalStorage(): User | undefined {
   const token: string | null = localStorage.getItem(localStorageTokenKey);
   const rawUserType: string | null = localStorage.getItem(
     localStorageUserTypeKey
   );
   const userType: UserType | null = userTypeFromString(rawUserType);
   if (token === null || userType === null) {
-    localStorage.clear();
-    return null;
+    deleteUserFromLocalStorage();
+    return undefined;
   }
   return {
     token,
@@ -51,45 +64,67 @@ function getUserFromLocalStorage(): User | null {
   };
 }
 
-function writeUserToLocalStorage(user: User) {
-  if (user === null) {
-    localStorage.clear();
+export interface AuthStore extends Readable<AuthState> {
+  getToken(): string;
+  getUserType(): UserType;
+  logIn(token: string, userType: UserType): void;
+  logOut(): void;
+}
+
+// TODO: remove need to always call refresh_token, by looking at the expire date of the token
+// TODO: timer to autorefresh after refresh time (possibly based on exp, instead of fixed time)
+export function createAuthStore(): AuthStore {
+  let lastToken: string | undefined;
+  let lastUserType: UserType | undefined;
+  let initialAuthState: AuthState;
+  const user = getUserFromLocalStorage();
+  if (!user) {
+    initialAuthState = { status: "logged_out" };
   } else {
-    localStorage.setItem(localStorageTokenKey, user.token);
-    localStorage.setItem(localStorageUserTypeKey, userTypeToString(user.type));
+    initialAuthState = { status: "autologin_loading" };
   }
-}
-
-export const authStore: Writable<User | null> = writable(
-  getUserFromLocalStorage()
-);
-
-authStore.subscribe((user) => {
-  writeUserToLocalStorage(user);
-});
-
-export async function fetchWithToken(
-  url: string,
-  method: string,
-  token: string,
-  body?: Object
-) {
-  return requestWithToken(url, method, token, body).then((res) => res.json());
-}
-
-export async function requestWithToken(
-  url: string,
-  method: string,
-  token: string,
-  body?: Object
-) {
-  const res = await fetch(DEFAULT_URL + url, {
-    method: method,
-    body: JSON.stringify(body),
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  if (!res.ok) {
-    throw (await res.json()).error;
+  const w: Writable<AuthState> = writable(initialAuthState);
+  function logIn(token: string, userType: UserType) {
+    w.set({ status: "logged_in", token, type: userType });
+    lastToken = token;
+    lastUserType = userType;
+    writeUserToLocalStorage({ token, type: userType });
   }
-  return res;
+  function logOut() {
+    w.set({ status: "logged_out" });
+    deleteUserFromLocalStorage();
+  }
+  function getToken(): string {
+    return lastToken!;
+  }
+  function getUserType(): UserType {
+    return lastUserType!;
+  }
+  async function autologin() {
+    try {
+      const { token } = await request("auth/refresh_token", {
+        returnJson: true,
+        headers: {
+          Authorization: "Bearer " + user.token,
+        },
+        errorAsRes: true,
+      });
+      logIn(token, user.type);
+    } catch (res) {
+      if (res.status === "401") {
+        deleteUserFromLocalStorage();
+      }
+      logOut();
+    }
+  }
+  if (user) {
+    autologin();
+  }
+  return {
+    ...w,
+    logIn,
+    logOut,
+    getToken,
+    getUserType,
+  };
 }

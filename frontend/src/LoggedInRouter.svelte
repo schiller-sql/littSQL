@@ -1,6 +1,7 @@
 <script lang="ts">
   import { performanceModeStore } from "./performance";
-  import { authStore, UserType, userTypeToString } from "./auth";
+  import { UserType, userTypeToString } from "./auth";
+  import { authStore } from "./stores";
   import AuthRouter from "./routes/auth/Router.svelte";
   import TeacherRouter from "./routes/teacher/Router.svelte";
   import ParticipantRouter from "./routes/participant/Router.svelte";
@@ -15,6 +16,7 @@
     Content,
     HeaderPanelDivider,
     Toggle,
+    Loading,
   } from "carbon-components-svelte";
 
   let firstVal = true;
@@ -29,7 +31,7 @@
   onDestroy(unsubscribe);
 
   function logOut(): void {
-    authStore.set(null);
+    authStore.logOut();
   }
 </script>
 
@@ -60,7 +62,7 @@
         <HeaderPanelLinks>
           <HeaderPanelDivider
             >logged in as a {userTypeToString(
-              $authStore.type
+              authStore.getUserType()
             )}</HeaderPanelDivider
           >
           <HeaderPanelLink on:click={logOut}>Log out</HeaderPanelLink>
@@ -72,12 +74,16 @@
 
 <Content>
   <main>
-    {#if $authStore == null}
+    {#if $authStore.status === "logged_in"}
+      {#if $authStore.type === UserType.teacher}
+        <TeacherRouter />
+      {:else}
+        <ParticipantRouter />
+      {/if}
+    {:else if $authStore.status === "logged_out"}
       <AuthRouter />
-    {:else if $authStore.type === UserType.teacher}
-      <TeacherRouter />
     {:else}
-      <ParticipantRouter />
+      <Loading />
     {/if}
   </main>
 </Content>
