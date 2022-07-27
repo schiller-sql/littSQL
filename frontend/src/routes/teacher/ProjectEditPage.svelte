@@ -126,7 +126,7 @@
 
   async function save() {
     try {
-      await fetchWithAuthorization(
+      await requestWithAuthorization(
         `projects/${params.projectId}`,
         "put",
         project
