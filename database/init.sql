@@ -13,14 +13,16 @@ $$ LANGUAGE sql;
 DROP SCHEMA IF EXISTS public CASCADE;
 CREATE SCHEMA public;
 -- TEACHER SIDE --
-CREATE TABLE teachers -- represents a teacher
+-- represents a teacher
+CREATE TABLE teachers
 (
     id       INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     email    VARCHAR UNIQUE NOT NULL,
     password VARCHAR        NOT NULL
 );
 
-CREATE TABLE database_templates -- represents a sample database that can be used in a project
+-- represents a sample database that can be used in a project
+CREATE TABLE database_templates
 (
     id          INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     name        VARCHAR NOT NULL,
@@ -28,10 +30,11 @@ CREATE TABLE database_templates -- represents a sample database that can be used
     sql         TEXT    NOT NULL
 );
 
-CREATE TABLE projects -- represents a template for a project a teacher can use as an assignment
+-- represents a template for a project a teacher can use as an assignment
+CREATE TABLE projects
 (
     id               INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    name             VARCHAR NOT NULL check (LENGTH(name) > 0),
+    name             VARCHAR NOT NULL CHECK (LENGTH(name) > 0),
     documentation_md TEXT    NOT NULL DEFAULT '',
     db_sql           TEXT,
     owner_id         INTEGER REFERENCES teachers
@@ -43,7 +46,8 @@ CREATE TABLE cached_projects_sql_data
     data       bytea NOT NULL
 );
 
-CREATE TABLE tasks -- a group of questions, can be voluntary or not
+-- a group of questions, can be voluntary or not
+CREATE TABLE tasks
 (
     project_id   INTEGER  NOT NULL REFERENCES projects ON DELETE CASCADE,
     number       SMALLINT NOT NULL CHECK ( number >= 0 ), -- position of the task (#1, #2, etc.)
@@ -52,15 +56,18 @@ CREATE TABLE tasks -- a group of questions, can be voluntary or not
     PRIMARY KEY (project_id, number)
 );
 
-CREATE TYPE question_type AS ENUM ( -- type of question
---    'multiple_choice',
+-- type of question
+CREATE TYPE question_type AS ENUM (
+    --    'multiple_choice',
 --    'true/false',
 --    'sql-without-question', -- a sql question but as a question you get a query output that you have to come to
     'sql',
     'text'
     );
 
-CREATE TABLE questions -- a question asked to the participant, is part of a task and contains the solution
+-- TODO: maybe add (optional) hints for questions
+-- a question asked to the participant, is part of a task and contains the solution
+CREATE TABLE questions
 (
     project_id  INTEGER       NOT NULL REFERENCES projects ON DELETE CASCADE,
     task_number INTEGER       NOT NULL,
@@ -74,7 +81,8 @@ CREATE TABLE questions -- a question asked to the participant, is part of a task
 
 -- STUDENT SIDE --
 -- TODO: more than one teacher for the same course
-CREATE TABLE courses -- a course with participants, belongs to a teacher
+-- a course with participants, belongs to a teacher
+CREATE TABLE courses
 (
     id         INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     teacher_id INTEGER NOT NULL REFERENCES teachers ON DELETE CASCADE,
@@ -83,7 +91,8 @@ CREATE TABLE courses -- a course with participants, belongs to a teacher
 
 -- TODO: allow participants to join multiple courses
 -- TODO: link/QR-code for joinig
-CREATE TABLE participants -- a participant of a course, a participant can't be in multiple courses (by now)
+-- a participant of a course, a participant can't be in multiple courses (by now)
+CREATE TABLE participants
 (
     id          INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     course_id   INTEGER        NOT NULL REFERENCES courses ON DELETE CASCADE,
@@ -91,64 +100,72 @@ CREATE TABLE participants -- a participant of a course, a participant can't be i
     access_code CHAR(6) UNIQUE NOT NULL DEFAULT (utils.random_string(6))
 );
 
-CREATE TYPE assignment_status AS ENUM ( -- the status of one assignment of a course
-    'finished',
-    'open',
-    'locked'
+CREATE TYPE correction_behaviour AS ENUM (
+    'show_no_correction',
+    'show_correction',
+    'show_correction_and_solution'
     );
 
-CREATE TYPE assignment_solution_mode AS ENUM ( -- how the solutions should be shown to the participant
-    'exam', -- no solutions, no query output, no submitting
-    'tryout', -- on sql questions can see if the query wrong/the supposed query output is shown,
-    --           after submitting, the solutions are shown, however the query can't be resubmitted
-    'no-solutions-tryout', -- same as tryout, but after submitting the solutions are still not shown
-    'voluntary' -- can always see if requested, no submitting
-    );
-
-CREATE TABLE assignments_data -- an assignment given to the participant of a course, contains a project
+-- an assignment given to the participant of a course, contains a project
+CREATE TABLE assignments
 (
-    id              INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    name            VARCHAR                  NOT NULL,
-    comment         VARCHAR,
-    course_id       INTEGER                  NOT NULL REFERENCES courses ON DELETE CASCADE,
-    project_id      INTEGER                  NOT NULL REFERENCES projects ON DELETE CASCADE,
-    submission_date TIMESTAMP, -- in the assignments view, this overrides the manual_status, for the status
-    manual_status   assignment_status        NOT NULL,
-    solution_mode   assignment_solution_mode NOT NULL
-    -- TODO: how should ordering be done: number          SMALLINT                 NOT NULL CHECK ( number >= 0)
+    id                                      INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    number                                  SMALLINT             NOT NULL CHECK ( number >= 0),
+    name                                    VARCHAR              NOT NULL CHECK (LENGTH(name) > 1),
+    comment                                 VARCHAR,
+    course_id                               INTEGER              NOT NULL REFERENCES courses ON DELETE CASCADE,
+    project_id                              INTEGER              REFERENCES projects ON DELETE SET NULL,
+    -- after the timestamp, if it is not null, students can no longer submit,
+    -- however the project is not locked,
+    -- the questions can still be viewed,
+    -- and depending on show_solution_after_finished, also the solution.
+    -- to manually make the project this way, simply set submission_date to true
+    finished_date                           TIMESTAMP,
+    -- sql questions, with a valid answer, can be auto corrected,
+    -- by comparing output of the student and solution query
+    enable_auto_correction_on_sql_questions BOOLEAN              NOT NULL DEFAULT TRUE,
+    -- always (however before finished) show the result of the solution query as a table, provided there is one,
+    -- only works for sql questions with (valid) solutions
+    show_query_solution                     BOOLEAN              NOT NULL DEFAULT TRUE,
+    -- after a student has submitted, the student cannot do it again,
+    -- the student can also only read the answer after submitting, if this is actually possible then,
+    -- is determined by
+    submit_only_once                        BOOLEAN              NOT NULL DEFAULT TRUE,
+    -- before the project is finished, if the student should see correction and solution, only correction or nothing,
+    -- seeing the correction also means seeing the correction comment, if one exists.
+    -- if submit_only_once is active solution and/or correction is always shown after the first and only submission
+    active_correction_behaviour             correction_behaviour NOT NULL DEFAULT 'show_correction',
+    -- after the project is finished, if the student should see correction and solution, only correction or nothing,
+    -- seeing the correction also means seeing the correction comment, if one exists.
+    finished_correction_behavior            correction_behaviour NOT NULL DEFAULT 'show_correction_and_solution',
+    -- after the project is finished, if the student should not be able to see their own answer
+    finished_hide_answers                   BOOLEAN              NOT NULL DEFAULT FALSE,
+    -- if the solution should be shown after the finished_date has arrived (provided there is a finished_date)
+    -- if locked, nothing can be viewed exception the assignment name by the student, submission is not possible
+    locked                                  BOOLEAN              NOT NULL DEFAULT TRUE
 );
 
-CREATE VIEW assignments AS
-SELECT id,
-       name,
-       comment,
-       course_id,
-       project_id,
-       submission_date,
-       (CASE
-            WHEN submission_date IS NOT NULL AND (submission_date < NOW())
-                THEN 'finished'
-            ELSE manual_status END) AS status,
-       solution_mode
-FROM assignments_data;
-
-CREATE TYPE correct AS ENUM ( -- if a question has been answered correctly
+-- if a question has been answered correctly
+CREATE TYPE correct AS ENUM (
     'unknown',
     'correct',
     'false'
     );
 
-CREATE TABLE answers -- time and content the participant has answered to a question, including corrects
+-- TODO: possibly use two different tables for answer and correction
+-- time and content the participant has answered to a question, including corrects
+CREATE TABLE answers
 (
     id                         INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     course_id                  INTEGER   NOT NULL REFERENCES courses ON DELETE CASCADE,
-    participant_id             INTEGER   NOT NULL REFERENCES participants ON DELETE CASCADE, -- TODO: without constraints?
+    participant_id             INTEGER   NOT NULL REFERENCES participants ON DELETE CASCADE,
     project_id                 INTEGER   NOT NULL REFERENCES projects ON DELETE CASCADE,
     task_number                SMALLINT  NOT NULL,
     question_number            SMALLINT  NOT NULL,
-    created_at                 TIMESTAMP NOT NULL DEFAULT NOW(),
+    last_answer_update         TIMESTAMP NOT NULL DEFAULT NOW(),
     answer                     VARCHAR   NOT NULL,
     is_correct_automatic       correct   NOT NULL DEFAULT 'unknown',
     is_correct_manual_approval correct   NOT NULL DEFAULT 'unknown',
+    correction_comment         VARCHAR,
     FOREIGN KEY (project_id, task_number, question_number) REFERENCES questions (project_id, task_number, number) ON DELETE CASCADE
 );

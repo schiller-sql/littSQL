@@ -30,8 +30,7 @@ VALUES (1, 0, 'First task of project public project 1', FALSE),
        (2, 1, 'Second (voluntary) task of project public project 2', TRUE);
 
 INSERT INTO questions(project_id, task_number, question, number, type, solution)
-VALUES
-       (1, 0, 'Why is this the first question of the first task?', 0, 'text', 'I don''t know...'),
+VALUES (1, 0, 'Why is this the first question of the first task?', 0, 'text', 'I don''t know...'),
        (1, 0, 'Why is this the second question of the first task?', 1, 'text', 'I don''t know...'),
        (1, 1, 'Why is this the first question of the second task?', 0, 'text', 'I don''t know...'),
        (1, 1, 'Why is this the second question of the second task?', 1, 'text', 'I don''t know...'),
@@ -66,10 +65,10 @@ VALUES (1, 'student 3'),
        (1, 'student 4');
 
 -- insert one public and one private project as assignments to 'Main course'
-INSERT INTO assignments_data(name, comment, course_id, project_id, submission_date, manual_status, solution_mode)
-VALUES ('first assigment', 'manually finished', 1, 3, null, 'finished', 'tryout'),
-('second assigment', 'automatically finished', 1, 3, now(), 'open', 'tryout'),
-('third assigment', 'still open', 1, 3, now() + interval '55 years', 'open', 'tryout');
+INSERT INTO assignments(name, comment, number, course_id, project_id, finished_date, locked)
+VALUES ('first assignment', 'hi welcome to this class', 0, 1, NULL, NULL, FALSE),
+       ('second assignment', NULL, 0, 1, 3, NOW(), TRUE),
+       ('third assignment', 'please finish this assignment fast', 0, 1, 3, NOW() + INTERVAL '55 years', FALSE);
 
 -- insert answer of 'student 1' into the second (and still open) assignment in the 'Main course'
 INSERT INTO answers(course_id, project_id, participant_id, task_number, question_number, answer)
