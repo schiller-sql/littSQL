@@ -17,7 +17,7 @@ func ConfigureHandler(courseGroup *gin.RouterGroup, authMiddleware *authM.AuthMi
 
 	group := courseGroup.Group("/participants", authMiddleware.JwtHandler, authMiddleware.IsTeacherValidator)
 
-	group.GET("", handler.getParticipantsOfTeacher)
+	group.GET("", handler.getParticipantsOfCourse)
 	group.POST("", handler.newParticipant)
 	group.PUT("/:participant-id", handler.editParticipant)
 	group.PUT("/:participant-id/refresh-access-code", handler.refreshParticipantAccessCode)
@@ -33,9 +33,10 @@ func (h *participantsHandler) getIDs(c *gin.Context) (teacherID, courseID int32,
 	return
 }
 
-func (h *participantsHandler) getParticipantsOfTeacher(c *gin.Context) {
+func (h *participantsHandler) getParticipantsOfCourse(c *gin.Context) {
 	teacherID, courseID, err := h.getIDs(c)
 	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 	participantsOfCourse, err := h.usecase.GetParticipantsOfCourse(teacherID, courseID)
@@ -49,6 +50,7 @@ func (h *participantsHandler) getParticipantsOfTeacher(c *gin.Context) {
 func (h *participantsHandler) newParticipant(c *gin.Context) {
 	teacherID, courseID, err := h.getIDs(c)
 	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 	var newParticipantForm ParticipantEditForm
@@ -71,6 +73,7 @@ func (h *participantsHandler) newParticipant(c *gin.Context) {
 func (h *participantsHandler) editParticipant(c *gin.Context) {
 	teacherID, courseID, err := h.getIDs(c)
 	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 	participantID, err := helpers.GetParamInt32(c, "participant-id")
@@ -91,6 +94,7 @@ func (h *participantsHandler) editParticipant(c *gin.Context) {
 func (h *participantsHandler) refreshParticipantAccessCode(c *gin.Context) {
 	teacherID, courseID, err := h.getIDs(c)
 	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 	participantID, err := helpers.GetParamInt32(c, "participant-id")
@@ -100,6 +104,7 @@ func (h *participantsHandler) refreshParticipantAccessCode(c *gin.Context) {
 	newAccessCode, err := h.usecase.RefreshParticipantAccessCode(teacherID, participantID, courseID)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 	c.JSON(http.StatusOK, gin.H{"access_code": newAccessCode})
 }
@@ -107,6 +112,7 @@ func (h *participantsHandler) refreshParticipantAccessCode(c *gin.Context) {
 func (h *participantsHandler) deleteParticipant(c *gin.Context) {
 	teacherID, courseID, err := h.getIDs(c)
 	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 	participantID, err := helpers.GetParamInt32(c, "participant-id")
