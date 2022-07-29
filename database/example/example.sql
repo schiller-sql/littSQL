@@ -52,12 +52,15 @@ VALUES (3, 0, 'Why is this the first question of the first task?', 0, 'text', 'I
 
 -- insert course of 'main' teacher
 INSERT INTO courses(teacher_id, name)
-VALUES (1, 'Main course');
+VALUES (1, 'Main course'),
+       (1, 'Main course 2'),
+       (2, 'Secondary course');
 
 -- insert participants
 INSERT INTO participants(course_id, name, access_code)
 VALUES (1, 'student 1', '123456'),
-       (1, 'student 2', 'ABCDEF');
+       (1, 'student 2', 'ABCDEF'),
+       (3, 'other student', '12356');
 
 -- insert participants with a random access code
 INSERT INTO participants(course_id, name)
@@ -69,7 +72,9 @@ INSERT INTO assignments(name, comment, number, course_id, project_id, finished_d
 VALUES ('first assignment', 'hi welcome to this class', 0, 1, NULL, NULL, FALSE),
        ('second assignment', NULL, 1, 1, 3, NOW(), TRUE),
        ('third assignment', 'please finish this assignment fast', 2, 1, 3, NOW() + INTERVAL '55 years', FALSE),
-       ('fourth assignment', 'assignment already closed', 3, 1, 2, NOW() - INTERVAL '55 years', FALSE);
+       ('fourth assignment', 'assignment already closed', 3, 1, 2, NOW() - INTERVAL '55 years', FALSE),
+       ('first other assignment of other course', NULL, 0, 2, NULL, NULL, FALSE),
+       ('first other assignment of other teacher', NULL, 0, 3, NULL, NULL, FALSE);
 
 -- insert answer of 'student 1' into the second (and still open) assignment in the 'Main course'
 INSERT INTO answers(course_id, project_id, participant_id, task_number, question_number, answer)
