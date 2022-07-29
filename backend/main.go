@@ -1,6 +1,9 @@
 package main
 
 import (
+	assignmentsRouting "github.com/schiller-sql/littSQL/assignments/delivery/routing"
+	assignmentsR "github.com/schiller-sql/littSQL/assignments/repository"
+	assignmentsU "github.com/schiller-sql/littSQL/assignments/usecase"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -24,11 +27,23 @@ import (
 	"github.com/spf13/viper"
 )
 
+//func ErrorHandler(c *gin.Context) {
+//	c.Next()
+//
+//	for _, err := range c.Errors {
+//		statusCode := c.Writer.Status()
+//		c.JSON(statusCode, gin.H{"error": err.Error()})
+//		break
+//	}
+//}
+
 func getRouter() *gin.Engine {
 	mode := viper.Get("MODE").(string)
 	gin.SetMode(mode)
 
 	router := gin.Default()
+
+	//router.Use(ErrorHandler)
 
 	// setup static files for svelte
 	// TODO: use gzip
@@ -70,6 +85,10 @@ func main() {
 		participantsRepo := participantsR.NewRepository(db)
 		participantsUsecase := participantsU.NewUsecase(participantsRepo, coursesRepo)
 		participantsRouting.ConfigureHandler(courseGroup, authMiddleware, participantsUsecase)
+
+		assignmentsRepo := assignmentsR.NewRepository(db)
+		assignmentsUsecase := assignmentsU.NewUsecase(assignmentsRepo, coursesRepo, projectsRepo)
+		assignmentsRouting.ConfigureHandler(courseGroup, authMiddleware, assignmentsUsecase)
 	}
 
 	err := r.Run(":" + (viper.Get("PORT").(string)))
