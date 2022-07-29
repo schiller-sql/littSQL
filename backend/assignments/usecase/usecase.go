@@ -32,7 +32,7 @@ func (e eUsecase) checkCourseFromTeacher(teacherID, courseID int32) error {
 		return fmt.Errorf("course with id %v does not exist", courseID)
 	}
 	if course.TeacherID != teacherID {
-		return fmt.Errorf("course with id %v does not belong to you", courseID)
+		return fmt.Errorf("course with id %v does not belong to your account", courseID)
 	}
 	return nil
 }
@@ -93,7 +93,10 @@ func (e eUsecase) EditAssignment(
 			return err
 		}
 		if project.OwnerID != nil && *project.OwnerID != teacherID {
-			return fmt.Errorf("the project with the id %v is not owned by you", *projectID)
+			return fmt.Errorf(
+				"the project with the id %v is not owned by you and cannot be used inside of this assignment",
+				*projectID,
+			)
 		}
 	}
 	return e.assignmentsRepo.EditAssignment(assignmentID, name, comment, projectID, finishedDate, locked, answerConfig)
