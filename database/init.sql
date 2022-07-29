@@ -21,7 +21,7 @@ CREATE TABLE teachers
     password VARCHAR        NOT NULL
 );
 
--- represents a sample database that can be used in a project
+-- represents a sample database that can be used in a project, an existing database_template should not be changed
 CREATE TABLE database_templates
 (
     id          INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -144,6 +144,20 @@ CREATE TABLE assignments
     -- if locked, nothing can be viewed exception the assignment name by the student, submission is not possible
     locked                                  BOOLEAN              NOT NULL DEFAULT TRUE
 );
+
+CREATE VIEW assignments_listing AS
+SELECT id,
+       number,
+       name,
+       course_id,
+       (CASE
+            WHEN locked THEN 'locked'
+            ELSE (CASE
+                      WHEN finished_date IS NULL OR finished_date > NOW() THEN 'open'
+                      ELSE 'finished'
+                END)
+           END) AS status
+FROM assignments;
 
 -- if a question has been answered correctly
 CREATE TYPE correct AS ENUM (
