@@ -93,7 +93,7 @@ func (e eUsecase) EditAssignment(
 			return err
 		}
 		if project.OwnerID != nil && *project.OwnerID != teacherID {
-			return fmt.Errorf("the project with the id %v is not owned by you", projectID)
+			return fmt.Errorf("the project with the id %v is not owned by you", *projectID)
 		}
 	}
 	return e.assignmentsRepo.EditAssignment(assignmentID, name, comment, projectID, finishedDate, locked, answerConfig)
