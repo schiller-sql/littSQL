@@ -31,7 +31,10 @@
 
   function logOut(): void {
     authStore.logOut();
+    openUserPanel = false;
   }
+
+  let openUserPanel = false;
 </script>
 
 <!--TODO: feedback css on header logo when clicked-->
@@ -57,14 +60,18 @@
           />
         </HeaderPanelLinks>
       </HeaderAction>
-      <HeaderAction icon={UserAvatarFilledAlt20}>
+      <HeaderAction icon={UserAvatarFilledAlt20} bind:open={openUserPanel}>
         <HeaderPanelLinks>
-          <HeaderPanelDivider
-            >logged in as a {userTypeToString(
-              authStore.getUserType()
-            )}</HeaderPanelDivider
-          >
-          <HeaderPanelLink on:click={logOut}>Log out</HeaderPanelLink>
+          <HeaderPanelDivider>
+            {#if $authStore.status === "logged_in"}
+              logged in as a {userTypeToString($authStore.type)}
+            {:else}
+              not currently logged in
+            {/if}
+          </HeaderPanelDivider>
+          {#if $authStore.status === "logged_in"}
+            <HeaderPanelLink on:click={logOut}>Log out</HeaderPanelLink>
+          {/if}
         </HeaderPanelLinks>
       </HeaderAction>
     </HeaderUtilities>
