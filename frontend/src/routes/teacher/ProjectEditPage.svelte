@@ -729,6 +729,6 @@
 
   .markdown-render-container {
     margin-top: 24px;
-    height: 344px;
+    height: 327px;
   }
 </style>
