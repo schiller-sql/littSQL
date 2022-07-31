@@ -9,7 +9,7 @@
   } from "carbon-components-svelte";
   import { dndzone } from "svelte-dnd-action";
   import { flip } from "svelte/animate";
-  import { Add16 } from "carbon-icons-svelte";
+  import { Add16, Draggable24 } from "carbon-icons-svelte";
   import {
     fetchWithAuthorization,
     requestWithAuthorization,
@@ -102,8 +102,11 @@
           <AccordionItem align="start">
             <div
               slot="title"
-              style="display: grid; grid-template-columns: 1fr auto;"
+              style="display: grid; grid-template-columns: auto 12px 1fr auto;"
             >
+              <!-- fix css, make draggable in veritical middle -->
+              <Draggable24 />
+              <div />
               <div style="display: inline-block">
                 <h5>
                   {assignment.name}
