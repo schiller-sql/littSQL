@@ -77,7 +77,7 @@
 
   li {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto auto auto;
   }
 
   li:hover {

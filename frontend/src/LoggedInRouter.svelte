@@ -78,7 +78,7 @@
   {/if}
 </Header>
 
-<Content>
+<Content style="background-color: #1e1e1e">
   <main>
     {#if $authStore.status === "logged_in"}
       {#if $authStore.type === UserType.teacher}

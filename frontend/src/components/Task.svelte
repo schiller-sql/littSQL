@@ -51,7 +51,7 @@
         />
       </div>
     </div>
-    <div style=" background-color: #222222">
+    <div style="background-color: #222222">
       {#if task.is_voluntary}
         <Tag
           type="purple"
@@ -122,7 +122,7 @@
   .task-content {
     display: grid;
     background-color: #222222;
-    grid-template-columns: auto 1fr auto 8px;
+    grid-template-columns: auto 90px auto 8px;
     padding-left: 16px;
   }
   input.description {

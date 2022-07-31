@@ -23,8 +23,6 @@
   }
 </script>
 
-<p>Logged in as a teacher!</p>
-
 <Tabs bind:selected>
   <Tab label="Courses" />
   <Tab label="Projects" />
