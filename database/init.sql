@@ -149,6 +149,7 @@ CREATE VIEW assignments_listing AS
 SELECT id,
        number,
        name,
+       comment,
        course_id,
        (CASE
             WHEN locked THEN 'locked'

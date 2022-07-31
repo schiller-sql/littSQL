@@ -41,9 +41,8 @@ type AssignmentAnswerConfig struct {
 }
 
 type AssignmentListing struct {
-	ID     int32  `json:"id"`
-	Name   string `json:"name"`
-	Status string `json:"status"`
+	ID      int32   `json:"id"`
+	Name    string  `json:"name"`
+	Comment *string `json:"comment"`
+	Status  string  `json:"status"`
 }
-
-// solution behavior as embedded struct (need gorm:embedded tag?????, no just embed, instead of making as a attribute)
