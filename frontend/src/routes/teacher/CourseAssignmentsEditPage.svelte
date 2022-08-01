@@ -1,6 +1,5 @@
-<script>
+<script lang="ts">
   import {
-    SkeletonText,
     Tag,
     Accordion,
     AccordionItem,
@@ -9,34 +8,28 @@
   } from "carbon-components-svelte";
   import { dndzone } from "svelte-dnd-action";
   import { flip } from "svelte/animate";
-  import {
-    Add16,
-    Draggable24,
-    Edit20,
-    UserMultiple20,
-  } from "carbon-icons-svelte";
+  import { Add16, Draggable24 } from "carbon-icons-svelte";
   import {
     fetchWithAuthorization,
     requestWithAuthorization,
   } from "../../util/auth_http_util";
+  import type AssignmentListing from "../../types/AssignmentListing";
 
-  export let courseId;
+  export let courseId: number;
 
-  let assignmentsLoading = true;
-  let assignmentsSaving = false;
-  let savingError;
+  let loading = true;
+  let assignments: (AssignmentListing & { order: number })[] | undefined;
+  let error: string | undefined;
 
-  let assignmentsError;
-
-  let assignments;
+  let saving = false;
 
   fetchWithAuthorization(`courses/${courseId}/assignments`)
     .then((a) => {
       assignments = a;
-      assignmentsLoading = false;
+      loading = false;
       a.map((a, index) => (a.order = index));
     })
-    .catch((e) => (assignmentsError = e));
+    .catch((e) => (error = e.toString()));
 
   function assignmentStatusToColor(status) {
     if (status === "locked") {
@@ -58,7 +51,7 @@
     const { order: changedAssignmentOrder } = assignments.find(
       (assignment) => assignment.id === changedAssignmentId
     );
-    assignmentsSaving = true;
+    saving = true;
     try {
       await requestWithAuthorization(
         `courses/${courseId}/assignments/${changedAssignmentId}/order`,
@@ -66,18 +59,18 @@
         changedAssignmentOrder
       );
     } catch (e) {
-      savingError = e;
+      error = e.toString();
     }
-    assignmentsSaving = false;
+    saving = false;
   }
 </script>
 
-{#if assignmentsError}
-  <p class="error">{assignmentsError}</p>
-{:else if assignmentsLoading}
+{#if error}
+  <p class="error">{error}</p>
+{:else if loading}
   <Accordion skeleton align="start" />
 {:else}
-  <div style="background-color: rgb(57, 57, 57); height: 1px" />
+  <div class="line" />
   <Accordion>
     <section
       on:consider={reorderChange}
@@ -90,19 +83,14 @@
     >
       {#each assignments as assignment (assignment.id)}
         <div animate:flip={{ duration: 250 }}>
-          <AccordionItem align="start">
-            <div
-              slot="title"
-              style="display: grid; grid-template-columns: auto 12px 1fr auto;"
-            >
+          <AccordionItem>
+            <div slot="title" class="assignment-tile">
               <!-- fix css, make draggable icon in vertical center-->
               <Draggable24 />
               <div />
-              <div style="display: inline-block">
-                <h4>
-                  {assignment.name}
-                </h4>
-              </div>
+              <h4>
+                {assignment.name}
+              </h4>
               <Tag
                 style="float: right; margin-right: 12px"
                 type={assignmentStatusToColor(assignment.status)}
@@ -118,14 +106,24 @@
       {/each}
     </section>
   </Accordion>
-  <div style="background-color: rgb(57, 57, 57); height: 1px" />
+  <div class="line" />
   <div class="spacer smaller" />
   <Button size="small" icon={Add16}>add new assignment</Button>
-  {#if savingError}
-    <InlineLoading status="error" description="saving error: {savingError}" />
-  {:else if assignmentsSaving}
+  {#if saving}
     <InlineLoading description="saving..." />
   {:else}
     <InlineLoading status="finished" description="saved" />
   {/if}
 {/if}
+
+<style>
+  div.line {
+    background-color: rgb(57, 57, 57);
+    height: 1px;
+  }
+
+  div.assignment-tile {
+    display: grid;
+    grid-template-columns: auto 12px 1fr auto;
+  }
+</style>
