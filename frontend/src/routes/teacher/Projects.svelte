@@ -121,7 +121,7 @@
         id="new-project-name"
         bind:value={newProjectName}
         labelText="Project name"
-        helperText="The project name required"
+        helperText="The project name is required"
         placeholder="Enter project name..."
       />
     </Modal>

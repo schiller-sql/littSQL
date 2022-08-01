@@ -1,140 +1,118 @@
-<script>
+<script lang="ts">
   import {
     SkeletonText,
-    Tag,
-    Accordion,
-    AccordionItem,
     Button,
-    InlineLoading,
+    Modal,
+    TextInput,
+    Loading,
   } from "carbon-components-svelte";
-  import { dndzone } from "svelte-dnd-action";
-  import { flip } from "svelte/animate";
-  import { Add16, Draggable24 } from "carbon-icons-svelte";
+  import { Edit20, UserMultiple20 } from "carbon-icons-svelte";
+  import type Course from "../../types/Course";
   import {
     fetchWithAuthorization,
     requestWithAuthorization,
   } from "../../util/auth_http_util";
+  import CourseAssignmentsEditPage from "./CourseAssignmentsEditPage.svelte";
 
   export let params;
 
-  const course = fetchWithAuthorization(`courses/${params.courseId}`);
-
-  let assignmentsLoading = true;
-  let assignmentsSaving = false;
-  let savingError;
-
-  let assignmentsError;
-
-  let assignments;
-
-  fetchWithAuthorization(`courses/${params.courseId}/assignments`)
-    .then((a) => {
-      assignments = a;
-      assignmentsLoading = false;
-      a.map((a, index) => (a.order = index));
+  let error: string | undefined;
+  let loading = true;
+  let course: Course;
+  fetchWithAuthorization(`courses/${params.courseId}`)
+    .then((c) => {
+      course = c;
+      loading = false;
     })
-    .catch((e) => (assignmentsError = e));
+    .catch((e) => (error = e.toString()));
 
-  function assignmentStatusToColor(status) {
-    if (status === "locked") {
-      return "outline";
-    } else if (status === "finished") {
-      return "gray";
-    }
-    return "green";
+  let nameTextInputValue: string;
+
+  let openEditNameModal: boolean;
+
+  let savingName: boolean = false;
+
+  function editName() {
+    openEditNameModal = true;
+    nameTextInputValue = course.name;
   }
 
-  function reorderChange(e) {
-    assignments = e.detail.items;
-  }
-
-  async function reorderPlace(e) {
-    reorderChange(e);
-    assignments.forEach((a, index) => (a.order = index));
-    const changedAssignmentId = e.detail.info.id;
-    const { order: changedAssignmentOrder } = assignments.find(
-      (assignment) => assignment.id === changedAssignmentId
-    );
-    assignmentsSaving = true;
+  async function submitName() {
+    savingName = true;
     try {
-      await requestWithAuthorization(
-        `courses/${params.courseId}/assignments/${changedAssignmentId}/order`,
-        "POST",
-        changedAssignmentOrder
-      );
+      await requestWithAuthorization(`courses/${params.courseId}`, "PUT", {
+        name: nameTextInputValue,
+      });
+      course.name = nameTextInputValue;
+      course = course;
     } catch (e) {
-      savingError = e;
+      error = e;
+    } finally {
+      openEditNameModal = false;
     }
-    assignmentsSaving = false;
   }
 </script>
 
-{#await course}
+{#if loading}
   <SkeletonText />
-{:then course}
+{:else if course !== undefined}
+  <div class="top-buttons">
+    <Button
+      icon={Edit20}
+      size="small"
+      kind="ghost"
+      iconDescription="edit name"
+      on:click={editName}
+    />
+    <div />
+    <Button
+      icon={UserMultiple20}
+      size="small"
+      kind="ghost"
+      iconDescription="go to participants"
+      on:click={editName}
+    />
+  </div>
+
   <h2>
     {course.name}
   </h2>
-{:catch e}
-  <p class="error">{e.error}</p>
-{/await}
+{:else}
+  <p class="error">{error}</p>
+{/if}
+
+<Modal
+  modalHeading="Change project name"
+  selectorPrimaryFocus="#name-text-input"
+  primaryButtonText="Confirm"
+  secondaryButtonText="Cancel"
+  primaryButtonDisabled={!nameTextInputValue}
+  bind:open={openEditNameModal}
+  on:click:button--secondary={({ detail: { text } }) => {
+    if (text === "Cancel") openEditNameModal = false;
+  }}
+  on:submit={submitName}
+>
+  <TextInput
+    id="name-text-input"
+    labelText="Course name"
+    helperText="The course name is required"
+    placeholder="Enter new course name..."
+    bind:value={nameTextInputValue}
+  />
+  {#if savingName}
+    <Loading />
+  {/if}
+</Modal>
 
 <div class="spacer double" />
 
-{#if assignmentsError}
-  <p class="error">{assignmentsError}</p>
-{:else if assignmentsLoading}
-  <Accordion skeleton align="start" />
-{:else}
-  <div style="background-color: rgb(57, 57, 57); height: 1px" />
-  <Accordion>
-    <section
-      on:consider={reorderChange}
-      on:finalize={reorderPlace}
-      use:dndzone={{
-        items: assignments,
-        flipDurationMs: 250,
-        dropTargetStyle: {},
-      }}
-    >
-      {#each assignments as assignment (assignment.id)}
-        <div animate:flip={{ duration: 250 }}>
-          <AccordionItem align="start">
-            <div
-              slot="title"
-              style="display: grid; grid-template-columns: auto 12px 1fr auto;"
-            >
-              <!-- fix css, make draggable in veritical middle -->
-              <Draggable24 />
-              <div />
-              <div style="display: inline-block">
-                <h5>
-                  {assignment.name}
-                </h5>
-              </div>
-              <Tag
-                style="float: right; margin-right: 12px"
-                type={assignmentStatusToColor(assignment.status)}
-              >
-                {assignment.status}
-              </Tag>
-            </div>
-            {#if assignment.comment !== null}
-              <p>{assignment.comment}</p>
-            {/if}
-          </AccordionItem>
-        </div>
-      {/each}
-    </section>
-  </Accordion>
-  <div style="background-color: rgb(57, 57, 57); height: 1px" />
-  <div class="spacer smaller" />
-  <Button size="small" icon={Add16}>add new assignment</Button>
-  {#if savingError}
-    <InlineLoading status="error" description="saving error: {savingError}" />
-  {:else if assignmentsSaving}
-    <InlineLoading description="saving..." />
-  {:else}
-    <InlineLoading status="finished" description="saved" />
-  {/if}
-{/if}
+<CourseAssignmentsEditPage courseId={params.courseId} />
+
+<style>
+  div.top-buttons {
+    float: right;
+    display: grid;
+    grid-template-columns: auto 4px auto;
+  }
+</style>
