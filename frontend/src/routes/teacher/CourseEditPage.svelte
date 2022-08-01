@@ -7,6 +7,7 @@
     Loading,
   } from "carbon-components-svelte";
   import { Edit20, UserMultiple20 } from "carbon-icons-svelte";
+  import { push } from "svelte-spa-router";
   import type Course from "../../types/Course";
   import {
     fetchWithAuthorization,
@@ -14,7 +15,7 @@
   } from "../../util/auth_http_util";
   import CourseAssignmentsEditPage from "./CourseAssignmentsEditPage.svelte";
 
-  export let params;
+  export let params: { courseId: number };
 
   let error: string | undefined;
   let loading = true;
@@ -35,6 +36,10 @@
   function editName() {
     openEditNameModal = true;
     nameTextInputValue = course.name;
+  }
+
+  function openParticipantsEditPage() {
+    push(`#/courses/${params.courseId}/participants`);
   }
 
   async function submitName() {
@@ -70,7 +75,7 @@
       size="small"
       kind="ghost"
       iconDescription="go to participants"
-      on:click={editName}
+      on:click={openParticipantsEditPage}
     />
   </div>
 

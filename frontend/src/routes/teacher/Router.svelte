@@ -5,6 +5,8 @@
   import HomePage from "./HomePage.svelte";
   import ProjectEditPage from "./ProjectEditPage.svelte";
   import CourseEditPage from "./CourseEditPage.svelte";
+  import CourseAssignmentsEditPage from "./CourseAssignmentsEditPage.svelte";
+  import ParticipantsEditPage from "./ParticipantsEditPage.svelte";
 
   const routes = {
     "/": HomePage,
@@ -14,6 +16,7 @@
     "/teacher-signup": AlreadyLoggedIn,
     "/courses/:courseId": CourseEditPage,
     "/projects/:projectId": ProjectEditPage,
+    "/courses/:courseId/participants": ParticipantsEditPage,
     "*": NotFound,
   };
 </script>
