@@ -1,8 +1,10 @@
 <script lang="ts">
-  import { Loading } from "carbon-components-svelte";
+  import { Delete16, Edit16 } from "carbon-icons-svelte";
+  import { Button, Loading, Tile } from "carbon-components-svelte";
 
   import type Participant from "../../types/Participant";
   import { fetchWithAuthorization } from "../../util/auth_http_util";
+  import ParticipantTile from "../../components/ParticipantTile.svelte";
 
   export let params: {
     courseId: number;
@@ -27,6 +29,13 @@
   <p class="error">{error}</p>
 {:else}
   {#each participants as participant}
-    {JSON.stringify(participant)}
+    <ParticipantTile
+      id={participant.id}
+      name={participant.name}
+      access_code={participant.access_code}
+    />
   {/each}
 {/if}
+
+<style>
+</style>
