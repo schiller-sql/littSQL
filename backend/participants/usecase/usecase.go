@@ -42,7 +42,7 @@ func (u eUsecase) checkParticipantBelongsToCourse(participantID, courseID int32)
 		return fmt.Errorf(
 			"participant '%d' with id '%v', does not belong to course with id '%d'",
 			participant.Name,
-			participant,
+			participant.ID,
 			courseID,
 		)
 	}

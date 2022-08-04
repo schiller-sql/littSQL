@@ -101,7 +101,7 @@ func (h *participantsHandler) refreshParticipantAccessCode(c *gin.Context) {
 	if err != nil {
 		return
 	}
-	newAccessCode, err := h.usecase.RefreshParticipantAccessCode(teacherID, participantID, courseID)
+	newAccessCode, err := h.usecase.RefreshParticipantAccessCode(teacherID, courseID, participantID)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
