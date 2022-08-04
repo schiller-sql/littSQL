@@ -67,7 +67,8 @@ VALUES (3, 'other student', '234567');
 -- insert participants with a random access code
 INSERT INTO participants(course_id, name)
 VALUES (1, 'student 3'),
-       (1, 'student 4');
+       (1, 'student 4'),
+       (1, NULL);
 
 -- insert one public and one private project as assignments to 'Main course'
 INSERT INTO assignments(name, comment, number, course_id, project_id, finished_date, locked)

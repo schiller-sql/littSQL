@@ -96,7 +96,7 @@ CREATE TABLE participants
 (
     id          INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     course_id   INTEGER        NOT NULL REFERENCES courses ON DELETE CASCADE,
-    name        VARCHAR,
+    name        VARCHAR CHECK (name IS NOT NULL OR LENGTH(name) > 0),
     access_code CHAR(6) UNIQUE NOT NULL DEFAULT (utils.random_string(6)),
     CONSTRAINT access_code_validation CHECK (name ~ '[0-9a-z]{6}' )
 );
