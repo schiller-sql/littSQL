@@ -33,7 +33,7 @@
   import type Task from "../../types/Task";
   import QuestionEditor from "./QuestionEditor.svelte";
   import { pop } from "svelte-spa-router";
-  import DeleteProjectModal from "../../components/DeleteProjectModal.svelte";
+  import DeleteEntityModal from "../../components/DeleteEntityModal.svelte";
   import SqlTextArea from "../../components/SqlTextArea.svelte";
   import DatabaseTemplatePickerModal from "./DatabaseTemplatePickerModal.svelte";
   import UnsavedNavigateBackModal from "../../components/UnsavedNavigateBackModal.svelte";
@@ -657,9 +657,10 @@
     </svelte:fragment>
   </Tabs>
   <!-- modal to confirm deleting project -->
-  <DeleteProjectModal
+  <DeleteEntityModal
     bind:open={openDeleteProjectModal}
-    projectName={project.name}
+    entityName={project.name}
+    entityType="project"
     on:submit={deleteProject}
   />
   <!-- modal to confirm leaving page, if the project is edited -->
