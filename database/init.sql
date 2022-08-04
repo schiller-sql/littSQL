@@ -97,7 +97,8 @@ CREATE TABLE participants
     id          INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     course_id   INTEGER        NOT NULL REFERENCES courses ON DELETE CASCADE,
     name        VARCHAR,
-    access_code CHAR(6) UNIQUE NOT NULL DEFAULT (utils.random_string(6))
+    access_code CHAR(6) UNIQUE NOT NULL DEFAULT (utils.random_string(6)),
+    CONSTRAINT access_code_validation CHECK (name ~ '[0-9a-z]{6}' )
 );
 
 CREATE TYPE correction_behaviour AS ENUM (

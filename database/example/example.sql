@@ -58,9 +58,11 @@ VALUES (1, 'Main course'),
 
 -- insert participants
 INSERT INTO participants(course_id, name, access_code)
-VALUES (1, 'student 1', '123456'),
-       (1, 'student 2', 'ABCDEF'),
-       (3, 'other student', '12356');
+VALUES (1, 'student 1', '123456');
+INSERT INTO participants(course_id, name, access_code)
+VALUES (1, 'student 2', 'ABCDEF');
+INSERT INTO participants(course_id, name, access_code)
+VALUES (3, 'other student', '234567');
 
 -- insert participants with a random access code
 INSERT INTO participants(course_id, name)
