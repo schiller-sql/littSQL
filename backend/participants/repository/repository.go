@@ -16,7 +16,7 @@ func NewRepository(db *gorm.DB) participants.Repository {
 
 func (e eRepository) GetParticipantsOfCourse(courseID int32) (*[]model.ParticipantListing, error) {
 	var participantsOfCourse []model.ParticipantListing
-	err := e.DB.Model(&model.Participant{}).Order("Upper(name)").Find(&participantsOfCourse, &model.Participant{CourseID: courseID}).Error
+	err := e.DB.Model(&model.Participant{}).Order("Upper(name) nulls first, id").Find(&participantsOfCourse, &model.Participant{CourseID: courseID}).Error
 	if err != nil {
 		return nil, err
 	}
