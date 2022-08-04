@@ -10,7 +10,7 @@
   import type ProjectListing from "../../types/ProjectListing";
   import Add from "carbon-icons-svelte/lib/Add16/Add16.svelte";
   import { push } from "svelte-spa-router";
-  import DeleteProjectModal from "../../components/DeleteProjectModal.svelte";
+  import DeleteEntityModal from "../../components/DeleteEntityModal.svelte";
   import {
     fetchWithAuthorization,
     requestWithAuthorization,
@@ -125,8 +125,9 @@
         placeholder="Enter project name..."
       />
     </Modal>
-    <DeleteProjectModal
-      projectName={pendingDeletionProject?.name ?? ""}
+    <DeleteEntityModal
+      entityName={pendingDeletionProject?.name ?? ""}
+      entityType="project"
       bind:open={openDeleteProjectModal}
       on:submit={deleteProject}
     />

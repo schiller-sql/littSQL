@@ -5,7 +5,7 @@
   import type CourseListing from "../../types/CourseListing";
   import CourseTile from "../../components/CourseTile.svelte";
   import { onMount } from "svelte";
-  import DeleteCourseModal from "../../components/DeleteCourseModal.svelte";
+  import DeleteEntityModal from "../../components/DeleteEntityModal.svelte";
   import {
     fetchWithAuthorization,
     requestWithAuthorization,
@@ -111,8 +111,9 @@
         placeholder="Enter course name..."
       />
     </Modal>
-    <DeleteCourseModal
-      courseName={pendingDeletionCourse?.name ?? ""}
+    <DeleteEntityModal
+      entityName={pendingDeletionCourse?.name ?? ""}
+      entityType="course"
       bind:open={openDeleteCourseModal}
       on:submit={deleteCourse}
     />
