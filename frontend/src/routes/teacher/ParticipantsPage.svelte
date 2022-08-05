@@ -123,7 +123,7 @@
     ? " '" + nameEditingParticipant?.name + "'"
     : ''}"
   primaryButtonText="Confirm"
-  primaryButtonDisabled={!nameEditingModalNewName}
+  primaryButtonDisabled={nameEditingModalHasName && !nameEditingModalNewName}
   secondaryButtonText="Cancel"
   on:click:button--secondary={({ detail: { text } }) => {
     if (text === "Cancel") nameEditingParticipant = undefined;
@@ -137,13 +137,15 @@
     size="sm"
     bind:toggled={nameEditingModalHasName}
   />
-  <div class="spacer double" />
-  <TextInput
-    id="edit-participant-name"
-    bind:value={nameEditingModalNewName}
-    disabled={!nameEditingModalHasName}
-    labelText="Participant name"
-    helperText="The participant name has to be at least one long"
-    placeholder="Enter participant name..."
-  />
+  {#if nameEditingModalHasName}
+    <div class="spacer double" />
+    <TextInput
+      id="edit-participant-name"
+      bind:value={nameEditingModalNewName}
+      disabled={!nameEditingModalHasName}
+      labelText="Participant name"
+      helperText="The participant name has to consist of at least one letter"
+      placeholder="Enter participant name..."
+    />
+  {/if}
 </Modal>
