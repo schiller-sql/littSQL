@@ -1,8 +1,8 @@
 <script lang="ts">
   import { Tabs, Tab, TabContent } from "carbon-components-svelte";
   import { onMount } from "svelte";
-  import Courses from "./Courses.svelte";
-  import Projects from "./Projects.svelte";
+  import CoursesPage from "./CoursesPage.svelte";
+  import ProjectsPage from "./ProjectsPage.svelte";
 
   const lastSelectedTabKey = "home_page_last_selected_tab";
 
@@ -27,7 +27,7 @@
   <Tab label="Courses" />
   <Tab label="Projects" />
   <svelte:fragment slot="content">
-    <TabContent><Courses /></TabContent>
-    <TabContent><Projects /></TabContent>
+    <TabContent><CoursesPage /></TabContent>
+    <TabContent><ProjectsPage /></TabContent>
   </svelte:fragment>
 </Tabs>
