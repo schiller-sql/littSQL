@@ -36,7 +36,10 @@
 </script>
 
 <!--TODO: feedback css on header logo when clicked-->
-<Header company="littSQL" href="#/">
+<Header href="#/">
+  <svelte:fragment slot="platform"
+    ><img class="logo" src="static/favicon.ico" alt="littSQL logo" /> littSQL</svelte:fragment
+  >
   {#if $authStore != null}
     <HeaderUtilities>
       <HeaderAction icon={SettingsAdjust20}>
@@ -86,3 +89,10 @@
     {/if}
   </main>
 </Content>
+
+<style>
+  img.logo {
+    height: 18px;
+    padding-right: 4px;
+  }
+</style>
