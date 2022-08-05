@@ -14,6 +14,7 @@
   } from "../../util/auth_http_util";
   import ParticipantTile from "../../components/ParticipantTile.svelte";
   import DeleteEntityModal from "../../components/DeleteEntityModal.svelte";
+  import { Add16 } from "carbon-icons-svelte";
 
   export let params: {
     courseId: number;
@@ -65,30 +66,76 @@
     }
   }
 
+  let isEditingParticipant = false;
+  // if the participant that is currently being edited, does not exist, and has created
+  let editingParticipantIsNew = false;
   let editingParticipant: Participant | undefined;
-  $: openParticipantEditingModal = editingParticipant !== undefined;
   let editingParticipantHasName: boolean;
   let editingParticipantName: string;
 
-  function editParticipantName(participant: Participant) {
+  function newParticpant() {
+    isEditingParticipant = true;
+    editingParticipantIsNew = true;
+    editingParticipantHasName = true;
+    editingParticipantName = "";
+  }
+
+  function editParticipant(participant: Participant) {
+    isEditingParticipant = true;
+    editingParticipantIsNew = false;
     editingParticipant = participant;
     editingParticipantHasName = participant.name !== null;
     editingParticipantName = participant.name;
   }
 
+  function compareParticipants(p1: Participant, p2: Participant): number {
+    const name1 = p1.name?.toUpperCase();
+    const name2 = p2.name?.toUpperCase();
+    if (name1 === name2) return p1.id - p2.id;
+    if (name1 === null) return -1;
+    if (name2 === null) return 1;
+    if (name1 < name2) return -1;
+    return 1;
+  }
+
   async function editParticipantConfirm() {
     try {
       const newName = editingParticipantHasName ? editingParticipantName : null;
-      await requestWithAuthorization(
-        `courses/${params.courseId}/participants/${editingParticipant.id}`,
-        "PUT",
-        { name: newName }
-      );
-      editingParticipant.name = newName;
-      editingParticipant = undefined;
-      participants = participants;
+      if (!editingParticipantIsNew) {
+        await requestWithAuthorization(
+          `courses/${params.courseId}/participants/${editingParticipant.id}`,
+          "PUT",
+          { name: newName }
+        );
+        editingParticipant.name = newName;
+        participants = participants;
+      } else {
+        const newParticipant = await fetchWithAuthorization(
+          `courses/${params.courseId}/participants`,
+          "POST",
+          { name: newName }
+        );
+        participants = [...participants, newParticipant].sort(
+          compareParticipants
+        );
+      }
     } catch (e) {
       error = e.toString();
+    } finally {
+      isEditingParticipant = false;
+    }
+  }
+
+  let modalHeading: string;
+  $: {
+    if (editingParticipantIsNew) {
+      modalHeading = "Create new particpant";
+    } else {
+      let participantName = "";
+      if (editingParticipant?.name) {
+        participantName = " '" + editingParticipant?.name + "'";
+      }
+      modalHeading = "Change name of participant" + participantName;
     }
   }
 </script>
@@ -99,29 +146,28 @@
 {:else if error !== undefined}
   <p class="error">{error}</p>
 {:else}
-  {#each participants as participant}
+  {#each participants as participant (participant.id)}
     <ParticipantTile
       {participant}
       onDelete={deleteParticpant}
-      onEditName={editParticipantName}
+      onEditName={editParticipant}
       onRefreshAccessCode={refreshParticipantAccessCode}
     />
   {/each}
+  <Button on:click={newParticpant} icon={Add16}>Create new student</Button>
 {/if}
 
 <DeleteEntityModal
   open={openDeleteParticipantModal}
   entityName={pendingDeletionParticipant?.name ?? " "}
-  entityType="participant"
+  entityType="student"
   on:submit={confirmDeleteParticpant}
 />
 
 <Modal
-  bind:open={openParticipantEditingModal}
+  bind:open={isEditingParticipant}
   selectorPrimaryFocus="#edit-participant-name"
-  modalHeading="Change name of particpant{editingParticipant?.name
-    ? " '" + editingParticipant?.name + "'"
-    : ''}"
+  {modalHeading}
   primaryButtonText="Confirm"
   primaryButtonDisabled={editingParticipantHasName && !editingParticipantName}
   secondaryButtonText="Cancel"
@@ -137,14 +183,14 @@
     size="sm"
     bind:toggled={editingParticipantHasName}
   />
-  {#if editingParticipantHasName}
-    <div class="spacer double" />
-    <TextInput
-      id="edit-participant-name"
-      bind:value={editingParticipantName}
-      labelText="Participant name"
-      helperText="The participant name has to consist of at least one letter"
-      placeholder="Enter participant name..."
-    />
-  {/if}
+  <div class="spacer double" />
+  <TextInput
+    id="edit-participant-name"
+    bind:value={editingParticipantName}
+    spellcheck="false"
+    disabled={!editingParticipantHasName}
+    labelText="Stundent name"
+    helperText="The stundent name has to consist of at least one letter"
+    placeholder="Enter stundent name..."
+  />
 </Modal>
