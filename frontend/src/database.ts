@@ -1,4 +1,4 @@
-import { get, writable, type Writable } from "svelte/store";
+import { writable, type Writable } from "svelte/store";
 import initSqlJs from "./sql-js/sql-wasm";
 import type { SqlJsStatic, Database } from "./sql-js/sql-wasm";
 

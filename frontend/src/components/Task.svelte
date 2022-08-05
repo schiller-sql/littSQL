@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Button, Tag, TextInput } from "carbon-components-svelte";
+  import { Button, Tag } from "carbon-components-svelte";
 
   import { Add20, CaretDown20, CaretUp20, Delete20 } from "carbon-icons-svelte";
   import { onMount } from "svelte";

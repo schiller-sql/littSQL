@@ -1,5 +1,3 @@
-import type AssignmentListing from "./AssignmentListing";
-
 export type CorrectionBehaviour =
   | "show_no_correction"
   | "show_correction"

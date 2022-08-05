@@ -1,4 +1,5 @@
 /// <reference types="svelte" />
+
 declare type DndEvent = import("svelte-dnd-action").DndEvent;
 declare namespace svelte.JSX {
   interface HTMLAttributes<T> {

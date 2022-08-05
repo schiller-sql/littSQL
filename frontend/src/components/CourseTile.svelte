@@ -1,6 +1,5 @@
 <script lang="ts">
   import { ClickableTile, TooltipIcon } from "carbon-components-svelte";
-  import Edit16 from "carbon-icons-svelte/lib/Edit16/Edit16.svelte";
   import { createEventDispatcher } from "svelte";
   import { TrashCan16 } from "carbon-icons-svelte";
   import type CourseListing from "../types/CourseListing";
