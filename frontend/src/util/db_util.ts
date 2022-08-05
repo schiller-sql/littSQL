@@ -1,12 +1,12 @@
 import { writable, type Readable } from "svelte/store";
-import { newDatabase } from "../database";
 import type { QueryExecResult } from "../sql-js/sql-wasm";
+import { databaseStore } from "../stores/global_stores";
 
 export function execStatementOnDatabase(
   databaseSql: string,
   statementSql: string
 ): QueryExecResult[] | string {
-  const db = newDatabase();
+  const db = databaseStore.newDatabase();
   try {
     db.run(databaseSql);
   } catch (e) {
@@ -26,7 +26,7 @@ export function getAllTables(
   databaseSql: string
 ): Map<string, QueryExecResult | undefined> {
   const allTables = new Map<string, QueryExecResult | undefined>();
-  const db = newDatabase();
+  const db = databaseStore.newDatabase();
   db.run(databaseSql);
   const tableNamesQueryResult = db.exec(
     "select distinct tbl_name from sqlite_master order by tbl_name"
@@ -48,7 +48,7 @@ export function checkForError(
   sql: string,
   databaseSql?: string
 ): string | undefined {
-  const db = newDatabase();
+  const db = databaseStore.newDatabase();
   try {
     if (databaseSql) {
       db.run(databaseSql);
@@ -57,47 +57,4 @@ export function checkForError(
   } catch (e) {
     return e;
   }
-}
-
-export type SqlStatus =
-  | {
-      status: "loading";
-    }
-  | { status: "ok" }
-  | { status: "error"; error: string };
-
-interface SqlStatusStore extends Readable<SqlStatus> {
-  sqlUpdate(sql: string, databaseSql?: string): void;
-}
-
-export function createSqlStatusStore(
-  millisecondsTillCheck: number
-): SqlStatusStore {
-  let lastSql: string | undefined;
-  const w = writable<SqlStatus>({ status: "loading" });
-  let lastTimeoutId;
-  function checkSqlStatusStore(sql: string, databaseSql?: string) {
-    const error = checkForError(sql, databaseSql);
-    if (error !== undefined) {
-      w.set({ status: "error", error });
-    } else {
-      w.set({ status: "ok" });
-    }
-  }
-  function sqlUpdate(sql: string, databaseSql?: string) {
-    if (sql === lastSql) return;
-    lastSql = sql;
-    w.set({ status: "loading" });
-    clearTimeout(lastTimeoutId);
-    lastTimeoutId = setTimeout(
-      checkSqlStatusStore,
-      millisecondsTillCheck,
-      sql,
-      databaseSql
-    );
-  }
-  return {
-    sqlUpdate,
-    subscribe: w.subscribe,
-  };
 }

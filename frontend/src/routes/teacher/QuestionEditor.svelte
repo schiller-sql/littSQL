@@ -11,15 +11,13 @@
   import SqlResults from "../../components/SqlResults.svelte";
   import SqlStatus from "../../components/SqlStatus.svelte";
   import SqlTextArea from "../../components/SqlTextArea.svelte";
-  import { performanceMode } from "../../performance";
   import type { QueryExecResult } from "../../sql-js/sql-wasm";
+  import { performanceStore } from "../../stores/global_stores";
 
   import type Question from "../../types/Question";
-  import {
-    createSqlStatusStore,
-    execStatementOnDatabase,
-  } from "../../util/db_util";
+  import { createSqlStatusStore } from "../../stores/sql_status";
   import { letterFromNumber } from "../../util/utli";
+  import { execStatementOnDatabase } from "../../util/db_util";
 
   export let taskNumber: number;
   export let questionNumber: number;
@@ -31,7 +29,7 @@
   let projectData: { id: number; sql: string } = getContext("project-data");
 
   let sqlStatusStore = createSqlStatusStore(
-    performanceMode === "high" ? 800 : 500
+    performanceStore.getCurrentMode() === "high" ? 800 : 500
   );
   onMount(() => {
     if (question.type === "sql" && question.solution !== null) {

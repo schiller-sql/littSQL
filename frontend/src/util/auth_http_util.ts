@@ -1,4 +1,4 @@
-import { authStore } from "../stores";
+import { authStore } from "../stores/global_stores";
 import { request } from "./http_util";
 
 export async function fetchWithAuthorization(

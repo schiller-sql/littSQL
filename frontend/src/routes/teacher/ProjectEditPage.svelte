@@ -49,18 +49,19 @@
   });
 
   // if ProjectEditPage is called init sqlite
-  import { databaseIsReadyStore, initSqlite } from "../../database";
   import ProjectDatabaseTester from "./ProjectDatabaseTester.svelte";
-  import { createSqlStatusStore } from "../../util/db_util";
+  import { createSqlStatusStore } from "../../stores/sql_status";
   import ShowAllTablesModal from "../../components/ShowAllTablesModal.svelte";
   import SqlStatus from "../../components/SqlStatus.svelte";
   import MarkdownRenderComponent from "../../components/MarkdownRenderComponent.svelte";
-  import { performanceMode } from "../../performance";
   import {
     fetchWithAuthorization,
     requestWithAuthorization,
   } from "../../util/auth_http_util";
-  onMount(initSqlite);
+  import { databaseStore, performanceStore } from "../../stores/global_stores";
+  import { DatabaseState } from "../../stores/database";
+
+  databaseStore.initSqlite();
 
   // -- initially fetch project using id provided by params --
   export let params: {
@@ -382,7 +383,7 @@
 
   // -- database error checking --
   let sqlStatusStore = createSqlStatusStore(
-    performanceMode === "high" ? 800 : 500
+    performanceStore.getCurrentMode() === "high" ? 800 : 500
   );
 
   $: if (project?.sql != null) {
@@ -523,7 +524,7 @@
                   <Button
                     size="small"
                     kind="secondary"
-                    disabled={!$databaseIsReadyStore ||
+                    disabled={$databaseStore === DatabaseState.unready ||
                       $sqlStatusStore.status !== "ok"}
                     on:click={() => (showDatabaseOverviewModal = true)}
                     >Show all tables</Button
@@ -542,10 +543,9 @@
               </div>
               <div />
               <div>
-                {#if $databaseIsReadyStore}
+                {#if $databaseStore === DatabaseState.ready}
                   <ProjectDatabaseTester
-                    projectSqlValid={$databaseIsReadyStore &&
-                      $sqlStatusStore.status === "ok"}
+                    projectSqlValid={$sqlStatusStore.status === "ok"}
                   />
                 {:else}
                   <InlineLoading description="loading sql engine..." />

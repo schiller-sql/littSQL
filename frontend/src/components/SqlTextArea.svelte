@@ -1,7 +1,7 @@
 <script context="module">
   import { CodeJar } from "codejar";
   import { withLineNumbers } from "codejar/linenumbers";
-  import { performanceMode } from "../performance";
+  import { databaseStore, performanceStore } from "../stores/global_stores";
 
   const Prism = window.Prism;
   export function codedit(
@@ -24,7 +24,7 @@
       const editor = CodeJar(
         node,
         (n) => {
-          if (performanceMode === "high") {
+          if (performanceStore.getCurrentMode() === "high") {
             return;
           }
           n.textContent = n.textContent;

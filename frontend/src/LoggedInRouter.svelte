@@ -1,7 +1,6 @@
 <script lang="ts">
-  import { performanceModeStore } from "./performance";
-  import { UserType, userTypeToString, type AuthState } from "./auth";
-  import { authStore } from "./stores";
+  import { UserType, userTypeToString, type AuthState } from "./stores/auth";
+  import { authStore, performanceStore } from "./stores/global_stores";
   import AuthRouter from "./routes/auth/Router.svelte";
   import TeacherRouter from "./routes/teacher/Router.svelte";
   import ParticipantRouter from "./routes/participant/Router.svelte";
@@ -49,9 +48,8 @@
             browser.</HeaderPanelDivider
           >
           <Toggle
-            toggled={$performanceModeStore === "high"}
-            on:toggle={(e) =>
-              ($performanceModeStore = e.detail.toggled ? "high" : "low")}
+            toggled={$performanceStore === "high"}
+            on:toggle={() => performanceStore.togglePerformanceMode()}
             style="margin-left: 24px"
             labelText="performance mode (refresh to fully take effect)"
             size="sm"

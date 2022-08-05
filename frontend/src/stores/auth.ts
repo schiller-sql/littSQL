@@ -1,5 +1,5 @@
 import { writable, type Readable, type Writable } from "svelte/store";
-import { request } from "./util/http_util";
+import { request } from "../util/http_util";
 
 export enum UserType {
   teacher,

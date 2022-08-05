@@ -1,13 +1,13 @@
 <script lang="ts">
   import { Loading } from "carbon-components-svelte";
-  import { performanceMode } from "../performance";
+  import { performanceStore } from "../stores/global_stores";
 
-  import { createMarkdownRenderStore } from "../util/md_util";
+  import { createMarkdownRenderStore } from "../stores/markdown";
 
   export let rawMarkdown: string;
   export let light: boolean = false;
   const renderStore = createMarkdownRenderStore(
-    performanceMode === "high" ? 700 : undefined
+    performanceStore.getCurrentMode() === "high" ? 700 : undefined
   );
 
   $: renderStore.rawMarkdownUpdate(rawMarkdown);

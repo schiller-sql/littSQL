@@ -1,9 +1,9 @@
 <script lang="ts">
   import { DataTable } from "carbon-components-svelte";
   import type { DataTableRow } from "carbon-components-svelte/types/DataTable/DataTable.svelte";
-  import { performanceMode } from "../performance";
 
   import type { QueryExecResult } from "../sql-js/sql-wasm";
+  import { performanceStore } from "../stores/global_stores";
 
   export let title: string = "";
   export let result: QueryExecResult;
@@ -27,7 +27,7 @@
 
 <!-- zebra -->
 <div style="overflow-x: scroll; max-height:250px">
-  {#if performanceMode === "high"}
+  {#if performanceStore.getCurrentMode() === "high"}
     <DataTable
       useStaticWidth
       title={title || undefined}

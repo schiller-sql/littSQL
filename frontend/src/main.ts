@@ -5,9 +5,9 @@ import "./styles/reset.scss";
 import "./styles/font.scss";
 import "./styles/colors.scss";
 import "./styles/containers.scss";
-import "./database";
-import "./performance";
-import "./stores";
+import "./stores/database";
+import "./stores/performance";
+import "./stores/global_stores";
 
 const app = new LoggedInRouter({
   target: document.body,

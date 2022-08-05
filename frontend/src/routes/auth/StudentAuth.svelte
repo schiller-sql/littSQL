@@ -5,9 +5,9 @@
     Button,
     InlineNotification,
   } from "carbon-components-svelte";
-  import { UserType } from "../../auth";
+  import { UserType } from "../../stores/auth";
   import { apiUrl } from "../../config";
-  import { authStore } from "../../stores";
+  import { authStore } from "../../stores/global_stores";
 
   let accessCode = "";
   $: disabled = accessCode.length != 6;
