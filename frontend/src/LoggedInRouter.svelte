@@ -30,7 +30,6 @@
 
   function logOut(): void {
     authStore.logOut();
-    openUserPanel = false;
   }
 
   let openUserPanel = false;
@@ -58,20 +57,16 @@
           />
         </HeaderPanelLinks>
       </HeaderAction>
-      <HeaderAction icon={UserAvatarFilledAlt20} bind:open={openUserPanel}>
-        <HeaderPanelLinks>
-          <HeaderPanelDivider>
-            {#if $authStore.status === "logged_in"}
+      {#if $authStore.status === "logged_in"}
+        <HeaderAction icon={UserAvatarFilledAlt20}>
+          <HeaderPanelLinks>
+            <HeaderPanelDivider>
               logged in as a {userTypeToString($authStore.type)}
-            {:else}
-              not currently logged in
-            {/if}
-          </HeaderPanelDivider>
-          {#if $authStore.status === "logged_in"}
+            </HeaderPanelDivider>
             <HeaderPanelLink on:click={logOut}>Log out</HeaderPanelLink>
-          {/if}
-        </HeaderPanelLinks>
-      </HeaderAction>
+          </HeaderPanelLinks>
+        </HeaderAction>
+      {/if}
     </HeaderUtilities>
   {/if}
 </Header>

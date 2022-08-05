@@ -61,6 +61,10 @@
   }
 </script>
 
+<h2>Sign in as teacher</h2>
+
+<div class="spacer double" />
+
 <Form on:submit={submit}>
   <TextInput bind:value={email} placeholder="Enter email address..." required />
   <PasswordInput
@@ -82,7 +86,7 @@
       {#if isLogin}Login{:else}Sign up{/if}
     </Button>
     <Button kind="secondary" on:click={changePath}>
-      {#if !isLogin}Go to login{:else}Go to sign up{/if}
+      {#if !isLogin}Sign up instead{:else}Sign up instead{/if}
     </Button>
   </ButtonSet>
 </Form>
@@ -94,6 +98,10 @@
     title="Error:"
     subtitle={requestError}
   />
+{:else}
+  <div class="spacer" />
 {/if}
 
-<Button kind="tertiary" href="#/student-login">Login as student?</Button>
+<Button size="field" kind="tertiary" href="#/student-login"
+  >Login as student instead?</Button
+>

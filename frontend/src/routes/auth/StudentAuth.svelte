@@ -40,6 +40,10 @@
   }
 </script>
 
+<h2>Sign in as student</h2>
+
+<div class="spacer double" />
+
 <Form on:submit={submit}>
   <TextInput
     placeholder="Enter access token..."
@@ -57,6 +61,10 @@
     title="Error:"
     subtitle={requestError}
   />
+{:else}
+  <div class="spacer" />
 {/if}
 
-<Button kind="tertiary" href="#/teacher-login">Login as teacher?</Button>
+<Button size="field" kind="tertiary" href="#/teacher-login"
+  >Login as teacher instead?</Button
+>

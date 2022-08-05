@@ -3,7 +3,8 @@
   import { authStore } from "../stores/global_stores";
 </script>
 
-<p>You are already logged in</p>
+<h4>You are already logged in</h4>
+<div class="spacer" />
 <ButtonSet>
   <Button href="#/">Go back to home</Button>
   <Button kind="secondary" on:click={() => authStore.logOut()}>
