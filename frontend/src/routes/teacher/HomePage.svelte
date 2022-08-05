@@ -23,6 +23,16 @@
   }
 </script>
 
+<h1>
+  {#if selected === 0}
+    My courses
+  {:else}
+    My projects
+  {/if}
+</h1>
+
+<div class="spacer" />
+
 <Tabs bind:selected>
   <Tab label="Courses" />
   <Tab label="Projects" />
