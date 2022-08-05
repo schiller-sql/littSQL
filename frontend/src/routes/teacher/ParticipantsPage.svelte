@@ -142,7 +142,6 @@
     <TextInput
       id="edit-participant-name"
       bind:value={nameEditingModalNewName}
-      disabled={!nameEditingModalHasName}
       labelText="Participant name"
       helperText="The participant name has to consist of at least one letter"
       placeholder="Enter participant name..."
