@@ -15,5 +15,5 @@
   secondaryButtonText="Cancel"
   on:click:button--secondary={({ detail: { text } }) => {
     if (text === "Cancel") open = false;
-  }}>Deleting a ${entityType} is non-reversable.</Modal
+  }}>Deleting a {entityType} is non-reversable.</Modal
 >

@@ -190,7 +190,7 @@
     spellcheck="false"
     disabled={!editingParticipantHasName}
     labelText="Stundent name"
-    helperText="The stundent name has to consist of at least one letter"
-    placeholder="Enter stundent name..."
+    helperText="The student name has to consist of at least one letter"
+    placeholder="Enter student name..."
   />
 </Modal>
