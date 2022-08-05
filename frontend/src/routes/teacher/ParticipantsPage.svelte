@@ -65,27 +65,27 @@
     }
   }
 
-  let nameEditingParticipant: Participant | undefined;
-  $: openNameEditingModal = nameEditingParticipant !== undefined;
-  let nameEditingModalHasName: boolean;
-  let nameEditingModalNewName: string;
+  let editingParticipant: Participant | undefined;
+  $: openParticipantEditingModal = editingParticipant !== undefined;
+  let editingParticipantHasName: boolean;
+  let editingParticipantName: string;
 
   function editParticipantName(participant: Participant) {
-    nameEditingParticipant = participant;
-    nameEditingModalHasName = participant.name !== null;
-    nameEditingModalNewName = participant.name;
+    editingParticipant = participant;
+    editingParticipantHasName = participant.name !== null;
+    editingParticipantName = participant.name;
   }
 
   async function editParticipantConfirm() {
     try {
-      const newName = nameEditingModalHasName ? nameEditingModalNewName : null;
+      const newName = editingParticipantHasName ? editingParticipantName : null;
       await requestWithAuthorization(
-        `courses/${params.courseId}/participants/${nameEditingParticipant.id}`,
+        `courses/${params.courseId}/participants/${editingParticipant.id}`,
         "PUT",
         { name: newName }
       );
-      nameEditingParticipant.name = newName;
-      nameEditingParticipant = undefined;
+      editingParticipant.name = newName;
+      editingParticipant = undefined;
       participants = participants;
     } catch (e) {
       error = e.toString();
@@ -117,16 +117,16 @@
 />
 
 <Modal
-  bind:open={openNameEditingModal}
+  bind:open={openParticipantEditingModal}
   selectorPrimaryFocus="#edit-participant-name"
-  modalHeading="Change name of particpant{nameEditingParticipant?.name
-    ? " '" + nameEditingParticipant?.name + "'"
+  modalHeading="Change name of particpant{editingParticipant?.name
+    ? " '" + editingParticipant?.name + "'"
     : ''}"
   primaryButtonText="Confirm"
-  primaryButtonDisabled={nameEditingModalHasName && !nameEditingModalNewName}
+  primaryButtonDisabled={editingParticipantHasName && !editingParticipantName}
   secondaryButtonText="Cancel"
   on:click:button--secondary={({ detail: { text } }) => {
-    if (text === "Cancel") nameEditingParticipant = undefined;
+    if (text === "Cancel") editingParticipant = undefined;
   }}
   on:submit={editParticipantConfirm}
 >
@@ -135,13 +135,13 @@
     labelB="with name"
     labelText="With/without particpant name"
     size="sm"
-    bind:toggled={nameEditingModalHasName}
+    bind:toggled={editingParticipantHasName}
   />
-  {#if nameEditingModalHasName}
+  {#if editingParticipantHasName}
     <div class="spacer double" />
     <TextInput
       id="edit-participant-name"
-      bind:value={nameEditingModalNewName}
+      bind:value={editingParticipantName}
       labelText="Participant name"
       helperText="The participant name has to consist of at least one letter"
       placeholder="Enter participant name..."
