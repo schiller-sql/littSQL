@@ -123,7 +123,7 @@
   .no-name {
     color: grey;
     background-color: #353535;
-    font-family: "IBM Plex Mono";
+    font-size: 13px;
     border-radius: 3px;
     padding-left: 6px;
     padding-right: 6px;
