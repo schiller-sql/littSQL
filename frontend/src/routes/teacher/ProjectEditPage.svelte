@@ -1,6 +1,7 @@
 <script lang="ts">
   import {
     Button,
+    ButtonSet,
     ButtonSkeleton,
     InlineLoading,
     InlineNotification,
@@ -23,6 +24,7 @@
     Add24,
     Close24,
     Undo20,
+    TrashCan20,
   } from "carbon-icons-svelte";
 
   import { afterUpdate, onDestroy, onMount, setContext } from "svelte";
@@ -412,15 +414,24 @@
   <ButtonSkeleton />
 {:else}
   <!-- undo button -->
-  <Button
-    style="float: right"
-    icon={Undo20}
-    size="small"
-    kind="secondary"
-    iconDescription="undo"
-    disabled={!canGoBackInHistory}
-    on:click={goBackInHistory}
-  />
+  <div class="top-buttons">
+    <Button
+      icon={Undo20}
+      size="small"
+      kind="secondary"
+      iconDescription="undo"
+      disabled={!canGoBackInHistory}
+      on:click={goBackInHistory}
+    />
+    <div />
+    <Button
+      icon={TrashCan20}
+      size="small"
+      kind="secondary"
+      iconDescription="delete"
+      on:click={pendingDeletingProject}
+    />
+  </div>
   <h2>
     {project.name}
   </h2>
@@ -514,21 +525,23 @@
                   }}
                 />
                 {#if projectIsPrivate}
-                  <Button
-                    style="display: inline-block"
-                    size="small"
-                    on:click={() => (databaseTemplatePickerModalOpen = true)}
-                  >
-                    choose a database template
-                  </Button>
-                  <Button
-                    size="small"
-                    kind="secondary"
-                    disabled={$databaseStore === DatabaseState.unready ||
-                      $sqlStatusStore.status !== "ok"}
-                    on:click={() => (showDatabaseOverviewModal = true)}
-                    >Show all tables</Button
-                  >
+                  <ButtonSet>
+                    <Button
+                      style="display: inline-block"
+                      size="small"
+                      on:click={() => (databaseTemplatePickerModalOpen = true)}
+                    >
+                      choose a database template
+                    </Button>
+                    <Button
+                      size="small"
+                      kind="secondary"
+                      disabled={$databaseStore === DatabaseState.unready ||
+                        $sqlStatusStore.status !== "ok"}
+                      on:click={() => (showDatabaseOverviewModal = true)}
+                      >Show all tables</Button
+                    >
+                  </ButtonSet>
                   <ShowAllTablesModal
                     title={`overview of the database from the project '${project.name}'`}
                     bind:open={showDatabaseOverviewModal}
@@ -671,9 +684,6 @@
   <!-- show a buttons to save and delete or info, depending on if the project is private (and therefore editable) -->
   {#if projectIsPrivate}
     <Button disabled={!edited} on:click={save} icon={Save20}>Save</Button>
-    <Button kind="danger" icon={Delete20} on:click={pendingDeletingProject}
-      >Delete</Button
-    >
   {:else}
     <!--TODO: Clone projects-->
     <InlineNotification
@@ -733,5 +743,11 @@
   .markdown-render-container {
     margin-top: 24px;
     height: 327px;
+  }
+
+  .top-buttons {
+    float: right;
+    display: grid;
+    grid-template-columns: auto 4px auto;
   }
 </style>

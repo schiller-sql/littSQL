@@ -6,7 +6,7 @@
     TextInput,
     Loading,
   } from "carbon-components-svelte";
-  import { Edit20, TrashCan16, UserMultiple20 } from "carbon-icons-svelte";
+  import { Edit20, TrashCan20, UserMultiple20 } from "carbon-icons-svelte";
   import { pop, push } from "svelte-spa-router";
   import DeleteEntityModal from "../../components/DeleteEntityModal.svelte";
   import type Course from "../../types/Course";
@@ -75,9 +75,11 @@
   }
 </script>
 
-{#if loading}
+{#if error !== undefined}
+  <p class="error">{error}</p>
+{:else if loading}
   <SkeletonText />
-{:else if course !== undefined}
+{:else}
   <div class="top-buttons">
     <Button
       icon={Edit20}
@@ -94,13 +96,19 @@
       iconDescription="go to participants"
       on:click={openParticipantsEditPage}
     />
+    <div />
+    <Button
+      icon={TrashCan20}
+      size="small"
+      kind="ghost"
+      iconDescription="delete"
+      on:click={deleteThisCourse}
+    />
   </div>
 
   <h2>
     {course.name}
   </h2>
-{:else}
-  <p class="error">{error}</p>
 {/if}
 
 <Modal
@@ -127,15 +135,10 @@
   {/if}
 </Modal>
 
-<div class="spacer double" />
-
-<AssignmentsPage courseId={params.courseId} />
-
-<div class="spacer" />
-
-<Button kind="danger" icon={TrashCan16} on:click={deleteThisCourse}
-  >Delete</Button
->
+{#if error === undefined}
+  <div class="spacer double" />
+  <AssignmentsPage courseId={params.courseId} />
+{/if}
 
 <DeleteEntityModal
   bind:open={openDeleteModal}
@@ -148,6 +151,6 @@
   div.top-buttons {
     float: right;
     display: grid;
-    grid-template-columns: auto 4px auto;
+    grid-template-columns: auto 4px auto 4px auto;
   }
 </style>
