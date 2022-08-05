@@ -14,7 +14,7 @@
     fetchWithAuthorization,
     requestWithAuthorization,
   } from "../../util/auth_http_util";
-  import CourseAssignmentsEditPage from "./CourseAssignmentsEditPage.svelte";
+  import AssignmentsPage from "./AssignmentsPage.svelte";
 
   export let params: { courseId: number };
 
@@ -129,7 +129,7 @@
 
 <div class="spacer double" />
 
-<CourseAssignmentsEditPage courseId={params.courseId} />
+<AssignmentsPage courseId={params.courseId} />
 
 <div class="spacer" />
 

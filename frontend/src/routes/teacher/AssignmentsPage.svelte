@@ -108,7 +108,12 @@
   </Accordion>
   <div class="line" />
   <div class="spacer smaller" />
-  <Button size="small" icon={Add16}>add new assignment</Button>
+  {#if assignments.length === 0}
+    <div class="missing-information">
+      no assignments, press on 'Add new assignment' to add one
+    </div>
+  {/if}
+  <Button size="small" icon={Add16}>Add new assignment</Button>
   {#if saving}
     <InlineLoading description="saving..." />
   {:else}

@@ -77,6 +77,11 @@
 {:else if error}
   <p style="color: red">{error.toString()}</p>
 {:else}
+  {#if courses.length === 0}
+    <div class="missing-information">
+      no courses, press on 'Create new course' to add one
+    </div>
+  {/if}
   {#each courses as course (course.id)}
     <CourseTile
       {course}

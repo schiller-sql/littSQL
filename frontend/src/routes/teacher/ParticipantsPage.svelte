@@ -146,6 +146,11 @@
 {:else if error !== undefined}
   <p class="error">{error}</p>
 {:else}
+  {#if participants.length === 0}
+    <div class="missing-information">
+      no students, press on 'Create new student' to add one
+    </div>
+  {/if}
   {#each participants as participant (participant.id)}
     <ParticipantTile
       {participant}

@@ -90,6 +90,11 @@
 {:else if error}
   <p style="color: red">{error.toString()}</p>
 {:else}
+  {#if projects.length === 0}
+    <div class="missing-information">
+      no projects, press on 'Create new project' to add one
+    </div>
+  {/if}
   {#each projects as project (project.id)}
     <ProjectTile
       {project}
