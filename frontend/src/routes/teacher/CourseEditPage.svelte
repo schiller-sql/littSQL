@@ -6,8 +6,9 @@
     TextInput,
     Loading,
   } from "carbon-components-svelte";
-  import { Edit20, UserMultiple20 } from "carbon-icons-svelte";
-  import { push } from "svelte-spa-router";
+  import { Edit20, TrashCan16, UserMultiple20 } from "carbon-icons-svelte";
+  import { pop, push } from "svelte-spa-router";
+  import DeleteEntityModal from "../../components/DeleteEntityModal.svelte";
   import type Course from "../../types/Course";
   import {
     fetchWithAuthorization,
@@ -54,6 +55,22 @@
       error = e;
     } finally {
       openEditNameModal = false;
+    }
+  }
+
+  let openDeleteModal = false;
+
+  function deleteThisCourse() {
+    openDeleteModal = true;
+  }
+
+  async function confirmDeleteThisCourse() {
+    try {
+      await requestWithAuthorization(`courses/${params.courseId}`, "DELETE");
+      pop();
+    } catch (e) {
+      error = e;
+      openDeleteModal = false;
     }
   }
 </script>
@@ -113,6 +130,19 @@
 <div class="spacer double" />
 
 <CourseAssignmentsEditPage courseId={params.courseId} />
+
+<div class="spacer" />
+
+<Button kind="danger" icon={TrashCan16} on:click={deleteThisCourse}
+  >Delete</Button
+>
+
+<DeleteEntityModal
+  bind:open={openDeleteModal}
+  on:submit={confirmDeleteThisCourse}
+  entityName={course?.name}
+  entityType="course"
+/>
 
 <style>
   div.top-buttons {
