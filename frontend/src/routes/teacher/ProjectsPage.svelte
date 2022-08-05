@@ -83,53 +83,52 @@
   }
 </script>
 
-<body>
-  {#if loading}
-    <SkeletonPlaceholder style="" />
-    <SkeletonPlaceholder style="" />
-    <SkeletonPlaceholder style="" />
-  {:else if error}
-    <p style="color: red">{error.toString()}</p>
-  {:else}
-    {#each projects as project (project.id)}
-      <ProjectTile
-        {project}
-        on:open={openProject}
-        on:delete={() => pendingDeletingProject(project)}
-      />
-    {/each}
-    <Button on:click={() => (openCreateNewProjectModal = true)} icon={Add}
-      >Create project</Button
-    >
-    <Modal
-      bind:open={openCreateNewProjectModal}
-      selectorPrimaryFocus="#new-project-name"
-      modalHeading="Create new project"
-      primaryButtonText="Confirm"
-      primaryButtonDisabled={!newProjectName}
-      secondaryButtonText="Cancel"
-      on:click:button--secondary={({ detail: { text } }) => {
-        if (text === "Cancel") openCreateNewProjectModal = false;
-      }}
-      on:open={() => (newProjectName = "")}
-      on:submit={() => {
-        openCreateNewProjectModal = false;
-        addProject();
-      }}
-    >
-      <TextInput
-        id="new-project-name"
-        bind:value={newProjectName}
-        labelText="Project name"
-        helperText="The project name is required"
-        placeholder="Enter project name..."
-      />
-    </Modal>
-    <DeleteEntityModal
-      entityName={pendingDeletionProject?.name ?? ""}
-      entityType="project"
-      bind:open={openDeleteProjectModal}
-      on:submit={deleteProject}
+{#if loading}
+  <SkeletonPlaceholder style="" />
+  <SkeletonPlaceholder style="" />
+  <SkeletonPlaceholder style="" />
+{:else if error}
+  <p style="color: red">{error.toString()}</p>
+{:else}
+  {#each projects as project (project.id)}
+    <ProjectTile
+      {project}
+      on:open={openProject}
+      on:delete={() => pendingDeletingProject(project)}
     />
-  {/if}
-</body>
+  {/each}
+  <Button on:click={() => (openCreateNewProjectModal = true)} icon={Add}
+    >Create new project</Button
+  >
+  <Modal
+    bind:open={openCreateNewProjectModal}
+    selectorPrimaryFocus="#new-project-name"
+    modalHeading="Create new project"
+    spellcheck="false"
+    primaryButtonText="Confirm"
+    primaryButtonDisabled={!newProjectName}
+    secondaryButtonText="Cancel"
+    on:click:button--secondary={({ detail: { text } }) => {
+      if (text === "Cancel") openCreateNewProjectModal = false;
+    }}
+    on:open={() => (newProjectName = "")}
+    on:submit={() => {
+      openCreateNewProjectModal = false;
+      addProject();
+    }}
+  >
+    <TextInput
+      id="new-project-name"
+      bind:value={newProjectName}
+      labelText="Project name"
+      helperText="The project name is required"
+      placeholder="Enter project name..."
+    />
+  </Modal>
+  <DeleteEntityModal
+    entityName={pendingDeletionProject?.name ?? ""}
+    entityType="project"
+    bind:open={openDeleteProjectModal}
+    on:submit={deleteProject}
+  />
+{/if}

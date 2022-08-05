@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Button, Loading, Modal, TextInput } from "carbon-components-svelte";
-  import Add from "carbon-icons-svelte/lib/Add16/Add16.svelte";
+  import { Add16 } from "carbon-icons-svelte";
   import { push } from "svelte-spa-router";
   import type CourseListing from "../../types/CourseListing";
   import CourseTile from "../../components/CourseTile.svelte";
@@ -72,50 +72,49 @@
   }
 </script>
 
-<body>
-  {#if loading}
-    <Loading description="Active loading indicator" withOverlay={false} />
-  {:else if error}
-    <p style="color: red">{error.toString()}</p>
-  {:else}
-    {#each courses as course (course.id)}
-      <CourseTile
-        {course}
-        on:open={openCourse}
-        on:delete={() => {
-          openDeleteCourseModal = true;
-          pendingDeletionCourse = course;
-        }}
-      />
-    {/each}
-    <Button on:click={() => (open = true)} icon={Add}>Create course</Button>
-    <Modal
-      bind:open
-      modalHeading="Create new course"
-      primaryButtonText="Confirm"
-      primaryButtonDisabled={!newCourseName}
-      secondaryButtonText="Cancel"
-      on:click:button--secondary={({ detail: { text } }) => {
-        if (text === "Cancel") open = false;
+{#if loading}
+  <Loading description="Active loading indicator" withOverlay={false} />
+{:else if error}
+  <p style="color: red">{error.toString()}</p>
+{:else}
+  {#each courses as course (course.id)}
+    <CourseTile
+      {course}
+      on:open={openCourse}
+      on:delete={() => {
+        openDeleteCourseModal = true;
+        pendingDeletionCourse = course;
       }}
-      on:open={() => (newCourseName = "")}
-      on:submit={() => {
-        open = false;
-        addCourse();
-      }}
-    >
-      <TextInput
-        bind:value={newCourseName}
-        labelText="Course name"
-        helperText="The course name required"
-        placeholder="Enter course name..."
-      />
-    </Modal>
-    <DeleteEntityModal
-      entityName={pendingDeletionCourse?.name ?? ""}
-      entityType="course"
-      bind:open={openDeleteCourseModal}
-      on:submit={deleteCourse}
     />
-  {/if}
-</body>
+  {/each}
+  <Button on:click={() => (open = true)} icon={Add16}>Create new course</Button>
+  <Modal
+    bind:open
+    modalHeading="Create new course"
+    primaryButtonText="Confirm"
+    primaryButtonDisabled={!newCourseName}
+    spellcheck="false"
+    secondaryButtonText="Cancel"
+    on:click:button--secondary={({ detail: { text } }) => {
+      if (text === "Cancel") open = false;
+    }}
+    on:open={() => (newCourseName = "")}
+    on:submit={() => {
+      open = false;
+      addCourse();
+    }}
+  >
+    <TextInput
+      bind:value={newCourseName}
+      labelText="Course name"
+      helperText="The course name required"
+      placeholder="Enter course name..."
+    />
+  </Modal>
+  <DeleteEntityModal
+    entityName={pendingDeletionCourse?.name ?? ""}
+    entityType="course"
+    bind:open={openDeleteCourseModal}
+    on:submit={deleteCourse}
+  />
+{/if}
