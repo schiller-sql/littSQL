@@ -106,6 +106,8 @@
     }
     hasEditedProject();
   }
+
+  let lastSavedState: string;
   let edited = false; // if the project has been edited,
   // the save button is only showed if this is true
   $: projectIsPrivate = !project?.is_public; // if this is false, everything should not be editable
@@ -120,6 +122,7 @@
       projectHasSql = p.sql !== null;
       project = p;
       addCurrentProjectToHistory();
+      lastSavedState = history[0];
     } catch (e) {
       error = e.toString();
     } finally {
@@ -139,6 +142,7 @@
       error = e;
     }
     edited = false;
+    lastSavedState = history[history.length - 1];
   }
 
   // -- deleting project by first calling pendingDeletingProject,
@@ -173,8 +177,10 @@
     const p = JSON.parse(history[history.length - 1]);
     projectHasSql = p.sql !== null;
     project = p;
-    if (history.length === 1) {
+    if (history[history.length - 1] === lastSavedState) {
       edited = false;
+    } else {
+      edited = true;
     }
     selectedQuestion = undefined;
   }
