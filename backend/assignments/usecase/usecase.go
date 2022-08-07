@@ -60,12 +60,12 @@ func (e eUsecase) GetAssignment(teacherID, courseID, assignmentID int32) (*model
 	return assignment, nil
 }
 
-func (e eUsecase) NewAssignment(teacherID, courseID int32, name string) (*model.Assignment, error) {
+func (e eUsecase) NewAssignment(teacherID, courseID int32, name string, comment *string) (*model.Assignment, error) {
 	err := e.checkCourseFromTeacher(teacherID, courseID)
 	if err != nil {
 		return nil, err
 	}
-	assignment, err := e.assignmentsRepo.NewAssignment(courseID, name)
+	assignment, err := e.assignmentsRepo.NewAssignment(courseID, name, comment)
 	if err != nil {
 		return nil, err
 	}

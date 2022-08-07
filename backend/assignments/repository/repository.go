@@ -35,12 +35,12 @@ func (e eRepository) GetAmountOfAssignmentsOfCourse(courseID int32) (int32, erro
 	return int32(amountOfAssignments), nil
 }
 
-func (e eRepository) NewAssignment(courseID int32, name string, ) (*model.Assignment, error) {
+func (e eRepository) NewAssignment(courseID int32, name string, comment *string) (*model.Assignment, error) {
 	amount, err := e.GetAmountOfAssignmentsOfCourse(courseID)
 	if err != nil {
 		return nil, err
 	}
-	assignment := model.Assignment{Name: name, CourseID: courseID, Number: amount}
+	assignment := model.Assignment{Name: name, CourseID: courseID, Comment: comment, Number: amount}
 	err = e.DB.Create(&assignment).Error
 	return &assignment, err
 }
@@ -69,12 +69,12 @@ func (e eRepository) EditAssignment(
 ) error {
 	return e.DB.Omit("course_id, number").Save(
 		&model.Assignment{
-			ID:                     assignmentID,
-			Name:                   name,
-			Comment:                comment,
-			ProjectID:              projectID,
-			FinishedDate:           finishedDate,
-			Locked:                 locked,
+			ID:           assignmentID,
+			Name:         name,
+			Comment:      comment,
+			ProjectID:    projectID,
+			FinishedDate: finishedDate,
+			Locked:       locked,
 			AnswerConfig: answerConfig,
 		},
 	).Error

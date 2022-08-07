@@ -79,7 +79,12 @@ func (h *assignmentsHandler) newAssignment(c *gin.Context) {
 	if err != nil {
 		return
 	}
-	newAssignment, err := h.usecase.NewAssignment(teacherID, courseID, newAssignmentForm.Name)
+	newAssignment, err := h.usecase.NewAssignment(
+		teacherID,
+		courseID,
+		newAssignmentForm.Name,
+		newAssignmentForm.Comment,
+	)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -157,7 +162,8 @@ func (h *assignmentsHandler) deleteAssignment(c *gin.Context) {
 }
 
 type NewAssignmentForm struct {
-	Name string `json:"name" binding:"required"`
+	Name    string  `json:"name" binding:"required"`
+	Comment *string `json:"comment"`
 }
 
 type AssignmentEditForm struct {
@@ -166,5 +172,5 @@ type AssignmentEditForm struct {
 	ProjectID    *int32                       `json:"project_id"`
 	FinishedDate *time.Time                   `json:"finished_date"`
 	AnswerConfig model.AssignmentAnswerConfig `json:"answer_config" binding:"required"`
-	Locked       *bool                         `json:"locked" binding:"required"`
+	Locked       *bool                        `json:"locked" binding:"required"`
 }

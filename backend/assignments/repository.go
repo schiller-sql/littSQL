@@ -8,7 +8,7 @@ import (
 type Repository interface {
 	GetAssignmentsOfCourse(courseID int32) (*[]model.Assignment, error)
 	GetAmountOfAssignmentsOfCourse(courseID int32) (int32, error)
-	NewAssignment(courseID int32, name string) (*model.Assignment, error)
+	NewAssignment(courseID int32, name string, comment *string) (*model.Assignment, error)
 	GetAssignment(assignmentID int32) (*model.Assignment, error)
 	EditAssignment(
 		assignmentID int32,
