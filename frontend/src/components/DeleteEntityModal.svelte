@@ -10,7 +10,7 @@
   on:submit
   danger
   bind:open
-  modalHeading={`are you sure that you want to delete the ${entityType} '${entityName}'?`}
+  modalHeading={`Are you sure that you want to delete the ${entityType} '${entityName}'?`}
   primaryButtonText="Delete"
   secondaryButtonText="Cancel"
   on:click:button--secondary={({ detail: { text } }) => {

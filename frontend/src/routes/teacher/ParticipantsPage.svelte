@@ -140,6 +140,8 @@
   }
 </script>
 
+<!-- participants page should be embedded in the CourseEditPage, as it needs the title of the course (title could be: participants of course 1 or so) -->
+
 <!-- export and import to csv (https://stackoverflow.com/questions/14964035/how-to-export-javascript-array-info-to-csv-on-client-side) -->
 {#if loading}
   <Loading />

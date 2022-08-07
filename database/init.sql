@@ -113,7 +113,7 @@ CREATE TABLE assignments
     id                                      INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     number                                  SMALLINT             NOT NULL CHECK ( number >= 0),
     name                                    VARCHAR              NOT NULL CHECK (LENGTH(name) > 0),
-    comment                                 VARCHAR CHECK ( comment IS NULL OR LENGTH(comment) > 0 ),
+    comment                                 VARCHAR CHECK ( comment IS NULL OR LENGTH(comment) >= 12 ),
     course_id                               INTEGER              NOT NULL REFERENCES courses ON DELETE CASCADE,
     project_id                              INTEGER              REFERENCES projects ON DELETE SET NULL,
     -- after the timestamp, if it is not null, students can no longer submit,

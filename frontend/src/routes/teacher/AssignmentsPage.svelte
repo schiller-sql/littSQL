@@ -5,20 +5,25 @@
     AccordionItem,
     Button,
     InlineLoading,
+    Modal,
+    Toggle,
+    TextInput,
   } from "carbon-components-svelte";
   import { dndzone } from "svelte-dnd-action";
   import { flip } from "svelte/animate";
-  import { Add16, Draggable24 } from "carbon-icons-svelte";
+  import { Add16 } from "carbon-icons-svelte";
   import {
     fetchWithAuthorization,
     requestWithAuthorization,
   } from "../../util/auth_http_util";
-  import type AssignmentListing from "../../types/AssignmentListing";
+  import type Assignment from "../../types/Assignment";
+  import AssignmentTile from "../../components/AssignmentTile.svelte";
+  import DeleteEntityModal from "../../components/DeleteEntityModal.svelte";
 
   export let courseId: number;
 
   let loading = true;
-  let assignments: (AssignmentListing & { order: number })[] | undefined;
+  let assignments: (Assignment & { order: number })[] | undefined;
   let error: string | undefined;
 
   let saving = false;
@@ -30,15 +35,6 @@
       a.map((a, index) => (a.order = index));
     })
     .catch((e) => (error = e.toString()));
-
-  function assignmentStatusToColor(status) {
-    if (status === "locked") {
-      return "outline";
-    } else if (status === "finished") {
-      return "gray";
-    }
-    return "green";
-  }
 
   function reorderChange(e) {
     assignments = e.detail.items;
@@ -63,6 +59,106 @@
     }
     saving = false;
   }
+
+  let pendingDeleteAssignment: Assignment | undefined;
+  $: openDeleteAssignmentModal = pendingDeleteAssignment !== undefined;
+
+  function deleteAssignment(assignment: Assignment) {
+    pendingDeleteAssignment = assignment;
+  }
+
+  async function confirmDeleteAssignment() {
+    const pendingDeleteAssignmentId = pendingDeleteAssignment.id;
+    assignments = assignments.filter(
+      (assignment) => assignment !== pendingDeleteAssignment
+    );
+    pendingDeleteAssignment = undefined;
+    saving = true;
+    try {
+      await requestWithAuthorization(
+        `courses/${courseId}/assignments/${pendingDeleteAssignmentId}`
+      );
+    } catch (e) {
+      error = e.toString();
+    }
+    saving = false;
+  }
+
+  let isEditingAssignment = false;
+  // if the participant that is currently being edited, does not exist, and has created
+  let editingAssignmentIsNew = false;
+  let editingAssignment: Assignment | undefined;
+  let editingAssignmentName: string;
+  let editingAssignmentHasComment: boolean;
+  let editingAssignmentComment: string;
+
+  function newAssignment() {
+    isEditingAssignment = true;
+    editingAssignmentIsNew = true;
+    editingAssignmentName = "";
+    editingAssignmentHasComment = false;
+    editingAssignmentComment = "";
+  }
+
+  function editAssignment(assignment: Assignment) {
+    isEditingAssignment = true;
+    editingAssignmentIsNew = false;
+    editingAssignment = assignment;
+    editingAssignmentName = assignment.name;
+    editingAssignmentHasComment = assignment.comment !== null;
+    editingAssignmentComment = assignment.comment;
+  }
+
+  async function editAssignmentConfirm() {
+    const newName = editingAssignmentName;
+    const newComment = editingAssignmentHasComment
+      ? editingAssignmentComment
+      : null;
+    if (!editingAssignmentIsNew) {
+      editingAssignment.name = newName;
+      editingAssignment.comment = newComment;
+      assignments = assignments;
+      saveEditedAssignment(editingAssignment);
+    } else {
+      try {
+        const newAssignment = await fetchWithAuthorization(
+          `courses/${courseId}/assignments`,
+          "POSt",
+          {
+            name: newName,
+            comment: newComment,
+          }
+        );
+        assignments = [...assignments, newAssignment];
+      } catch (e) {
+        error = e.toString();
+      }
+    }
+    isEditingAssignment = false;
+  }
+
+  async function saveEditedAssignment(assignment: Assignment) {
+    saving = true;
+    await requestWithAuthorization(
+      `courses/${courseId}/assignments/${assignment.id}`,
+      "PUT",
+      assignment
+    );
+    saving = false;
+  }
+
+  let modalHeading: string;
+  $: {
+    if (editingAssignmentIsNew) {
+      modalHeading = "Create new assignment";
+    } else {
+      let assignmentName = "";
+      if (editAssignment?.name) {
+        assignmentName = " '" + editAssignment?.name + "'";
+      }
+      modalHeading = "Edit assignment" + assignmentName;
+    }
+  }
 </script>
 
 {#if error}
@@ -83,25 +179,12 @@
     >
       {#each assignments as assignment (assignment.id)}
         <div animate:flip={{ duration: 250 }}>
-          <AccordionItem>
-            <div slot="title" class="assignment-tile">
-              <!-- fix css, make draggable icon in vertical center-->
-              <Draggable24 />
-              <div />
-              <h4>
-                {assignment.name}
-              </h4>
-              <Tag
-                style="float: right; margin-right: 12px"
-                type={assignmentStatusToColor(assignment.status)}
-              >
-                {assignment.status}
-              </Tag>
-            </div>
-            {#if assignment.comment !== null}
-              <p>{assignment.comment}</p>
-            {/if}
-          </AccordionItem>
+          <AssignmentTile
+            {assignment}
+            onSave={saveEditedAssignment}
+            onEditNameAndComment={editAssignment}
+            onDelete={deleteAssignment}
+          />
         </div>
       {/each}
     </section>
@@ -113,7 +196,9 @@
       no assignments, press on 'Add new assignment' to add one
     </div>
   {/if}
-  <Button size="small" icon={Add16}>Add new assignment</Button>
+  <Button size="field" icon={Add16} on:click={newAssignment}
+    >Add new assignment</Button
+  >
   {#if saving}
     <InlineLoading description="saving..." />
   {:else}
@@ -121,14 +206,62 @@
   {/if}
 {/if}
 
+<DeleteEntityModal
+  open={openDeleteAssignmentModal}
+  entityName={pendingDeleteAssignment?.name}
+  entityType="assignment"
+  on:submit={confirmDeleteAssignment}
+/>
+
+<Modal
+  hasForm={true}
+  bind:open={isEditingAssignment}
+  selectorPrimaryFocus="#edit-assignment-name"
+  {modalHeading}
+  primaryButtonText="Confirm"
+  primaryButtonDisabled={!editingAssignmentName ||
+    (editingAssignmentHasComment &&
+      (editingAssignmentComment?.length ?? 0) < 12)}
+  secondaryButtonText="Cancel"
+  on:click:button--secondary={({ detail: { text } }) => {
+    if (text === "Cancel") isEditingAssignment = false;
+  }}
+  on:submit={editAssignmentConfirm}
+>
+  <TextInput
+    id="edit-assignment-name"
+    bind:value={editingAssignmentName}
+    spellcheck="false"
+    labelText="Assignment name"
+    helperText="The assignment name has to consist of at least one letter"
+    placeholder="Enter assignment name..."
+  />
+  <div class="spacer double" />
+  <Toggle
+    labelA="without comment"
+    labelB="with comment"
+    labelText="Add a comment"
+    size="sm"
+    bind:toggled={editingAssignmentHasComment}
+  />
+  <div class="spacer double" />
+  <TextInput
+    bind:value={editingAssignmentComment}
+    spellcheck="false"
+    disabled={!editingAssignmentHasComment}
+    invalid={editingAssignmentHasComment &&
+      (editingAssignmentComment?.length ?? 0) < 12}
+    invalidText="The comment has to consist of at least 12 letters"
+    labelText="Comment (for students to read)"
+    helperText="The comment has to consist of at least 12 letters"
+    placeholder="Enter comment..."
+    minlength={12}
+  />
+</Modal>
+
 <style>
   div.line {
     background-color: rgb(57, 57, 57);
     height: 1px;
-  }
-
-  div.assignment-tile {
-    display: grid;
-    grid-template-columns: auto 12px 1fr auto;
   }
 </style>
