@@ -146,21 +146,6 @@ CREATE TABLE assignments
     locked                                  BOOLEAN              NOT NULL DEFAULT TRUE
 );
 
-CREATE VIEW assignments_listing AS
-SELECT id,
-       number,
-       name,
-       comment,
-       course_id,
-       (CASE
-            WHEN locked THEN 'locked'
-            ELSE (CASE
-                      WHEN finished_date IS NULL OR finished_date > NOW() THEN 'open'
-                      ELSE 'finished'
-                END)
-           END) AS status
-FROM assignments;
-
 -- if a question has been answered correctly
 CREATE TYPE correct AS ENUM (
     'unknown',

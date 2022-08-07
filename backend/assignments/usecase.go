@@ -6,7 +6,7 @@ import (
 )
 
 type Usecase interface {
-	GetAssignmentsOfCourse(teacherID, courseID int32) (*[]model.AssignmentListing, error)
+	GetAssignmentsOfCourse(teacherID, courseID int32) (*[]model.Assignment, error)
 	GetAssignment(teacherID, courseID, assignmentID int32) (*model.Assignment, error)
 	NewAssignment(teacherID, courseID int32, name string) (*model.Assignment, error)
 	EditAssignment(

@@ -15,9 +15,9 @@ func NewRepository(db *gorm.DB) assignments.Repository {
 	return &eRepository{DB: db}
 }
 
-func (e eRepository) GetAssignmentsOfCourse(courseID int32) (*[]model.AssignmentListing, error) {
-	var assignmentsOfCourse []model.AssignmentListing
-	err := e.DB.Table("assignments_listing").Order("number").Find(&assignmentsOfCourse, &model.Assignment{CourseID: courseID}).Error
+func (e eRepository) GetAssignmentsOfCourse(courseID int32) (*[]model.Assignment, error) {
+	var assignmentsOfCourse []model.Assignment
+	err := e.DB.Order("number").Find(&assignmentsOfCourse, &model.Assignment{CourseID: courseID}).Error
 	if err != nil {
 		return nil, err
 	}

@@ -37,7 +37,7 @@ func (e eUsecase) checkCourseFromTeacher(teacherID, courseID int32) error {
 	return nil
 }
 
-func (e eUsecase) GetAssignmentsOfCourse(teacherID, courseID int32) (*[]model.AssignmentListing, error) {
+func (e eUsecase) GetAssignmentsOfCourse(teacherID, courseID int32) (*[]model.Assignment, error) {
 	err := e.checkCourseFromTeacher(teacherID, courseID)
 	if err != nil {
 		return nil, err

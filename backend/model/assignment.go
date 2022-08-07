@@ -39,10 +39,3 @@ type AssignmentAnswerConfig struct {
 	//[12] finished_hide_answers                          BOOL                 null: false  primary: false  isArray: false  auto: false  col: BOOL            len: -1      default: [false]
 	FinishedHideAnswers bool `gorm:"column:finished_hide_answers;type:BOOL;default:false;" json:"finished_hide_answers"`
 }
-
-type AssignmentListing struct {
-	ID      int32   `json:"id"`
-	Name    string  `json:"name"`
-	Comment *string `json:"comment"`
-	Status  string  `json:"status"`
-}

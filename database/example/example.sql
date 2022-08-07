@@ -74,8 +74,9 @@ VALUES (1, 'student 3'),
 INSERT INTO assignments(name, comment, number, course_id, project_id, finished_date, locked)
 VALUES ('first assignment', 'hi welcome to this class', 0, 1, NULL, NULL, FALSE),
        ('second assignment', NULL, 1, 1, 3, NOW(), TRUE),
-       ('third assignment', 'please finish this assignment fast', 2, 1, 3, NOW() + INTERVAL '55 years', FALSE),
-       ('fourth assignment', 'assignment already closed', 3, 1, 2, NOW() - INTERVAL '55 years', FALSE),
+       ('third assignment', NULL, 2, 1, 3, NOW(), FALSE),
+       ('fourth assignment', 'please finish this assignment fast', 3, 1, 3, NOW() + INTERVAL '55 years', FALSE),
+       ('fifth assignment', 'assignment already closed', 4, 1, 2, NOW() - INTERVAL '55 years', FALSE),
        ('first other assignment of other course', NULL, 0, 2, NULL, NULL, FALSE),
        ('first other assignment of other teacher', NULL, 0, 3, NULL, NULL, FALSE);
 
