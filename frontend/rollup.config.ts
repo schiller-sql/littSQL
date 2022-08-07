@@ -35,6 +35,7 @@ function serve() {
 }
 
 export default {
+  inlineDynamicImports: true,
   input: "src/main.ts",
   output: {
     //sourcemap: true,
