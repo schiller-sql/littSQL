@@ -96,7 +96,7 @@ CREATE TABLE participants
 (
     id          INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     course_id   INTEGER        NOT NULL REFERENCES courses ON DELETE CASCADE,
-    name        VARCHAR CHECK (name IS NOT NULL OR LENGTH(name) > 0),
+    name        VARCHAR CHECK (name IS NULL OR LENGTH(name) > 0),
     access_code CHAR(6) UNIQUE NOT NULL DEFAULT (utils.random_string(6)),
     CONSTRAINT access_code_validation CHECK (access_code ~ '^[0-9A-Z]{6}$' )
 );
@@ -112,8 +112,8 @@ CREATE TABLE assignments
 (
     id                                      INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     number                                  SMALLINT             NOT NULL CHECK ( number >= 0),
-    name                                    VARCHAR              NOT NULL CHECK (LENGTH(name) > 1),
-    comment                                 VARCHAR,
+    name                                    VARCHAR              NOT NULL CHECK (LENGTH(name) > 0),
+    comment                                 VARCHAR CHECK ( comment IS NULL OR LENGTH(comment) > 0 ),
     course_id                               INTEGER              NOT NULL REFERENCES courses ON DELETE CASCADE,
     project_id                              INTEGER              REFERENCES projects ON DELETE SET NULL,
     -- after the timestamp, if it is not null, students can no longer submit,
