@@ -177,7 +177,7 @@
   primaryButtonDisabled={editingParticipantHasName && !editingParticipantName}
   secondaryButtonText="Cancel"
   on:click:button--secondary={({ detail: { text } }) => {
-    if (text === "Cancel") editingParticipant = undefined;
+    if (text === "Cancel") isEditingParticipant = false;
   }}
   on:submit={editParticipantConfirm}
 >
