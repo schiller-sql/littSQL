@@ -61,9 +61,10 @@
   }
 
   let pendingDeleteAssignment: Assignment | undefined;
-  $: openDeleteAssignmentModal = pendingDeleteAssignment !== undefined;
+  let openDeleteAssignmentModal: boolean;
 
   function deleteAssignment(assignment: Assignment) {
+    openDeleteAssignmentModal = true;
     pendingDeleteAssignment = assignment;
   }
 
@@ -207,7 +208,7 @@
 {/if}
 
 <DeleteEntityModal
-  open={openDeleteAssignmentModal}
+  bind:open={openDeleteAssignmentModal}
   entityName={pendingDeleteAssignment?.name}
   entityType="assignment"
   on:submit={confirmDeleteAssignment}
